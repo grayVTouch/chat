@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/Component/module.css" />
+
+    <link rel="stylesheet" href="css/Switch.css" />
+
+    <script src="/js/SmallJs-1.0.0.js"></script>
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    .container {
+        margin:40px;
+        border:1px solid blue;
+        width:200px;
+    }
+
+    .test {
+
+    }
+
+    .test:after {
+        display:block;
+        content:'';
+        clear:both;
+    }
+
+    .test .item {
+        width:200px;
+        height:100px;
+        float:left;
+        box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -ms-box-sizing:border-box;
+        -o-box-sizing:border-box;
+    }
+
+    .test .item:nth-of-type(1) {
+        background-color:red;
+    }
+
+    .test .item:nth-of-type(2) {
+        background-color:blue;
+    }
+
+    .test .item:nth-of-type(3) {
+        background-color:green;
+    }
+
+    .test .item:nth-of-type(4) {
+        background-color:gray;
+    }
+
+    .test .item:nth-of-type(2n) {
+        margin-right:0px;
+    }
+
+
+</style>
+
+<div class="container">
+
+    <!-- 切换容器 -->
+    <div class="switch">
+        <div class="content">
+            <div class='in test'>
+                <!--
+                <div class="item"></div>
+                -->
+            </div>
+        </div>
+        
+        <div class="index">
+            <div class="in"></div>
+        </div>
+    </div>
+
+</div>
+
+<button class="btn-2 prev">上一张</button>
+<button class="btn-2 next">下一张</button>
+
+<script src="js/Switch.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var s = Switch(con.get() , {
+            time: 200 ,           // 动画过度时间
+            index: 1               // 指定一开始切换到第几个索引，从 1 开始
+        });
+
+        var prev = G('.prev').first();
+        var next = G('.next').first();
+
+        prev.loginEvent('click' , function(){
+            s.prev();
+        } , true , false);
+
+        next.loginEvent('click' , function(){
+            s.next();
+        } , true , false);
+    })();
+</script>
+</body>
+</html>

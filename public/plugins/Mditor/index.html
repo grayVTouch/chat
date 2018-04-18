@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
+	<title>mditor</title>
+	
+	<link href="Css/mditor.min.css" rel="stylesheet">
+	
+	<style>
+		.mditor {
+			margin: 45px auto;
+			max-width: 880px;
+		}
+		
+		#editor {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div>
+		<textarea id="editor">## 只求极致
+[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  
+> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已...</textarea>
+	</div>
+
+	
+	<script src="Js/mditor.js"></script>
+	
+	<script>
+		var textarea = document.getElementById('editor');
+		var mditor	 = Mditor.fromTextarea(textarea);
+		var textPic  = [];
+
+		mditor.on('ready',function(){
+			var imgBtn = mditor.toolbar.getItem('image');
+
+			imgBtn.handler = function(){
+			  //插入图片的自定义逻辑，比如，你可以弹出一个上传对话框
+			  //无论几张图片，只需要把上传后的 url 转为 ![alt](url) 
+			  //然后，调用 mditor.editor.insterBeforeText() 插入到编辑器中
+			  
+			  //console.log('hello boy');
+			  mditor.editor.insertAfterText('fuckyou,gungungun');
+			};
+			
+			console.log('hello boy');
+
+			mditor.editor.insertBeforeText('fuckyou,gungungun');
+
+		});
+
+		window.setTimeout(function(){
+			mditor.editor.insertAfterText('fuckyou,gungungun');
+		} , 1000);
+
+	</script>
+</body>
+
+</html>

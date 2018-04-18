@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/Component/module.css" />
+    <link rel="stylesheet" href="css/View.css" />
+
+    <script src="../js/SmallJs.js"></script>
+</head>
+<body>
+
+<style>
+    body {
+        padding:20px;
+    }
+    body > div {
+        margin-bottom:20px;
+    }
+</style>
+
+<div class="container">
+
+    <!-- 显示视图切换 -->
+    <div class="view" data-view="list">
+
+        <div class="item list" data-view="list"><img src="images/list.png" class="pic" />列表</div>
+        <div class="item picture" data-view="picture"><img src="images/picture.png" class="pic" />大图</div>
+
+    </div>
+
+</div>
+
+
+<script src="js/View.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var s = new View(con.get() , {
+
+        });
+    })();
+</script>
+</body>
+</html>

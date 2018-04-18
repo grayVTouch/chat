@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="renderer" content="webkit" />
+    <link rel='stylesheet' href='/css/base.css' />
+    <link rel='stylesheet' href='/css/Component/module.css' />
+
+    <link rel='stylesheet' href='css/Magnifier.css' />
+    <title>index</title>
+</head>
+<body>
+
+
+<style>
+    .container {
+        margin:0px;
+        width:400px;
+        height:300px;
+        overflow:hidden;
+    }
+
+    .container .pic {
+        width:100%;
+        min-height:100%;
+    }
+
+</style>
+
+<div class="container">
+
+    <img src="images/02.jpg" class="pic magnifire-item" />
+
+</div>
+
+<!-- 图片放大镜 -->
+<div class="magnifire">
+
+    <!-- 要从原图截取部分进行缩放的选择块 -->
+    <div class="block"></div>
+
+    <div class="list">
+        <!-- 原图
+            <img src="images/01.jpg" class="pic" />
+        -->
+    </div>
+
+</div>
+
+<script src='/js/SmallJs.js'></script>
+<script src='js/Magnifier.js'></script>
+<script>
+    (function(){
+        "use strcit";
+
+        var s = new Magnifier({
+            width: 300 ,
+            height: 300 ,
+            interval: 20
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<meta http-equiv='Content-Type' content='text/html;charset=utf-8' />
+		<link rel='stylesheet' href='../Css/base.css' />
+		<link rel='stylesheet' href='Css/InfiniteClassification.css' />
+		<script src='../Js/SmallJs.js'></script>
+	</head>
+	<body>
+		<!-- 无限极分类 -->
+		<div class='container'>
+
+			<!--
+				无限极分类
+ 				1. InfiniteClassification 无限极分类
+ 				2. author 陈学龙 2017-09-10 14:00:00
+			-->
+			<div class='infinite-classification'>
+
+				<div class="item-list">
+
+					<!--
+						项目 1
+						data-identifier = item-1 是项的标识符（用来保存状态用的）
+						data-specified  = y      表示需要初始化展开的（用来保存状态用的）
+					-->
+					<div class="item" data-identifier="item-1" data-specified="n">
+						<div class="parent">
+							<div class="icon"><img src="Images/test.png" class="pic" /></div>
+
+							<!-- 文本 -->
+							<div class="explain">
+								<div class="in">
+									<div class="ico hide"><img src="Images/ring.png" class="pic" /></div>
+									<div class="text">车辆列表</div>
+								</div>
+							</div>
+
+							<!--
+								指示器
+								 data-iconType = 'new' 指的是右边的图标类型
+							-->
+							<div class="flag" data-iconType="new">
+								<div class="new hide">新的</div>
+								<div class="number hide">10</div>
+								<div class="switch hide"><img src="Images/spread.png" class="pic" /></div>
+							</div>
+						</div>
+
+						<div class="child">
+
+							<!-- 第二层 -->
+							<div class="item-list">
+								<div class="item">
+									<div class="parent">
+										<div class="icon"><img src="Images/test.png" class="pic" /></div>
+
+										<!-- 文本 -->
+										<div class="explain">
+											<div class="in">
+												<div class="ico hide"><img src="Images/ring.png" class="pic" /></div>
+												<div class="text">车辆列表</div>
+											</div>
+										</div>
+
+										<div class="flag" data-iconType="new">
+											<div class="new hide">新的</div>
+											<div class="number hide">10</div>
+											<div class="switch hide"><img src="Images/spread.png" class="pic" /></div>
+										</div>
+									</div>
+
+									<div class="child">
+										<div class="item-list"></div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+
+		</div>
+
+		<script src='Js/InfiniteClassification.js'></script>
+		<script>
+
+			var con = G('.container').first();
+
+			var ic = new InfiniteClassification(con.get() , {
+                carTime: 120 , 			// 动画过渡时间
+                leftIconType: 'text' ,	// 展示的图标类型，ico || text || none
+                identifier: [] ,		// 标识符，展开的项；1. 在元素里面设置 data-specified='y' + 这边设置的值
+                status: 'none' ,		// 初始状态，spread || shrink || none
+                exclution: false ,		// 同层级是否互斥
+                callback: null ,		// 项点击后的回调，会绑定 InfiniteClassification 实例到 this
+			});
+
+            /**
+			 * 在控制台中查看该实例的相关属性和方法
+			 * 其中有很多事 共有方法!
+             */
+			console.log(ic);
+
+		</script>
+	</body>
+</html>

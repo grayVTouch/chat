@@ -1,0 +1,105 @@
+/**
+ * *****************************
+ * author 陈学龙（grayVTouch） 2017-01-22 10:23:00
+ * 搜索条件简单分页
+ * *****************************
+ */
+
+.simple-page {
+
+}
+
+.simple-page:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.simple-page > * {
+    float:left;
+    height:25px;
+    line-height:25px;
+    font-size:12px;
+    margin-right:10px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.simple-page .statistics {
+    color:#999;
+}
+
+.simple-page .statistics .count {
+    color:#666;
+    font-weight:bold;
+}
+
+.simple-page .page .cur-page {
+    font-weight:bold;
+    color:#e4393c;
+}
+
+.simple-page .function {
+    margin-right:0px;
+}
+
+.simple-page .function:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.simple-page .function > * {
+    float:left;
+    position:relative;
+    right:-1px;
+    width:50px;
+    text-align:center;
+    cursor:pointer;
+    height:100%;
+    font-family:SimSun;
+    border:1px solid #ddd;
+    color:#aaa;
+    background-color:#fff;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.simple-page .function > *:nth-last-of-type(1) {
+    right:0px;
+}
+
+.simple-page .function .btn:hover {
+    color:red;
+    font-size:14px;
+    border-color:red;
+    z-index:1;
+}
+
+.simple-page .function .prev:hover {
+    padding-right:10px;
+}
+
+.simple-page .function .next:hover {
+    padding-left:10px;
+}
+
+.simple-page .function .disabled {
+    border-color:#ddd !important;
+    z-index:0;
+    font-size:12px !important;
+    color:#aaa !important;
+    padding:0px !important;
+    background-color:#F1F1F1;
+}

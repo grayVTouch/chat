@@ -1,0 +1,143 @@
+/**
+ * **********
+ * 背景
+ * **********
+ */
+
+.background {
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:-1;
+    overflow:hidden;
+
+}
+
+.background .image {
+    width:100%;
+    min-height:100%;
+}
+
+/**
+ * **********
+ * 表单
+ * **********
+ */
+.user-form {
+    width:280px;
+    padding:50px;
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate3d(-50% , -50% , 0px);
+    margin-top:-50px;
+    background-color:white;
+    min-height:200px;
+    box-shadow:0px 0px 6px 0px #eee;
+    -webkit-box-shadow:0px 0px 6px 0px #eee;
+    -moz-box-shadow:0px 0px 6px 0px #eee;
+    -ms-box-shadow:0px 0px 6px 0px #eee;
+    -o-box-shadow:0px 0px 6px 0px #eee;
+}
+
+.user-form .form {
+
+}
+
+.user-form .form .form-header {
+    font-size:14px;
+    color:#555;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.user-form .form .form-body > * {
+    margin-bottom: 20px;
+}
+
+.user-form .form .form-body > *:nth-last-of-type(1) {
+    margin-bottom:0px;
+}
+
+/**
+ ********************
+ * function
+ ********************
+ */
+.user-form .form .form-body .functions {
+    font-size:12px;
+}
+
+.user-form .form .form-body .functions:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.user-form .form .form-body .functions > * {
+    height:24px;
+    line-height:24px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.user-form .form .form-body .functions .left {
+    float:left;
+}
+
+.user-form .form .form-body .functions .right {
+    float:right;
+}
+
+.user-form .form .form-body .functions .right a {
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.user-form .form .form-body .functions .right a:hover {
+    color:#d91212;
+    text-decoration:underline;
+}
+
+
+/*
+ **********
+ * btn 执行按钮
+ ***********
+ */
+.user-form .form .form-body .buttons {
+    text-align:center;
+}
+
+/**
+ ******************
+ * other 其他
+ ******************
+ */
+.user-form .form .form-body .other {
+    text-align:right;
+    font-size:12px;
+    color:#555;
+}
+
+.user-form .form .form-body .other a {
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.user-form .form .form-body .other a:hover {
+    color:#d91212;
+    text-decoration:underline;
+}

@@ -1,0 +1,196 @@
+/**
+ * authro 陈学龙 2017-09-12 15:18:00
+ * 多标签页
+ */
+.multiple-tabs {
+    position:relative;
+}
+
+.multiple-tabs>* {
+    height:30px;
+}
+
+.multiple-tabs .scroll-left , .multiple-tabs .scroll-right {
+    position:absolute;
+    top:0px;
+    width:30px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    background-color:#992b12;
+    z-index:10;
+    cursor:pointer;
+    transition:all 0.12s linear;
+    -webkit-transition:all 0.12s linear;
+    -moz-transition:all 0.12s linear;
+    -ms-transition:all 0.12s linear;
+    -o-transition:all 0.12s linear;
+}
+
+.multiple-tabs .disabled {
+    background-color:#b3b3b3 !important;
+}
+
+
+.multiple-tabs .scroll-left:hover , .multiple-tabs .scroll-right:hover {
+    background-color:#dd421e;
+}
+
+.multiple-tabs .scroll-left {
+    left:0px;
+}
+
+.multiple-tabs .scroll-right {
+    right:0px;
+}
+
+.multiple-tabs .scroll-left .pic , .multiple-tabs .scroll-right .pic {
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate3d(-50% , -50% , 0px);
+    -webkit-transform:translate3d(-50% , -50% , 0px);
+    -moz-transform:translate3d(-50% , -50% , 0px);
+    -ms-transform:translate3d(-50% , -50% , 0px);
+    -o-transform:translate3d(-50% , -50% , 0px);
+}
+
+/**
+ * 项列表
+ */
+.multiple-tabs .tabs-list {
+    background-color:#464646;
+    /*
+    overflow:hidden;
+    margin:0px 30px;
+    */
+}
+
+.multiple-tabs .tabs-list .item-list {
+    margin:0px;
+}
+
+.multiple-tabs .tabs-list .item-list:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.multiple-tabs .tabs-list .item-list .item {
+    float:left;
+    position:relative;
+    left: 0px;
+    top: 0px;
+    /*
+    max-width:250px;
+    min-width:110px;
+    */
+    overflow:hidden;
+    background-color: #636363;
+    color: #ddd;
+    cursor:pointer;
+    /*
+    transition:all 0.12s linear;
+    -webkit-transition:all 0.12s linear;
+    -moz-transition:all 0.12s linear;
+    -ms-transition:all 0.12s linear;
+    -o-transition:all 0.12s linear;
+    */
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.multiple-tabs .tabs-list .item-list .item:hover {
+    background-color:#3e3e3e;
+}
+
+.multiple-tabs .tabs-list .item-list .focus {
+    color:white;
+    background-image:linear-gradient(90deg , #08D469 0% , #0CDA8E 50% , #3ECCED 100%);
+}
+
+.multiple-tabs .tabs-list .item-list .item>* {
+    height:30px;
+    line-height:30px;
+}
+
+.multiple-tabs .tabs-list .item-list .item .ico {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:30px;
+    text-align:center;
+}
+
+.multiple-tabs .tabs-list .item-list .item .ico .pic {
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:10px;
+    top:50%;
+    transform:translate3d(0px , -50% , 0px);
+    -webkit-transform:translate3d(0px , -50% , 0px);
+    -moz-transform:translate3d(0px , -50% , 0px);
+    -ms-transform:translate3d(0px , -50% , 0px);
+    -o-transform:translate3d(0px , -50% , 0px);
+}
+
+.multiple-tabs .tabs-list .item-list .item .explain {
+    margin-left:40px;
+    margin-right:45px;
+    text-align:left;
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.multiple-tabs .tabs-list .item-list .item .close {
+    position:absolute;
+    right:0px;
+    top:0px;
+    width:30px;
+    transition:all 0.12s linear;
+    -webkit-transition:all 0.12s linear;
+    -moz-transition:all 0.12s linear;
+    -ms-transition:all 0.12s linear;
+    -o-transition:all 0.12s linear;
+}
+
+.multiple-tabs .tabs-list .item-list .item .close:hover {
+    background-color:#b18115;
+}
+
+.multiple-tabs .tabs-list .item-list .item .close:hover .positive , .multiple-tabs .tabs-list .item-list .item .close:hover .negative {
+    background-color:#eee;
+}
+
+.multiple-tabs .tabs-list .item-list .item .close .positive , .multiple-tabs .tabs-list .item-list .item .close .negative {
+    width:12px;
+    height:2px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    background-color:#ddd;
+}
+
+.multiple-tabs .tabs-list .item-list .item .close .positive {
+    transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , -45deg);
+    -webkit-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , -45deg);
+    -moz-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , -45deg);
+    -ms-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , -45deg);
+    -o-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , -45deg);
+}
+
+.multiple-tabs .tabs-list .item-list .item .close .negative {
+    transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , 45deg);
+    -webkit-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , 45deg);
+    -moz-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , 45deg);
+    -ms-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , 45deg);
+    -o-transform:translate3d(-50% , -50% , 0px) rotate3d(0 , 0 , 1 , 45deg);
+}

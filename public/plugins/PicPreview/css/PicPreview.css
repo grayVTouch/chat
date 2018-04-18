@@ -1,0 +1,232 @@
+/*
+ ***********************************
+ * Author 陈学龙 2016-11-16 21:57:00
+ ***********************************
+ */
+
+/***图片预览***/
+.pic-preview {
+	width:100%;
+	height:100%;
+	position:fixed;
+	left:0px;
+	top:0px;
+	z-index:1000;
+	opacity:1;
+}
+
+/*背景层*/
+.pic-preview .bg {
+	position:fixed;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	background-color:black;
+	opacity:0.6;
+}
+
+/*展现层*/
+.pic-preview .preview {
+	width:100%;
+	height:100%;
+	position:relative;
+}
+
+.pic-preview .preview > .in {
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+.pic-preview .preview > .in .pic { 
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+	top:0px;
+	opacity:0;
+	z-index:1;
+}
+
+.pic-preview .control , .pic-preview .control > .image {
+	height:100%;
+}
+
+.pic-preview .control {
+	z-index:1001;
+	left:0px;
+	bottom:10px;
+	position:absolute;
+	padding:10px;
+	background-color: rgba(47, 47, 47, 0.5);
+}
+
+/* 小图控制区域 */
+.pic-preview .control > .image {
+	width:100%;
+	margin:0px;
+	overflow:hidden;
+}
+
+.pic-preview .control > .image .item-list {
+	height:100%;
+	position:relative;
+	left:0px;
+	top:0px;
+}
+
+.pic-preview .control > .image .item-list:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+.pic-preview .control > .image .item-list .item {
+	float:left;
+	overflow:hidden;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	width:200px;
+	height:120px;
+	border:2px solid transparent;
+	cursor:pointer;
+	transition:all 0.2s ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	-moz-transition:all 0.2s ease-in-out;
+	-o-transition:all 0.2s ease-in-out;
+	-ms-transition:all 0.2s ease-in-out;
+}
+
+.pic-preview .control > .image .item-list .cur {
+	border-color:#50BDEA;
+}
+
+.pic-preview .control > .image .item-list .item:hover {
+	border-color:#50BDEA;
+}
+
+.pic-preview .control .item .pic {
+	width:100%;
+	min-height:100%;
+}
+
+/*信息展示层*/
+
+.pic-preview .control .index {
+    position: absolute;
+    bottom: 10px;
+    right: -12px;
+    color: white;
+	z-index:1002;
+    font-size: 14px;
+	transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	-ms-transform: translateX(100%);
+	-o-transform: translateX(100%);
+}
+
+.pic-preview .control .index .cur {
+    padding: 0px 2px;
+}
+
+.pic-preview .control .index .view-origin-image {
+	transition:all 0.15s linear;
+	-webkit-transition:all 0.15s linear;
+	-moz-transition:all 0.15s linear;
+	-ms-transition:all 0.15s linear;
+	-o-transition:all 0.15s linear;
+}
+
+.pic-preview .control .index .view-origin-image:hover {
+    color: #ff4081;
+}
+
+/*提示层*/
+.pic-preview > .tip {
+	position:absolute;
+	padding: 8px 15px;
+	background-color: rgba(39, 38, 38, 0.8);
+	color: white;
+	border-radius: 5px;
+	z-index:1001;
+	font-size: 14px;
+	opacity:0;
+}
+
+.pic-preview > .tip .explain {
+	
+}
+
+/*按钮层*/
+.pic-preview > .btn {
+	opacity:0.5;
+	position:absolute;
+	top:0px;
+	width:80px;
+	height:100%;
+	text-align:center;
+	cursor:pointer;
+	transition:all 0.2s ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	-moz-transition:all 0.2s ease-in-out;
+	-ms-transition:all 0.2s ease-in-out;
+	-o-transition:all 0.2s ease-in-out;
+	z-index:1001;
+}
+
+.pic-preview > .btn:hover {
+	opacity:1;
+}
+
+.pic-preview .prev {
+	left:0px;
+}
+
+.pic-preview .next {
+	right:0px;
+}
+
+.pic-preview > .btn .pic {
+	width:100%;
+	height:80px;
+}
+
+.pic-preview > .prev .pic , .pic-preview > .next .pic {
+	position:absolute;
+	left:0px;
+	top:50%;
+	transform:translateY(-100%);
+}
+
+.pic-preview .close {
+	position:absolute;	
+	right:0px;
+	top:0px;
+	height:30px;
+	width:30px;
+	z-index:1002;
+	padding:20px;
+	background-color:rgb(92, 184, 189);
+	opacity:0.8;
+	cursor:pointer;
+	transition:all 0.2s ease-in-out;
+	-webkit-transition:all 0.2s ease-in-out;
+	-moz-transition:all 0.2s ease-in-out;
+	-ms-transition:all 0.2s ease-in-out;
+	-o-transition:all 0.2s ease-in-out;
+}
+
+.pic-preview .close:hover {
+	opacity:1;
+}
+
+.pic-preview .close .pic {
+	width:100%;
+	height:100%;
+}
+

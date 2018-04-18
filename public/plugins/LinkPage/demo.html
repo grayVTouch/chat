@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=yes" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="renderer" content="webkit" />
+	<link rel='stylesheet' href='Css/base.css' />
+	<title>Practice</title>
+</head>
+<body>
+
+	<!-- 分页按钮 -->
+	<div class='page-container part' data-tr='1' data-curpage='1' data-maxpage='1' data-spage='1' data-epage='1' data-linkto='http://test.com?cur_page=' data-field='cur_page'>
+
+		<div class='page-area'>		
+			<!-- 首页 -->
+			<a href='javascript:void(0);' class='page-btn homepage-btn'>首页</a>&nbsp; 			
+
+			<!-- 上一页 -->
+			<a href='javascript:void(0);' class='page-btn prev-btn disabled-btn' data-canprev='n'>上一页</a>&nbsp; 
+			
+			<!-- 分页具体按钮 -->
+			<div class='link-list'><a href='http://csp.com/index.php/PcAdmin/UserManager/userList?cur_page=1' class='page-btn page-link focus-page-btn'>1</a>&nbsp;</div>			
+
+			<!-- 下一页 -->
+			<a href='javascript:void(0);' class='page-btn next-btn disabled-btn' data-cannext='n'>下一页</a>&nbsp;
+
+			<!-- 页数信息 -->
+			<span class='page-info-con'>  				
+				<span class='cur-page page-info'>1</span> / 共&nbsp;<span class='page-info total-page'>1</span>&nbsp;页 共 <span class='page-info total-record'>1</span> 条记录
+			</span>&nbsp;
+
+			<!-- 跳转 input -->
+			<input type='text' class='page-goto-inp'>
+			<!-- 跳转 link -->
+			<a href='javascript:void(0);' class='page-btn page-goto-btn'>跳转</a>&nbsp;
+
+			<!-- 尾页 -->
+			<a href='javascript:void(0);' class='page-btn endpage-btn'>尾页</a>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

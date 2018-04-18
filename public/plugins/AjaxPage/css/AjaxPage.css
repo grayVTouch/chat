@@ -1,0 +1,127 @@
+.ajax-page {
+    display:inline-block;
+    zoom:1;
+}
+
+.ajax-page:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.ajax-page>* {
+    float:left;
+    zoom:1;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.ajax-page .homepage-btn {
+
+}
+
+.ajax-page .page-btn-list {
+    margin-right:10px;
+}
+
+.ajax-page .page-btn-list:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.ajax-page .page-btn-list .page-btn {
+    float:left;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.ajax-page .page-btn-list .page-btn:nth-last-of-type(1) {
+    margin-right:0px;
+}
+
+.ajax-page .page-btn {
+    font-size:12px;
+    background-color: #EFEFEF;
+    color: #5E5E5E;
+    padding: 0px 12px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 2px;
+    margin-right:10px;
+    cursor:pointer;
+}
+
+.ajax-page .page-btn:hover {
+    background-color:#D8D8D8;
+}
+
+.ajax-page .page-btn-list .cur-page-btn {
+    background-color:#D8D8D8;
+}
+
+.ajax-page .page-info-container {
+    font-size:12px;
+    height:24px;
+    line-height:24px;
+    margin-right:10px;
+}
+
+.ajax-page .to-page {
+	text-align:center;
+    height:24px;
+    margin-right:10px;
+}
+
+.ajax-page .to-page>* {
+    float:left;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.ajax-page .to-page:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.ajax-page .to-page .to-page-input .form-text {
+    width: 30px;
+    height: 18px;
+    text-indent: 0;
+    text-align:center;
+    vertical-align: top;
+    margin-top: 3px;
+    margin-right:10px;
+}
+
+.ajax-page .to-page .to-page-btn .go-to-btn {
+    margin-right:0px;
+}
+
+.ajax-page .disabled {
+    background-color: #F5F5F5;
+    color: #BDBDBD;
+}
+
+.ajax-page .disabled:hover {
+	background-color: #F5F5F5;
+	color: #BDBDBD;
+}
+
+.ajax-page .endpage-btn {
+    margin-right:0px;
+}
+
+.ajax-page.hide {
+    display:none !important;
+}

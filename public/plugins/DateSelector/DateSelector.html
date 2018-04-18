@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv='content-type' content='text/html;charset=utf-8' />
+<meta http-equiv='X-UA-Compatible' content='IE=Edge,Chrome=1.0' />
+<meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes' />
+<meta name='format-detection' content='telephone=no' />
+<link rel='stylesheet' href='Css/base.css' />
+<link rel='stylesheet' href='Css/DateSelector.css' />
+</head>
+<body>
+
+<div id='date_selector'>
+  开始日期：
+  <input type='text' id='date' />
+</div>
+
+<div  style='margin-top:200px;margin-left:100px;'>
+  结束日期<input type='text' id='date1' />
+</div>
+
+<script src='../js/SmallJs.js'></script>
+<script src='js/DateSelector.js'></script>
+<script>
+G(document.body).css({
+	height: document.documentElement.clientHeight + 'px'
+});
+
+G('#date').loginEvent('focus' , function(){
+	DateSelector(this , 'date_time');
+} , false , false);
+
+
+G('#date1').loginEvent('focus' , function(){
+	DateSelector(this , 'date_time');
+} , false , false);
+
+</script>
+</body>
+</html>

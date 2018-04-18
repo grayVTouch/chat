@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/Component/module.css" />
+    <link rel="stylesheet" href="css/SimplePage.css" />
+
+    <script src="../js/SmallJs.js"></script>
+</head>
+<body>
+
+<style>
+    body {
+        padding:20px;
+    }
+    body > div {
+        margin-bottom:20px;
+    }
+</style>
+
+<div class="container">
+
+    <!--
+         检索条件简单分页
+         请把相关显示数据直接写入到 html 结构指定位置
+     -->
+    <div class="simple-page">
+        <div class="statistics">共<span class="count">...</span>条记录</div>
+        <div class="page"><span class="cur-page">...</span>&nbsp;/&nbsp;共<span class="max-page">...</span>&nbsp;页</div>
+        <div class="function">
+            <div class="btn prev">&lt;</div>
+            <div class="btn next">&gt;</div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="js/SimplePage.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var s = new SimplePage(con.get() , {
+            field: 'cur_page' ,
+            callback: null
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/**
+ * **********
+ * 背景
+ * **********
+ */
+
+.bg {
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:-1;
+    overflow:hidden;
+
+}
+
+.bg .image {
+    width:100%;
+    min-height:100%;
+}
+
+/**
+ * ***********
+ * 错误信息展示
+ * ***********
+ */
+.error {
+    position:absolute;
+    top:50%;
+    left:20%;
+    color:white;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.error .msg {
+
+}
+
+.error .time-count {
+
+}
+
+.error .time-count > * {
+    padding:0px 5px;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.error .time-count .go {
+    cursor:pointer;
+}
+
+.error .time-count .go:hover {
+    text-decoration:underline;
+    color:#f1f1f1;
+}
+
+.error .time-count .go:active {
+    color:gray;
+}
+
+.error .time-count .go:visited {
+    color:gray;
+}

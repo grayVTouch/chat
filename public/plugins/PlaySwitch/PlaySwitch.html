@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv='content-type' content='text/html;charset=utf-8' />
+<meta name="keywords" content="单纯的轮播" />
+<meta http-equiv='X-UA-Compatible' content='IE=Edge,Chrome=1.0' />
+<meta name='format-detection' content='telephone=no' />
+<link rel='stylesheet' href='/css/base.css' />
+<link rel='stylesheet' href='css/PlaySwitch.css' />
+
+</head>
+<body>
+<style>
+	.con-1 , .con-2 , .con-3 , .con-4 {
+		width:300px;
+		height:30px;
+		border:1px solid red;
+		margin-top:100px;
+	 	position:relative;
+	}
+</style>
+
+<!---
+	不同方向的轮播，请严格遵守下面的 HTML 布局！！！
+-->
+
+<div class='con-1'>
+
+	<!--从下至上-->
+	<div class='play-switch'>
+		<div class="item-list">
+			<div class="item">我是链接 1</div>
+			<div class="item">我是链接 2</div>
+			<div class="item">我是链接 3</div>
+			<div class="item">我是链接 4</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="con-2">
+	<!-- 从上至下 -->
+	<div class='play-switch'>
+		<div class="item-list">
+			<div class="item">我是链接 4</div>
+			<div class="item">我是链接 3</div>
+			<div class="item">我是链接 2</div>
+			<div class="item">我是链接 1</div>
+		</div>
+	</div>
+</div>
+
+<div class="con-3">
+	<!-- 从右至左 -->
+	<div class='play-switch'>
+		<div class="item-list">
+			<div class="item">我是链接 1</div>
+			<div class="item">我是链接 2</div>
+			<div class="item">我是链接 3</div>
+			<div class="item">我是链接 4</div>
+		</div>
+	</div>
+</div>
+
+<div class="con-4">
+	<!-- 从左至右 -->
+	<div class='play-switch'>
+		<div class="item-list">
+			<div class="item">我是链接 4</div>
+			<div class="item">我是链接 3</div>
+			<div class="item">我是链接 2</div>
+			<div class="item">我是链接 1</div>
+		</div>
+	</div>
+</div>
+
+<div>
+
+<button id="prev">上一项</button>
+<button id="next">下一项</button>
+</div>
+	
+<script src='/js/SmallJs-1.0.0.js'></script>
+<script src='js/PlaySwitch.js'></script>
+<script>
+(function(){
+    "use strict";
+
+	var top 	= G('.con-1').first();
+	var bottom 	= G('.con-2').first();
+	var left 	= G('.con-3').first();
+	var right 	= G('.con-4').first();
+
+	// 公告轮播
+	var p = PlaySwitch(left.get() , {
+		// 动画过度时间，单位：s
+		time: 200 ,
+		// 项 轮播间隔时间，单位：s
+		duration: 2000 ,
+		// 轮播方向：top  bottom left right
+		dir: 'top' ,
+		// 默认显示第几项
+		index: 1 ,
+		// 是否开启定时轮播
+		timePlay: true
+	});
+
+	var prev = G('#prev');
+	var next = G('#next');
+
+	prev.loginEvent('click' , function(){
+		p.prev();
+	} , true , false);
+	next.loginEvent('click' , function(){
+		p.next();
+	} , true , false);
+
+})();
+</script>
+</body>
+</html>

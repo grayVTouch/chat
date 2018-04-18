@@ -1,0 +1,59 @@
+/**
+ * *****************************
+ * author 陈学龙（grayVTouch） 2017-01-22 10:23:00
+ * 视图切换
+ * *****************************
+ */
+
+
+.view {
+    height:25px;
+    line-height:25px;
+    margin-left:12px;
+}
+
+.view:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.view > * {
+
+
+}
+
+.view > * {
+    float:left;
+    font-size:13px;
+    color:#555;
+    background-color:#eee;
+    cursor:pointer;
+    padding:0px 12px;
+    transition:all 0.15s linear;
+    -webkit-transition:all 0.15s linear;
+    -moz-transition:all 0.15s linear;
+    -ms-transition:all 0.15s linear;
+    -o-transition:all 0.15s linear;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.view > .cur {
+    background-color:#ccc;
+}
+
+.view .item:hover {
+    background-color:#ccc;
+}
+
+.view .item .pic {
+    width:16px;
+    height:16px;
+    margin-right:5px;
+}
+
+

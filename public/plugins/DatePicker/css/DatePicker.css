@@ -1,0 +1,68 @@
+/**
+ * 日期选择器
+ */
+.date-picker {
+    font-size:13px;
+    color:#333;
+}
+
+.date-picker .item select {
+    min-width:80px;
+    height:26px;
+}
+
+.date-picker .item input[type=text] {
+    width:150px;
+    height:26px;
+}
+
+.date-picker .item .tip {
+    color:#999;
+    font-size:12px;
+}
+
+.date-picker .item .hide {
+    display:none !important;
+}
+
+/**
+ *******************************
+ * 垂直放置
+ *******************************
+ */
+.date-picker-vertical {
+
+}
+
+.date-picker-vertical .item {
+    margin-bottom:10px;
+}
+
+/**
+ *******************************
+ * 水平放置
+ *******************************
+ */
+.date-picker-horizontal {
+
+}
+
+.date-picker-horizontal:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.date-picker-horizontal .item {
+    float:left;
+    margin-right:8px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.date-picker-horizontal .item:nth-last-of-type(1) {
+    margin-right:0px;
+}

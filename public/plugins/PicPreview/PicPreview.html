@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>PicPreview HTML结构</title>
+
+	 <link rel="stylesheet" href="/css/base.css" />
+	 <link rel="stylesheet" href="/css/Component/module.css" />
+
+	 <link rel="stylesheet" href="css/PicPreview.css" />
+
+
+ </head>
+ <body>
+  
+	<section class='container'>
+
+		<!--图片预览框架-->
+		<div class='pic-preview hide'>
+			<!--提示层-->
+			<div class='tip hide'>
+				<div class='last-tip explain'>已经是最后一张图片！</div>
+				<div class='first-tip explian'>已经是首张图片！</div>
+			</div>
+			
+			<!--背景遮罩层-->
+			<div class='bg'></div>
+			
+			<!--大图预览区域-->
+			<div class='preview'>
+				<div class='in'>
+
+					<img src='images/Test/01.jpg' class='pic' />
+					<img src='images/Test/02.jpg' class='pic' />
+					<img src='images/Test/03.jpg' class='pic' />
+					<img src='images/Test/04.jpg' class='pic' />
+					<img src='images/Test/05.jpg' class='pic' />
+					<img src='images/Test/06.jpg' class='pic' />
+					<img src='images/Test/07.jpg' class='pic' />
+					<img src='images/Test/08.jpg' class='pic' />
+					<img src='images/Test/09.jpg' class='pic' />
+					<img src='images/Test/10.jpg' class='pic' />
+					<img src='images/Test/11.jpg' class='pic' />
+					<img src='images/Test/12.jpg' class='pic' />
+
+				</div>
+			</div>
+			<!--底部预览区域-->
+			<div class='control'>
+				<div class='image'>
+					<div class="item-list">
+						<div class='item cur'></div>
+						<div class='item'></div>
+					</div>
+				</div>
+
+				<!--当前序号区域-->
+				<div class="index">
+				  <a target='_blank' href="javascript:void(0);" class="view-origin-image">查看原图</a>
+				  <br>
+				  第<span class="cur">...</span>张 / 共<span class="count">...</span>张
+				</div>
+			</div>
+
+			<!--按钮操作-->
+			<div class='btn prev hide'><img src='images/prev.png' class='pic' /></div>
+			<div class='btn next hide'><img src='images/next.png' class='pic' /></div>
+			<div class='btn close'><img src='images/close.png' class='pic' /></div>
+		</div>
+	</section>
+
+	<script src="/js/SmallJs.js"></script>
+	<script src="js/PicPreview.js"></script>
+	<script>
+		(function(){
+		    "use strict";
+
+		    var c = G('.container').first();
+		    var p = new PicPreview(c.get() , {
+				imageCount: 6 ,
+                extraW: 0 ,
+                focusScale: false
+			});
+
+
+		})();
+	</script>
+ </body>
+</html>

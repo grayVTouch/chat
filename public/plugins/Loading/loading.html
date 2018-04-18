@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv='content-type' content='text/html;charset=utf8' />
+    <link rel="stylesheet" href="../Css/base.css" />
+    <link rel="stylesheet" href="Css/Loading.css" />
+
+    <script src="../Js/SmallJs.js"></script>
+    <script src="Js/Loading.js"></script>
+</head>
+<body>
+<style>
+    .con {
+        width:500px;
+        height:500px;
+        border:1px solid red;
+        position:relative;
+    }
+</style>
+
+<div class="con"></div>
+
+<button type="button" id="btn">隐藏</button>
+
+<script>
+    (function(){
+        'use strict';
+
+        var con = G('.con').first();
+
+        var loading = new Loading(con.get() , {
+            pluginUrl: '/Loading' ,
+            style: 1 ,
+            cJson: {
+                position: 'absolute'
+            } ,
+            initStatus: 'show'
+        });
+
+        var btn = G('#btn');
+        var count = 1;
+
+        btn.loginEvent('click' , function(){
+            if (count === 0) {
+                loading.show();
+                count = 1;
+            } else {
+                loading.hide();
+                count = 0;
+            }
+        } , true , false);
+    })();
+</script>
+</body>
+</html>

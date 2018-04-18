@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/Component/module.css" />
+    <link rel="stylesheet" href="css/SelectedCondition.css" />
+
+    <script src="../js/SmallJs.js"></script>
+</head>
+
+<style>
+    body {
+        padding:20px;
+    }
+    body > div {
+        margin-bottom:20px;
+    }
+</style>
+
+<div class="container">
+
+    <!-- 已选择条件：实际使用的时候，请把内部的元素删除！！ -->
+    <div class='selected-condition'>
+        <!--
+        普通文本项
+        -->
+        <div class="item text">
+            <div class='content'>
+                <div class='explain'>
+                    <span class='field'>车辆类型：</span>
+                    <span class='value'>小轿车、卡车、小轿车</span>
+                </div>
+
+                <div class='close'>X</div>
+            </div>
+
+            <div class='sign'>&gt;</div>
+        </div>
+
+        <!-- 关键字： -->
+        <div class="item keywords">“<span class="text">关键字搜索</span>”</div>
+
+    </div>
+
+</div>
+
+字段：<input type="text" id="field" /><br />
+值：<input type="text" id="value" /><br />
+标识符：<input type="text" id="identifier" /><br />
+<button class="btn-8" id="create">创建</button>
+<button class="btn-8" id="delete">删除</button>
+
+<br />
+<br />
+
+关键字：<input type="text" id="keywords" />
+<button type="button" id="c_keywords" class="btn-8">创建关键字</button>
+
+<script src="js/SelectedCondition.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var field = G('#field');
+        var value = G('#value');
+        var identifier = G('#identifier');
+        var create = G('#create');
+        var rm = G('#delete');
+        var keywords = G('#keywords');
+        var cKeywords = G('#c_keywords');
+
+        var s = new SelectedCondition(con.get() , {
+
+        });
+
+        create.loginEvent('click' , function(){
+            var f = field.get().value;
+            var v = value.get().value;
+            var i = identifier.get().value;
+            s.create(f , v , i);
+        } , true , false);
+
+        rm.loginEvent('click' , function(){
+            var i = identifier.get().value;
+
+            s.delete(i);
+        } , true , false);
+
+        cKeywords.loginEvent('click' , function(){
+            var value = keywords.get().value;
+
+            s.createKeywords(value);
+        } , true , false);
+
+    })();
+</script>
+</body>
+</html>

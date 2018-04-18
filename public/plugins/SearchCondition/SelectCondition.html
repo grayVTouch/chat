@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/Component/module.css" />
+    <link rel="stylesheet" href="css/SelectCondition.css" />
+
+    <script src="../js/SmallJs.js"></script>
+</head>
+<body>
+
+<style>
+    body {
+        padding:20px;
+    }
+    body > div {
+        margin-bottom:20px;
+    }
+</style>
+
+<div class="floor-1">
+
+    <!-- 搜索条件类型1：一层极 -->
+    <div class="select-condition select-condition-for-one">
+        <div class="select-data">
+            <span class="item clear cur" data-id="">不限</span>
+            <span class="item search" data-id="0-3">3万以下</span>
+            <span class="item search" data-id="3-5">3-5万</span>
+            <span class="item search" data-id="5-8">5-8万</span>
+
+            <!-- 自定义输入 -->
+            <div class="item hide">
+                <input type="number" class="form-text min-price" />
+                -
+                <input type="number" class="form-text max-price" />
+                <button type="button" class="btn-3">提交</button>
+            </div>
+        </div>
+
+        <!-- 已选择数据 -->
+        <div class='selected-data hide'>
+            <div class='explain'>已选择的车系：</div>
+            <div class='list'>
+                <!--
+                <span class="item" data-id="5">本田</span>
+                -->
+            </div>
+        </div>
+
+        <!-- 功能 -->
+        <div class='function'>
+            <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+            <!--
+                sm switch= single multiple switch
+            -->
+            <button type='button' class='btn-3 sm-switch'>多选</button>
+        </div>
+
+        <!-- 功能选择 -->
+        <div class='decide hide'>
+            <button type='button' class='btn-1 confirm'>确定</button>
+            <button type='button' class='btn-1 cancel'>取消</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="floor-2">
+
+    <!-- 搜索条件类型2：二层级 -->
+    <div class="select-condition select-condition-for-two" data-idList="">
+        <!-- 选择数据 -->
+        <div class='select-data'>
+
+            <!-- 简略数据 -->
+            <div class="some-data">
+                <!-- 清除已选择的条件 -->
+                <span class="item cur clear" data-id="">不限</span>
+                <span class="item search" data-id="1">奥迪A-1</span>
+                <span class="item search" data-id="2">奥迪A-2</span>
+                <span class="item search" data-id="3">奥迪A-3</span>
+            </div>
+
+            <!-- 完整数据 -->
+            <div class="all-data">
+
+                <div class="item">
+                    <div class="c-field">进口奥迪：</div>
+                    <div class="c-value">
+                        <span class="c-item" data-id="1">奥迪A-1</span>
+                        <span class="c-item" data-id="2">奥迪A-2</span>
+                        <span class="c-item" data-id="3">奥迪A-3</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="c-field">进口奥迪测试：</div>
+                    <div class="c-value">
+                        <span class="c-item" data-id="4">奥迪A-4</span>
+                        <span class="c-item" data-id="5">奥迪A-5</span>
+                        <span class="c-item" data-id="6">奥迪A-6</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 已选择数据 -->
+        <div class='selected-data hide'>
+            <div class='explain'>已选择的车系：</div>
+            <div class='list'>
+                <!--
+                <span class="item" data-id="5">本田</span>
+                -->
+            </div>
+        </div>
+
+        <!-- 功能 -->
+        <div class='function'>
+            <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+            <!--
+                sm switch= single multiple switch
+            -->
+            <button type='button' class='btn-3 sm-switch'>多选</button>
+        </div>
+
+        <!-- 功能选择 -->
+        <div class='decide hide'>
+            <button type='button' class='btn-1 confirm'>确定</button>
+            <button type='button' class='btn-1 cancel'>取消</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="js/SelectCondition.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var floor1 = G('.floor-1').first();
+        var floor2 = G('.floor-2').first();
+
+        // 类型 1
+        var s1 = new SelectCondition(floor1.get() , {
+            type: 'one'
+        });
+
+        // 类型 2
+        var s2 = new SelectCondition(floor2.get() , {
+            type: 'two'
+        });
+    })();
+</script>
+</body>
+</html>

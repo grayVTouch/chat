@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../Css/base.css" />
+    <link rel="stylesheet" href="../Css/module.css" />
+    <link rel="stylesheet" href="css/DatePicker.css" />
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="date-picker">
+        <div class="item year-select-item">
+            年份：<select class="year-select form-select"></select>
+            <button class="btn-1 switch-btn hide">多选</button>
+        </div>
+
+        <div class="item month-select-item hide">
+            月份：<select class="month-select"></select>
+            <button class="btn-1 switch-btn hide">多选</button>
+        </div>
+
+        <div class="item date-select-item hide">
+            日期：<select class="date-select"></select>
+            <button class="btn-1 switch-btn hide">多选</button>
+        </div>
+
+        <div class="item quarterly-select-item hide">
+            季度：<select class="quarterly-select"></select>
+            <button class="btn-1 switch-btn hide">多选</button>
+        </div>
+
+        <div class="item year-input-item hide">
+            年份：<input type="text" placeholder="多值，用 , 隔开" class="year-input" />
+            <button class="btn-1 switch-btn hide">单选</button>
+            <span class="tip"></span>
+        </div>
+
+        <div class="item month-input-item hide">
+            月份：<input type="text" placeholder="多值，用 , 隔开" class="month-input" />
+            <button class="btn-1 switch-btn hide">单选</button>
+            <span class="tip"></span>
+        </div>
+
+        <div class="item date-input-item hide">
+            日期：<input type="text" placeholder="多值，用 , 隔开" class="date-input" />
+            <button class="btn-1 switch-btn hide">单选</button>
+            <span class="tip"></span>
+        </div>
+
+        <div class="item quarterly-input-item hide">
+            季度：<input type="text" placeholder="多值，用 , 隔开" class="quarterly-input" />
+            <button class="btn-1 switch-btn hide">单选</button>
+            <span class="tip"></span>
+        </div>
+    </div>
+
+</div>
+
+<button id="test-btn" class="btn-2">获取结果</button>
+
+<script src="../Js/SmallJs-1.0.0.js"></script>
+<script src="js/DatePicker.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var d = new DatePicker(con.get() , {
+            sYear: 2010 ,
+            eYear: 2020 ,
+            multiple: true ,
+            posType: 'horizontal' ,
+            type: 'quarterly'
+        });
+
+        G('#test-btn').loginEvent('click' , function(){
+            var p = G('#test');
+
+            console.log(d.value());
+            // console.log(d.format());
+
+            // p.get().textContent = d.value();
+        } , true , false);
+
+    })();
+</script>
+
+</body>
+</html>

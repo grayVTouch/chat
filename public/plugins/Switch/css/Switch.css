@@ -1,0 +1,74 @@
+/**
+ ********************
+ * 切换类
+ ***********************
+ */
+.switch {
+    position:relative;
+    overflow:hidden;
+}
+
+/*** 内容 ***/
+.switch > .content {
+
+}
+
+.switch > .content > .in {
+
+}
+
+.switch > .content > .in:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.switch > .content > .in .item {
+    float:left;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+/*** 索引 ***/
+.switch > .index {
+    width:100%;
+    height:20px;
+    line-height:20px;
+    text-align:center;
+}
+
+.switch > .index > .in {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.switch > .index > .in > .c-index {
+    float:left;
+    margin-right:8px;
+    width: 18px;
+    height: 4px;
+    background-color:#c3c3c3;
+    cursor:pointer;
+    overflow:hidden;
+    color:transparent;
+    transition:all 0.15s ease-in-out;
+    -webkit-transition:all 0.15s ease-in-out;
+    -moz-transition:all 0.15s ease-in-out;
+    -ms-transition:all 0.15s ease-in-out;
+    -o-transition:all 0.15s ease-in-out;
+}
+
+.switch > .index > .in > .c-index:nth-last-of-type(1) {
+    margin-right:0px;
+}
+
+.switch > .index > .in > .c-index:hover {
+    background-color:#B61D1D;
+}
+
+.switch > .index > .in .cur {
+    background-color:#B61D1D;
+}

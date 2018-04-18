@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- 条件检索 + 排序 -->
+
+
+<div class="search-condition">
+    <!-- 已选择条件 -->
+    <div class='selected-condition'>
+        <div class='explain'>已选择条件：</div>
+        <div class='selected-condition-list'>
+
+            <!-- 选择的条件：车辆类型 -->
+            <div class="item text" data-item="car-type">
+                <div class='c-item'>
+                    <div class='c-explain'>
+                        <span class='key'>车辆类型：</span>
+                        <span class='val'>小轿车、卡车、小轿车</span>
+                    </div>
+                    <div class='close'>X</div>
+                </div>
+
+                <span class='sign'>&gt;</span>
+            </div>
+
+            <!-- 关键字： -->
+            <div class="item keywords">“<span class="val">关键字搜索</span>”</div>
+        </div>
+    </div>
+
+    <!-- 选择条件 -->
+    <div class='select-condition'>
+        <!--
+             data-custom 表示该项由用户提供相关功能
+         -->
+        <div class="item item-other" data-custom="y">
+            <div class="field">品牌</div>
+            <div class="value brand-container">
+
+                <div class='get-brand' data-brandlist='{{ condition.brand_id_list|json_encode() }}'>
+
+                    <!-- 选择字母 -->
+                    <div class='select-letter'>
+                        <span class='all-brand letter focus'>所有品牌</span>
+                        <span class='common-brand letter'>常用品牌</span>
+                        <!--
+                        <span class='a letter character'>A</span>
+                        <span class='b letter character'>B</span>
+                        <span class='c letter character'>C</span>
+                        <span class='d letter character'>D</span>
+                        <span class='e letter character'>E</span>
+                        <span class='f letter character'>F</span>
+                        <span class='g letter character'>G</span>
+                        <span class='h letter character'>H</span>
+                        <span class='i letter character'>I</span>
+                        <span class='j letter character'>J</span>
+                        <span class='k letter character'>K</span>
+                        <span class='l letter character'>L</span>
+                        <span class='m letter character'>M</span>
+                        <span class='n letter character'>N</span>
+                        <span class='o letter character'>O</span>
+                        <span class='p letter character'>P</span>
+                        <span class='q letter character'>Q</span>
+                        <span class='r letter character'>R</span>
+                        <span class='s letter character'>S</span>
+                        <span class='t letter character'>T</span>
+                        <span class='u letter character'>U</span>
+                        <span class='v letter character'>V</span>
+                        <span class='w letter character'>W</span>
+                        <span class='x letter character'>X</span>
+                        <span class='y letter character'>Y</span>
+                        <span class='z letter character'>Z</span>
+                        -->
+                    </div>
+
+                    <!-- 选择品牌 -->
+                    <div class='select-brand'>
+                        <!-- 品牌列表 -->
+                        <div class='brand-list'>
+                            <!--
+                            js 填充项模板
+                            调试时使用
+                            <div class="item" data-id="8" data-isfocus="n" title="本田" data-brandname="本田" data-brandid="5" data-iscommon="0" data-firstletter="B">
+                                <div class="in">
+                                    <!-- 品牌图片展示
+                                    <div class="picture">
+                                        <img src="null" class="pic">
+                                    </div>
+                                    <!-- 品牌文本展示
+                                    <div class="explain">本田</div>
+                                    <!-- 选中的品牌表现
+                                    <div class="focus hide"><img src="{{ data_url }}ico/selected_status.png" class="pic"></div>
+                                </div>
+                            </div>
+                            -->
+
+                        </div>
+                    </div>
+
+                    <!-- 已选择品牌 -->
+                    <div class='selected-brand hide'>
+                        <div class='explain'>已选择的品牌：</div>
+                        <div class='list'>
+                            <!--
+                            模板
+                            <span class="item" data-id="5">本田</span>
+                            -->
+                        </div>
+                    </div>
+
+                    <!-- 功能 -->
+                    <div class='function'>
+                        <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+                        <!--
+                            sm switch= single multiple switch
+                        -->
+                        <button type='button' class='btn-3 sm-switch'>多选</button>
+                    </div>
+
+                    <!-- 功能选择 -->
+                    <div class='decide hide'>
+                        <button type='button' class='btn-1 confirm'>确定</button>
+                        <button type='button' class='btn-1 cancel'>取消</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--
+            车系
+            data-floor = "2"，表示数据会分两层展示： 简略数据 + 完整数据
+            data-floor = 1 ，表示仅有一层数据
+        -->
+        <div class="item item-floor-2 car-series" data-floor="2">
+            <div class="field">车系</div>
+            <div class="value">
+
+                <!-- 选择数据 -->
+                <div class='select-data'>
+
+                    <!-- 简略数据 -->
+                    <div class="some-data">
+                        <!-- 清除已选择的条件 -->
+                        <span class="c-item cur clear">不限</span>
+
+                        <!--
+                            热门条件
+                             是否选中是由 data-focus = y | n 来确定的
+                        -->
+                        <span class="c-item" data-id="1" data-focus="y">奥迪A-5</span>
+                        <span class="c-item" data-id="2">奥迪A-6</span>
+                    </div>
+
+                    <!-- 完整数据 -->
+                    <div class="all-data">
+
+                        <div class="c-item">
+                            <div class="c-field">进口奥迪：</div>
+                            <div class="c-value">
+                                <span class="tc-item cur">奥迪A-5</span>
+                                <span class="tc-item">奥迪A-5</span>
+                                <span class="tc-item">奥迪A-5</span>
+                            </div>
+                        </div>
+
+                        <div class="c-item">
+                            <div class="c-field">国产奥迪：</div>
+                            <div class="c-value">
+                                <span class="tc-item cur">奥迪A-5</span>
+                                <span class="tc-item">奥迪A-6</span>
+                                <span class="tc-item">奥迪A-7</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- 已选择数据 -->
+                <div class='selected-data'>
+                    <div class='explain'>已选择的车系：</div>
+                    <div class='list'>
+
+                        <span class="c-item" data-id="5">本田</span>
+
+                    </div>
+                </div>
+
+                <!-- 功能 -->
+                <div class='function'>
+                    <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+                    <!--
+                        sm switch= single multiple switch
+                    -->
+                    <button type='button' class='btn-3 sm-switch'>多选</button>
+                </div>
+
+                <!-- 功能选择 -->
+                <div class='decide'>
+                    <button type='button' class='btn-1 confirm'>确定</button>
+                    <button type='button' class='btn-1 cancel'>取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 车款 -->
+        <div class="item item-floor-2 car-model hide"></div>
+
+        <!-- 价格 -->
+        <div class="item item-floor-1 price">
+            <div class="field">价格</div>
+            <div class="value">
+
+                <div class="select-data">
+                    <span class="c-item clear cur">不限</span>
+                    <span class="c-item" data-key="0-3">3万以下</span>
+                    <span class="c-item" data-key="3-5">3-5万</span>
+
+                    <!-- 自定义输入 -->
+                    <div class="c-item">
+                        <input type="number" class="form-text min-price" />
+                        -
+                        <input type="number" class="form-text max-price" />
+                        <button type="button" class="btn-3">提交</button>
+                    </div>
+                </div>
+
+                <!-- 已选择数据 -->
+                <div class='selected-data hide'>
+                    <div class='explain'>已选择的车系：</div>
+                    <div class='list'>
+
+                        <span class="c-item" data-id="5">本田</span>
+
+                    </div>
+                </div>
+
+                <!-- 功能 -->
+                <div class='function hide'>
+                    <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+                    <!--
+                        sm switch= single multiple switch
+                    -->
+                    <button type='button' class='btn-3 sm-switch'>多选</button>
+                </div>
+
+                <!-- 功能选择 -->
+                <div class='decide hide'>
+                    <button type='button' class='btn-1 confirm'>确定</button>
+                    <button type='button' class='btn-1 cancel'>取消</button>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- 其他：绝对是最后一栏 -->
+        <div class="item advanced last-item">
+            <!-- 高级选项 -->
+            <div class="content">
+                <div class="field">其他</div>
+                <div class="value">
+                    <!-- 车辆类型 -->
+                    <div class="c-item">
+                        <span class="explain">车辆类型</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+
+                    <!-- 事故车类型 -->
+                    <div class="c-item">
+                        <span class="explain">事故车类型</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+
+                    <!-- 车牌所在地省份 -->
+                    <div class="c-item">
+                        <span class="explain">车牌所在地省份</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+
+                    <!-- 车牌所在地城市 -->
+                    <div class="c-item">
+                        <span class="explain">车牌所在地城市</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+                    <!-- 车辆暂存地省份 -->
+                    <div class="c-item">
+                        <span class="explain">车辆暂存地省份</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+                    <!-- 车辆暂存地城市 -->
+                    <div class="c-item">
+                        <span class="explain">车辆暂存地城市</span>
+                        <img src="{{ data_url }}ico/spread.png" data-spread="{{ data_url }}ico/spread.png" data-shrink="{{ data_url }}ico/shrink.png" class="pic switch-flag" />
+                    </div>
+                </div>
+            </div>
+            <!-- 这边存放的是对应详细内容 -->
+            <div class="details">
+                <!-- 普通一层极内容 -->
+                <div class="c-item item-floor-1">
+                    <!-- 选择数据 -->
+                    <div class="select-data">
+                        <span class="tc-item clear cur">不限</span>
+                        <span class="tc-item">轿车</span>
+                        <span class="tc-item">面包车</span>
+                        <span class="tc-item">敞篷车</span>
+                    </div>
+
+                    <!-- 已选择数据 -->
+                    <div class='selected-data'>
+                        <div class='explain'>已选择车辆类型：</div>
+                        <div class='list'>
+
+                            <span class="tc-item" data-id="5">轿车</span>
+                            <span class="tc-item" data-id="5">面包车</span>
+
+                        </div>
+                    </div>
+
+                    <!-- 功能 -->
+                    <div class='function'>
+                        <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+                        <button type='button' class='btn-3 sm-switch'>多选</button>
+                    </div>
+
+                    <!-- 功能选择 -->
+                    <div class='decide'>
+                        <button type='button' class='btn-1 confirm'>确定</button>
+                        <button type='button' class='btn-1 cancel'>取消</button>
+                    </div>
+                </div>
+
+                <!-- 二层级对应内容 -->
+                <div class="c-item item-floor-2">
+                    <!-- 选择数据 -->
+                    <div class="select-data">
+                        <div class="some-data">
+                            <span class="tc-item clear cur">不限</span>
+                            <span class="tc-item">北京</span>
+                            <span class="tc-item">广州</span>
+                            <span class="tc-item">上海</span>
+                        </div>
+
+                        <div class="all-data">
+
+                            <div class="tc-item">
+                                <div class="c-field">A</div>
+                                <div class="c-value">
+                                    <span class="fc-item cur">上海</span>
+                                    <span class="fc-item">上海</span>
+                                    <span class="fc-item">上海</span>
+                                </div>
+                            </div>
+
+                            <div class="tc-item">
+                                <div class="c-field">B</div>
+                                <div class="c-value">
+                                    <span class="fc-item">上海</span>
+                                    <span class="fc-item">上海</span>
+                                    <span class="fc-item">上海</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 已选择数据 -->
+                    <div class='selected-data'>
+                        <div class='explain'>已选择省份：</div>
+                        <div class='list'>
+
+                            <span class="tc-item" data-id="5">轿车</span>
+                            <span class="tc-item" data-id="5">面包车</span>
+
+                        </div>
+                    </div>
+
+                    <!-- 功能 -->
+                    <div class='function'>
+                        <button type='button' class='btn-3 more'>+&nbsp;更多</button>
+                        <button type='button' class='btn-3 sm-switch'>多选</button>
+                    </div>
+
+                    <!-- 功能选择 -->
+                    <div class='decide'>
+                        <button type='button' class='btn-1 confirm'>确定</button>
+                        <button type='button' class='btn-1 cancel'>取消</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 伸缩条件菜单 -->
+    <div class="ss-condition">
+        <img src="{{ url }}Data/ico/spread.png" class="pic ss-ctrl spread-pic" data-spread="{{ url }}Data/ico/spread.png" data-shrink="{{ url }}Data/ico/shrink.png" />
+    </div>
+
+    <!-- 检索结果 -->
+    <div class="order-content" id="order_content">
+
+        <!-- 左边排序区域 -->
+        <div class="order-field" data-order="{{ condition.order_field }}">
+
+            <div class="item order-price">
+                <div class="input hide">
+                    <input type="radio" name="order_field" value="price|asc" data-asc="price|asc" data-desc="price|desc" data-default="asc" data-set="" class="form-radio" />
+                </div>
+                <div class="text">销售价格</div>
+                <div class="ico"><img src="{{ url }}Data/ico/asc.png" class="pic"  data-asc="{{ url }}Data/ico/asc.png" data-desc="{{ url }}Data/ico/desc.png" data-default="price|asc" /></div>
+            </div>
+
+            <div class="item order-publish-time">
+                <div class="input hide">
+                    <input type="radio" name="order_field" value="publish_time|asc" data-asc="publish_time|asc" data-desc="publish_time|desc" data-default="asc" data-set="" class="form-radio" />
+                </div>
+
+                <div class="text">发布时间</div>
+                <div class="ico"><img src="{{ url }}Data/ico/asc.png" class="pic" data-asc="{{ url }}Data/ico/asc.png" data-desc="{{ url }}Data/ico/desc.png" /></div>
+            </div>
+
+        </div>
+
+        <!-- 视图切换 -->
+        <div class="switch-view" data-view="{{ condition.view_type }}">
+            <div class="list item">
+                <div class="input hide"><input type="radio" name="view_type" value="list" class="form-radio" /></div>
+                <div class="explain"><img src="{{ url }}Data/ico/list.png" class="pic" />列表</div>
+            </div>
+            <div class="picture item">
+                <div class="input hide"><input type="radio" name="view_type" value="picture" class="form-radio" /></div>
+                <div class="explain"><img src="{{ url }}Data/ico/picture.png" class="pic" />大图</div>
+            </div>
+        </div>
+
+        <!-- 右边分页区域 -->
+        <div class="brief-page" data-pageData="{{ page_data|json_encode() }}" data-field="cur_page" data-linkTo="{{ url ~ url_path }}">
+            <div class="record-count">共<span class="count-num weight">...</span>条记录</div>
+            <div class="page-info">
+                <span class="cur-page">...</span>&nbsp;/&nbsp;共<span class="total-page">...</span>&nbsp;页
+            </div>
+            <div class="page-func">
+                <div class="brief-prev">&lt;</div>
+                <div class="brief-next">&gt;</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

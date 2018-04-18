@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv='content-type' content='text/html;charset=utf-8' />
+<meta http-equiv='X-UA-Compatible' content='IE=Edge,Chrome=1.0' />
+<meta name='format-detection' content='telephone=no' />
+<meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes' />
+<link rel='stylesheet' href='css/base.css' />
+<link rel='stylesheet' href='css/picPlay_touch.css' />
+
+</head>
+<body>
+<style>
+
+ .pic_turn {
+   width:550px;
+   height:300px;
+   margin-top:15px;
+ }
+
+</style>
+<div id='pic_turn' class='pic_turn'>
+
+   <div class='pic-play'>
+		<div class='images'>
+			<div class='pic-zone'>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/05.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/01.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/02.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/03.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/04.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/05.jpg' class='pic' /></a>
+				<a href='javascript:void(0);' class='pic-link'><img src='images/01.jpg' class='pic' /></a>
+			</div>
+
+			<div class='prev'><img src='{{ front_plugins_url }}PicPlay_Touch/Images/prev.png' class='pic'></div>
+			<div class='next'><img src='{{ front_plugins_url }}PicPlay_Touch/Images/next.png' class='pic'></div>
+		</div>
+
+		<div class='idx-zone hide'></div>
+		<div class='pic-idx-zone hide'></div>
+	</div>
+
+</div>
+	
+<script src='js/SmallJs.js'></script>
+<script src='js/PicPlay_Touch.js'></script>
+<script>
+(function(){
+
+
+/*
+   * 图片轮播
+   * 支持多开 拖动 滚动 下标点击 前后按键点击 切换
+   * 前提： 必须设置容器元素宽度！
+   * @param Element   con           容器元素
+   * @param Number    carTime       动画时间
+   * @param Number    carDuration   定时器时间
+   * @param String    idxType       索引类型 ， 支持 idx | pic_idx 两种
+   * @param String    idxPos        索引的位置，支持 inset | outset 两种
+   * @return undefined
+*/
+//PicPlayTouch($id('pic_turn') , 200 , 3000 , 'pic_idx' , 'inset');
+
+//PicPlayTouch($id('pic_turn1') , 200 , 3000 , 'pic_idx' , 'outset');
+
+console.log(PicPlayTouch(G('#pic_turn').get() , {
+	    carTime: 200 ,             // 动画过度时间
+	    carDuration: 3000 ,        // 定时器时间
+	    idxType: 'idx' ,           // 索引类型
+	    idxPos: 'inset' ,         // 索引位置
+	    enableOprFunc: true ,      // 是否启用 上一张 | 下一张 功能
+	    enableScrollFunc: true ,   // 是否启用滚动功能
+		enableDragFunc: true ,     // 是否开启拖拽功能
+		enableTimerFunc: true      // 是否开启定时轮播功能
+	  }));
+})();
+</script>
+</body>
+</html>

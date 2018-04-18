@@ -1,0 +1,34 @@
+/**
+ * *************************************************
+ * author 陈学龙（grayVTouch） 2018-01-27 11:11:00
+
+ * 图片放大镜
+ * *************************************************
+ */
+.magnifier {
+	
+}
+
+.magnifier .block {
+	position:fixed;
+	width:120px;
+	height:120px;
+	left:0px;
+	top:0px;
+	cursor:move;
+	background-color:red;
+	opacity:0.4;
+	z-index:10;
+}
+
+.magnifier .list {
+	position:fixed;
+	z-index:10;
+	left:0px;
+	top:00px;
+	overflow:hidden;
+}
+
+.magnifier .list .pic {
+	position:relative;
+}

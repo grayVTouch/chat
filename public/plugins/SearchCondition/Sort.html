@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/Component/module.css" />
+    <link rel="stylesheet" href="css/Sort.css" />
+
+    <script src="../js/SmallJs.js"></script>
+</head>
+<body>
+
+<style>
+    body {
+        padding:20px;
+    }
+    body > div {
+        margin-bottom:20px;
+    }
+</style>
+
+<div class="container">
+
+    <!-- 排序 -->
+    <div class="sort" data-field="" data-sort="">
+
+        <div class="item" data-field="price">
+            <div class="explain">销售价格</div>
+            <div class="ico"><img src="" class="pic" data-asc="images/asc.png" data-desc="images/desc.png" /></div>
+        </div>
+
+        <div class="item" data-field="publish_time">
+            <div class="explain">发布时间</div>
+            <div class="ico"><img src="" class="pic" data-asc="images/asc.png" data-desc="images/desc.png" /></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="js/Sort.js"></script>
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var s = new Sort(con.get() , {
+            callback: null
+        });
+    })();
+</script>
+</body>
+</html>

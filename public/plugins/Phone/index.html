@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+
+	<link rel='stylesheet' href='/css/base.css' />
+	<link rel='stylesheet' href='/css/Component/module.css' />
+	<link rel='stylesheet' href='css/Phone.css' />
+</head>
+<body>
+
+<style>
+
+</style>
+
+<div class="container">
+
+	<div class="phone" data-phone='["13375086826","15345093916"]'>
+
+		<div class="add-phone">
+			<div class="left"><input type="text" placeholder="联系电话" class="input"></div>
+			<div class="right">
+				<button type="button" class="btn-1 add">添加</button>
+				<span class="necessary">*</span>
+				<span class="tip">可添加多个，如果项的值为空，则会自动跳过</span>
+			</div>
+		</div>
+
+		<div class="added-phone">
+			<div class="title">预览：</div>
+			<div class="list">
+				<!--
+				已存在的项
+
+				<div class="item">
+					<div class="in">
+						<div class="text"><input type="text" class="input" /></div>
+						<div class="delete">X</div>
+					</div>
+				</div>
+				-->
+
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<script src='/js/SmallJs.js'></script>
+<script src='js/Phone.js'></script>
+
+<script>
+    (function(){
+        "use strict";
+
+        var con = G('.container').first();
+
+        var p = new Phone(con.get() , {
+
+		});
+
+    })();
+</script>
+</body>
+</html>
