@@ -19,4 +19,5 @@ return [
     'login_failed' => '注册失败，请稍后再试' ,
     'land_success' => '登录成功' ,
     'land_failed' => '登录失败' ,
+    'login_out' => '注销成功' ,
 ];

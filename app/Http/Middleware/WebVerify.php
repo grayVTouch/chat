@@ -36,11 +36,19 @@ class WebVerify
     public function verify(){
         // 用户登录验证
         if (!UserVerify::verify()) {
-            $link = url()->action(WEB_ROUTE_PREFIX . 'UserSign@showLand');
+            $platform = isset($_GET['platform']) ? $_GET['platform'] : false;
+
+            if ($platform === 'pc') {
+                $redirect = app_config('app.redirect_for_pc');
+            } else if ($platform === 'admin') {
+                $redirect = app_config('app.redirect_for_admin');
+            } else {
+                $redirect = app_config('app.redirect_for_default');
+            }
 
             // 尚未登录
             // 跳转到登录界面
-            return Message::error(lang("Tip.land_never") , false , $link);
+            return Message::error(lang("Tip.land_never") , false , $redirect);
         }
     }
 }

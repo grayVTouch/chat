@@ -89,6 +89,10 @@
     1. 修改 getEleIdx 为 index
 38 2018-02-01 16:14:00
     1. 修改 SmallJs.scroll 函数，新增 SmallJs.top、SmallJs.bottom 函数等页面滚动处理函数
+39. 2018-05-14 09:26:00
+    1. 新增光标控制函数： getCursorPoint、setCursorPoint、getCursorPointForContentEditableElement、getCursorPointForInput、setCursorPointForInput、setCursorPointForInput
+    2. 新增 isDomm、isDomList 等函数
+    3. 修复元素查找属性查找不到的 bug
 
  命名规则：
  1. 变量：首字母小写 + 驼峰法
@@ -190,9 +194,37 @@
             return document.getElementsByName(selector);
         } ,
 
-        // Css 选择器
-        _cssSelectorAll: function(selector , context){
-            return document.querySelectorAll(selector);
+        // querySelector
+        _querySelector: function(selector , context){
+            return !context ? document.querySelector(selector) : context.querySelector(selector);
+        } ,
+
+        // querySelectorAll 选择器
+        _querySelectorAll: function(selector , context){
+            return !context ? document.querySelectorAll(selector) : context.querySelectorAll(selector);
+        } ,
+
+        // 触发函数原生的事件
+        trigger: function(event){
+            var args = arguments;
+
+            args = SmallJs.toArray(args);
+            args = args.slice(1);
+
+            if (this.isDom(this._curEle)) {
+                this._curEle[event]();
+            } else if (this.isDomList(this._curEle)) {
+                var i   = 0;
+                var cur = null;
+
+                for (; i < this._curEle.length; ++i)
+                {
+                    cur = this._curEle[i];
+                    cur[event]();
+                }
+            } else {
+                throw new Error("操作要求提供 dom 元素或元素集合");
+            }
         } ,
 
         /*
@@ -204,6 +236,8 @@
             var classSelector  = /^\.[A-z0-9_-]+$/;
             var tagSelector    = /^t\..+$/;
             var nameSelector   = /^n\..+$/;
+            var querySelector = /^q:.+$/;
+            var querySelectorAll = /^qa:.+$/;
 
             if (SmallJs.isObj(selector)) {
                 return selector;
@@ -225,7 +259,15 @@
                 return this._nameSelector(selector.substring(2));
             }
 
-            return this._cssSelectorAll(selector , context);
+            if (querySelector.test(selector)) {
+                return this._querySelector(selector.substring(2) , context);
+            }
+
+            if (querySelectorAll.test(selector)) {
+                return this._querySelectorAll(selector.substring(3) , context);
+            }
+
+            throw new Error('当前提供的选择器格式错误：' + selector);
         } ,
 
         // 获取 DOM 元素|集合，可直接使用 Javascript 原生语法
@@ -233,10 +275,256 @@
             return this._curEle;
         } ,
 
+        // 检查元素内滚动条是否在顶部
+        isTop: function(){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            return this._curEle.scrollTop === 0;
+        } ,
+
+        // 检查元素滚动条是否在底部
+        isBottom: function(){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var clientH = this._curEle.clientHeight;
+            var maxH    = this._curEle.scrollHeight;
+            var maxT = maxH - clientH;
+            var curT    = this._curEle.scrollTop;
+
+            // console.log(curT , maxT , curT >= maxT);
+            return curT >= maxT;
+        } ,
+
+        // 检查元素是否在最左边
+        isLeft: function(){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            return this._curEle.scrollLeft === 0;
+        } ,
+
+        // 检查元素是否在最左边
+        isRight: function(){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var clientW = this._curEle.clientWidth;
+            var maxW    = this._curEle.scrollWidth;
+            var maxL    = maxW - clientW;
+            var curL    = this._curEle.scrollLeft;
+
+            if (curL >= maxL) {
+                return true;
+            }
+
+            return false;
+        } ,
+
+        // 文本
+        text: function(text){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            if (SmallJs.isUndefined(text)) {
+                return this._curEle.textContent;
+            }
+
+            this._curEle.textContent = text;
+
+            return this;
+        } ,
+
+        // 值
+        val: function(v){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            if (SmallJs.isUndefined(v)) {
+                return this._curEle.value;
+            }
+
+            this._curEle.value = v;
+
+            return this;
+        } ,
+
+        // html
+        html: function(html , type){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var range = ['inner' , 'outer'];
+            type = G.contain(type , range) ? type : 'inner';
+
+            if (G.isNull(html) || G.isUndefined(html)) {
+                return type === 'inner' ? this._curEle.innerHTML : this._curEle.outerHTML;
+            }
+
+            if (type === 'inner') {
+                this._curEle.innerHTML = html;
+            } else {
+                this._curEle.outerHTML = html;
+            }
+
+            return this;
+        } ,
+
+        // 添加节点
+        append: function(dom){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            this._curEle.appendChild(dom);
+
+            return this;
+        } ,
+
+        // 移除节点
+        remove: function(dom){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            return this._curEle.removeChild(dom);
+        } ,
+
+        // 插入节点
+        insertBefore: function(before , parentNode){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            parentNode.insertBefore(this._curEle , before);
+
+            return this;
+        } ,
+
+        // 滚动到顶部
+        top: function(time , fn){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var x = 0;
+            var y = 0;
+
+            this.scroll(time , 'y' , x , y , fn);
+        } ,
+
+        // 滚动到底部
+        bottom: function(time , fn){
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var clientW = this._curEle.clientWidth;
+            var clientH = this._curEle.clientHeight;
+            var totalW  = this._curEle.scrollWidth;
+            var totalH  = this._curEle.scrollHeight;
+            var endX    = Math.ceil(totalW - clientW);
+            var endY    = Math.ceil(totalH - clientH);
+
+            this.scroll(time , 'y' , endX , endY , fn);
+        } ,
+
+        // 滚动到指定位置
+        scroll: function(time , pos , x , y , fn) {
+            if (!SmallJs.isDOMEle(this._curEle)) {
+                throw new TypeError('操作要求是单元素而非元素集合');
+            }
+
+            var posRange = ['x', 'y', 'all'];
+            var typeRange = ['top', 'bottom'];
+
+            time = G.getValType(time) !== 'Number' ? 300 : time;
+            time = Math.max(0, time);
+            pos = G.contain(pos, posRange) ? pos : 'all';
+
+            // 计算参数
+            var clientW = this._curEle.clientWidth;
+            var clientH = this._curEle.clientHeight;
+            var totalW  = this._curEle.scrollWidth;
+            var totalH  = this._curEle.scrollHeight;
+
+            // x y 范围值
+            var minL = 0;
+            var minH = 0;
+            var maxL = totalW - clientW;
+            var maxH = totalH - clientH;
+
+            // 初始值
+            var startX = this._curEle.scrollLeft;
+            var startY = this._curEle.scrollTop;
+            var sTime = new Date().getTime();
+
+            // 变化量
+            var ratio = 0;
+            var minRatio = 0;
+            var maxRatio = 1;
+            var xRange = x - startX;
+            var yRange = y - startY;
+
+            // 结束值
+            var endX = startX;
+            var endY = startY;
+            var eTime = sTime;
+
+            var self = this;
+
+            // 帧率
+            var freq = 1000 / 60;
+
+            var start = function () {
+                eTime = new Date().getTime();
+                ratio = (eTime - sTime) / time;
+                ratio = Math.max(minRatio, Math.min(maxRatio, ratio));
+
+                endX = startX + xRange * ratio;
+                endY = startY + yRange * ratio;
+
+                if (pos === 'x') {
+                    self._curEle.scrollLeft = endX;
+                    self._curEle.scrollTop = startY;
+                }
+
+                if (pos === 'y') {
+                    self._curEle.scrollLeft = startX;
+                    self._curEle.scrollTop = endY;
+                }
+
+                if (pos === 'all') {
+                    self._curEle.scrollLeft = endX;
+                    self._curEle.scrollTop = endY;
+                }
+
+                if (ratio === maxRatio) {
+                    if (SmallJs.getValType(fn) === 'Function') {
+                        fn();
+                    }
+
+                } else {
+                    window.setTimeout(start, freq);
+                }
+            };
+
+            // 开始执行
+            start();
+        } ,
+
         // 获取属性
         getAttr: function(attr){
             if (!SmallJs.isDOMEle(this._curEle)) {
-                throw new TypeError('获取属性的时候，要求必须是单元素');
+                throw new TypeError('操作要求是单元素而非元素集合');
             }
 
             return this._curEle.getAttribute(attr);
@@ -245,7 +533,7 @@
         // 设置属性
         setAttr: function(attr , value){
             if (!SmallJs.isDOMEle(this._curEle)) {
-                throw new TypeError('获取属性的时候，要求必须是单元素');
+                throw new TypeError('操作要求是单元素而非元素集合');
             }
 
             return this._curEle.setAttribute(attr , value);
@@ -254,7 +542,7 @@
         // 获取|设置数据集属性
         data: function(attr , val){
             if (!SmallJs.isDOMEle(this._curEle)) {
-                throw new TypeError('获取属性的时候，要求必须是单元素');
+                throw new TypeError('操作要求是单元素而非元素集合');
             }
 
             if (G.getValType(val) === 'Undefined') {
@@ -264,6 +552,16 @@
             this._curEle.setAttribute('data-' + attr , val);
 
             return this;
+        } ,
+
+        // 判断是否是 dom 元素
+        isDom: function(){
+            return SmallJs.isDOMEle(this._curEle);
+        } ,
+
+        // 是否是 dom 集合
+        isDomList: function(){
+            return SmallJs.isDOMList(this._curEle);
         } ,
 
         /*
@@ -689,9 +987,10 @@
          * @param  String  type  获取的类型
          * @return Number
          */
-        getDocOffsetVal: function(type){
+        getDocOffsetVal: function(type , until){
             var typeRange = ['left' , 'top' , 'all'];
-            var ele		  = this._curEle;
+            var dom		  = this._curEle;
+            until = SmallJs.isDOMEle(until) ? until : document.body;
 
             if (!SmallJs.contain(type , typeRange)) {
                 throw new TypeError('获取的值的类型不在范围内！支持的范围：' + typeRange.join(' '));
@@ -702,21 +1001,21 @@
             var w		= this.getEleW('border-box');
             var h		= this.getEleH('border-box');
 
-            while (ele !== document.body)
+            while (dom !== until)
             {
-                if (SmallJs.isDOMEle(ele) && SmallJs.getValType(ele.offsetLeft) !== 'Undefined') {
-                    leftVal += ele.offsetLeft;
+                if (SmallJs.isDOMEle(dom) && SmallJs.getValType(dom.offsetLeft) !== 'Undefined') {
+                    leftVal += dom.offsetLeft;
                 }
 
-                if (SmallJs.isDOMEle(ele) && SmallJs.getValType(ele.offsetTop) !== 'Undefined') {
-                    topVal += ele.offsetTop;
+                if (SmallJs.isDOMEle(dom) && SmallJs.getValType(dom.offsetTop) !== 'Undefined') {
+                    topVal += dom.offsetTop;
                 }
 
-                if (ele.offsetParent) {
-                    ele = ele.offsetParent;
-                } else {
+                if (!dom.offsetParent) {
                     break;
                 }
+
+                dom = dom.offsetParent;
             }
 
             switch (type)
@@ -915,7 +1214,7 @@
             }
 
             if (SmallJs.getValType(json) !== 'Object') {
-                throw new TypeError('json 类型错误！');
+                json = {};
             }
 
             if (SmallJs.getValType(isStrict) !== 'Boolean') {
@@ -944,7 +1243,7 @@
 
                 for (key in json)
                 {
-                    attrVal 	 = cur[key];
+                    attrVal 	 = SmallJs.isValidVal(cur[key]) ? cur[key] : cur.getAttribute(key);
                     checkVal 	 = json[key];
                     attrValType  = SmallJs.getValType(attrVal);
                     checkValType = SmallJs.getValType(checkValType);
@@ -1014,7 +1313,7 @@
         parentFind: function(json , until , isStrict ,  isCopy){
 
             if (SmallJs.getValType(json) !== 'Object') {
-                throw new TypeError('json 类型错误！');
+                json = {};
             }
 
             if (!SmallJs.isDOMEle(until)) {
@@ -1043,7 +1342,7 @@
 
                 for (var key in json)
                 {
-                    attrVal  		= pNode[key];
+                    attrVal 	    = SmallJs.isValidVal(pNode[key]) ? pNode[key] : pNode.getAttribute(key);
                     checkVal 		= json[key];
 
                     if (isStrict) {
@@ -1153,7 +1452,7 @@
          */
         childFind: function(json , isStrict , isCopy){
             if (SmallJs.getValType(json) !== 'Object') {
-                throw new TypeError('json 类型错误！');
+                json = {};
             }
 
             if (SmallJs.getValType(isStrict) !== 'Boolean') {
@@ -1187,7 +1486,7 @@
 
                     for (var key in json)
                     {
-                        attrVal  		= cNode[key];
+                        attrVal 	    = SmallJs.isValidVal(cNode[key]) ? cNode[key] : cNode.getAttribute(key);
                         checkVal 		= json[key];
 
                         if (isStrict) {
@@ -2007,6 +2306,138 @@
      * ******************************************
      */
 
+    // 输入域：获取选区范围
+    SmallJs.getSelectionForInput = function(dom){
+        return {
+            startOffset: dom.selectionStart ,
+            endOffset: dom.selectionEnd
+        };
+    };
+
+    // 可编辑的 html：获取选区范围
+    SmallJs.getSelectionForContentEditableElement = function(dom){
+        var selection = window.getSelection();
+
+        if (selection.rangeCount === 0) {
+            return false;
+        }
+
+        var range = selection.getRangeAt(0);
+
+        var cRange = range.cloneRange();
+
+        cRange.selectNodeContents(dom);
+        cRange.setStart(range.startContainer , range.startOffset);
+        cRange.setEnd(range.endContainer , range.endOffset);
+
+        return {
+            startOffset: range.startOffset ,
+            endOffset: range.endOffset
+        };
+    };
+
+    // 获取选区
+    SmallJs.getSelection = function(dom){
+        if (dom.contentEditable !== 'true') {
+            return this.getSelectionForInput(dom);
+        }
+
+        return this.getSelectionForContentEditableElement(dom);
+    };
+
+    // 检查是否存在选区
+    SmallJs.isCollapse = function(dom){
+        dom.focus();
+
+        var selection = window.getSelection();
+        var range = selection.getRangeAt(0);
+        var cRange = range.cloneRange();
+
+        cRange.selectNodeContents(dom);
+        cRange.setStart(range.startContainer , range.startOffset);
+        cRange.setEnd(range.endContainer , range.endOffset);
+
+        return cRange.collapsed;
+    };
+
+    // 获取可编辑元素的光标位置
+    SmallJs.getCursorPointForContentEditableElement = function(dom){
+        var selection = window.getSelection();
+
+        if (selection.rangeCount === 0) {
+            return false;
+        }
+
+        var range = selection.getRangeAt(0);
+        var cRange = range.cloneRange();
+
+        cRange.selectNodeContents(dom);
+        cRange.setEnd(range.endContainer , range.endOffset);
+
+        return cRange.toString().length;
+    };
+
+    // 获取 textarea/input 等带有输入域的文本框的光标位置
+    SmallJs.getCursorPointForInput = function(dom){
+        return dom.selectionEnd;
+    };
+
+    // 获取光标当前位置
+    SmallJs.getCursorPoint = function(dom){
+        if (dom.contentEditable !== 'true') {
+            return this.getCursorPointForInput(dom);
+        }
+
+        return this.getCursorPointForContentEditableElement(dom);
+    };
+
+    // 可编辑 html: 设置光标位置
+    SmallJs.setCursorPointForContentEditableElement = function(dom , pos){
+        dom.focus();
+
+        // 快捷方式
+        var posRange = ['first' , 'last'];
+
+        if (this.contain(pos , posRange)) {
+            if (pos === 'first') {
+                pos = 0;
+            } else {
+                pos = dom.childNodes.length;
+            }
+        }
+
+        var range = document.createRange();
+
+        range.selectNodeContents(dom);
+
+        range.setStart(dom , pos);
+
+        range.collapse(true);
+
+        var selection = window.getSelection();
+
+        selection.removeAllRanges();
+        selection.addRange(range);
+    };
+
+    // 文本域：设置光标位置
+    SmallJs.setCursorPointForInput = function(dom , pos){
+        dom.focus();
+
+        dom.setSelectionRange(pos , pos , 'none');
+    };
+
+    // 设置光标位置
+    SmallJs.setCursorPoint = function(dom , pos){
+        if (dom.contentEditable !== 'true') {
+            this.setCursorPointForInput(dom , pos);
+            return ;
+        }
+
+        this.setCursorPointForContentEditableElement(dom , pos);
+    };
+
+    // 获取某个元素距离给定父元素的位置
     // 滚动到顶部
     SmallJs.top = function (time , pos , fn){
         var x = 0;
@@ -2521,6 +2952,19 @@
      */
     SmallJs.insertBefore = function(newDOM , existsDOM){
         return existsDOM.parentNode.insertBefore(newDOM , existsDOM);
+    };
+
+    // 屏蔽浏览器右键功能
+    SmallJs.contextmenu = function(){
+        if (!this.isUndefined(window._disabledContextMenu__)) {
+            return ;
+        }
+
+        window.oncontextmenu = function(){
+            return false;
+        };
+
+        window._disabledContextMenu_ = true;
     };
 
     /**
@@ -3050,6 +3494,61 @@
         return false;
     };
 
+    /**
+     * 检查是否是函数
+     */
+    SmallJs.isFunction = function(data){
+        return this.getValType(data) === 'Function';
+    };
+
+    /**
+     * 检查是否是字符串
+     */
+    SmallJs.isString = function(data){
+        return this.getValType(data) === 'String';
+    };
+
+    /**
+     * 检查是否是数字
+     */
+    SmallJs.isNumber = function(data){
+        return this.getValType(data) === 'Number';
+    };
+
+    /**
+     * 检查是否是布尔值
+     */
+    SmallJs.isBoolean = function(data){
+        return this.getValType(data) === 'Boolean';
+    };
+
+    /**
+     * 检查是否是 Null
+     */
+    SmallJs.isNull = function(data){
+        return this.getValType(data) === 'Null';
+    };
+
+    /**
+     * 检查是否是 Undefined
+     */
+    SmallJs.isUndefined = function(data){
+        return this.getValType(data) === 'Undefined';
+    };
+
+    /**
+     * 检查是否是 数组
+     */
+    SmallJs.isArray = function(data){
+        return this.getValType(data) === 'Array';
+    };
+
+    /**
+     * 检查是否是 对象
+     * isObj 的别名
+     */
+    SmallJs.isObject = SmallJs.isObj;
+
     /*
      * 正确获取值的类型
      * @param Mixed val 待判断的值
@@ -3396,12 +3895,23 @@
      * @param  Number  end
      * @return Array
      */
-    SmallJs.toArray = function(obj){
+    SmallJs.toArray = function(obj , saveAll){
+        saveAll = this.isBoolean(saveAll) ? saveAll : true;
+
         var arr = [];
 
-        for (var key in obj)
-        {
-            arr.push(obj[key]);
+        if (saveAll) {
+            for (var key in obj)
+            {
+                arr.push(obj[key]);
+            }
+        } else {
+            var i = 0;
+
+            for (; i < obj.length; ++i)
+            {
+                arr.push(obj[i]);
+            }
         }
 
         return arr;
@@ -3556,7 +4066,7 @@
      * 查询字符串解析
      * @return Ojbect 解析后的 key => val 键值对 对象
      */
-    SmallJs.queryStrParse = function(){
+    SmallJs.queryString = function(){
         var str    = decodeURIComponent(window.location.search);
         var result = '';
         var obj    = {};
@@ -6550,6 +7060,9 @@
             username: '' ,							 // http 验证的用户名
             password: '' ,							 // http 验证的密码
             // isUpload: false ,                        // 上传文件还是下载文件！ 决定了事件时定义在上传对象 还是 在下载对象上！
+
+            // 是否允许携带用于区分普通请求 和 ajax 请求的请求头（标识）
+            isAllowAjaxHeader: true
         };
 
         this._xhr				 = new XMLHttpRequest();
@@ -6590,6 +7103,8 @@
 
         this._username			 = !SmallJs.isValidVal(opt['username'])								? this._defaultOpt['username']		: opt['username'];
         this._password			 = !SmallJs.isValidVal(opt['password'])								? this._defaultOpt['password']		: opt['password'];
+
+        this._isAllowAjaxHeader = !SmallJs.isValidVal(opt['isAllowAjaxHeader'])								? this._defaultOpt['isAllowAjaxHeader']		: opt['isAllowAjaxHeader'];
 
         this._run();
     }
@@ -6666,7 +7181,9 @@
 
             // 追加 AJAX 请求标识符头部
             // 这里请求设置有一个要求！不允许使用 _（下划线） ！！只能使用 - （中划线）
-            this._setHeader('AJAX-REQUEST' , true);
+            if (this._isAllowAjaxHeader) {
+                this._setHeader('AJAX-REQUEST' , true);
+            }
         } ,
 
         _open: function(){
@@ -7033,4 +7550,3 @@
 
 
 })(typeof window !== 'undefined' ? window : this);
-

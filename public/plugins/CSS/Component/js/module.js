@@ -153,6 +153,9 @@ var ComponentInput = (function(){
             // 类名
             this._focus     = 'focus-component-input';
             this._nEmpty    = 'not-empty-component-input';
+
+            // 当前状态是 input 焦点状态
+            this._status = 'none';
         } ,
 
         _initStatic: function(){
@@ -174,13 +177,18 @@ var ComponentInput = (function(){
         } ,
 
         // input 获取焦点
-        focus: function(){
+        focus: function(event){
+            event.stopPropagation();
+            this._status = 'focus';
             this.notEmpty();
             this._componentInput.addClass(this._focus);
         } ,
 
         // input 失去焦点
-        blur: function(){
+        blur: function(event){
+            event.stopPropagation();
+
+            this._status = 'blur';
             this._componentInput.removeClass(this._focus);
 
             if (this._input.get().value === '') {
@@ -199,6 +207,11 @@ var ComponentInput = (function(){
         } ,
 
         _keyUp: function(){
+            // 选中状态不做任何处理
+            if (this._status === 'focus') {
+                return ;
+            }
+
             if (this._input.get().value !== '') {
                 this.notEmpty();
             } else {

@@ -9,5 +9,8 @@
  */
 
 return [
-    '001' => 'hello boys and girls' ,
+    'system' => '顽喵' ,
+    'service' => '顽喵客服' ,
+    'logo'  => URL . 'public/data/ico/logo.png' ,
+    'image_url' => URL
 ];

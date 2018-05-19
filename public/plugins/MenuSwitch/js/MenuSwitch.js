@@ -13,6 +13,7 @@ var MenuSwitch = (function(){
         }
 
         this._defaultOpt = {
+            // 默认展示的界面
             identifier: '' ,
             // 项点击后回调
 			clickFn: null ,

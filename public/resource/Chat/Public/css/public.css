@@ -1,0 +1,1829 @@
+/**
+ * *********
+ * 通用设置
+ * *********
+ */
+.body-left , .body-right {
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -o-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+}
+
+.body-left {
+    position:absolute;
+    left:0px;
+    top:0px;
+    min-height:200px;
+    background-color:#f8f8f8;
+    overflow:hidden;
+    border-right:1px solid #c6c6c6;
+}
+.body-left > .in {
+    width:200px;
+}
+
+.body-left .rooms {
+
+}
+
+.body-left .system-flag {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height:30px;
+    line-height:30px;
+    color:#555;
+    font-size:12px;
+    background-color:#eaeaea;
+    text-align:center;
+}
+
+.body-right {
+    margin-left:201px;
+}
+
+/**
+ * ************
+ * 左边客服设置
+ * ************
+ */
+.body-left {
+
+}
+
+.body-left .logo {
+    height:40px;
+    line-height:40px;
+    font-size:14px;
+    background-color:#ddd;
+    position:relative;
+}
+
+.body-left .logo .ico {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:40px;
+    height:100%;
+    text-align:center;
+}
+
+.body-left .logo .ico .image {
+    width:28px;
+    height:28px;
+}
+
+.body-left .logo .text {
+    margin-left:40px;
+    padding-left:10px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/**
+ * **************
+ * 用户信息
+ * **************
+ */
+.body-left .user-info {
+    background-color:#f8f8f8;
+}
+
+.body-left .user-info .thumb {
+    position:relative;
+    height:140px;
+}
+
+.body-left .user-info .thumb .in {
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:120px;
+    height:120px;
+    border-radius:120px;
+    overflow:hidden;
+    transform:translate(-50% , -50%);
+    -webkit-transform:translate(-50% , -50%);
+    -moz-transform:translate(-50% , -50%);
+    -ms-transform:translate(-50% , -50%);
+    -o-transform:translate(-50% , -50%);
+}
+
+.body-left .user-info .thumb .in > * {
+    width:100%;
+    height:100%;
+}
+
+.body-left .user-info .thumb .in .thumb-preview .image {
+    width:100%;
+    min-height:100%;
+}
+
+.body-left .user-info .thumb .in .fade-in {
+    position:absolute;
+    top:0px;
+    left:0px;
+    opacity:0;
+    background-color:black;
+}
+
+.body-left .user-info .explain {
+    text-align:center;
+    height:24px;
+    font-size:14px;
+    color:#555;
+}
+
+/**
+ * ***************
+ * 伸缩块
+ * ***************
+ */
+
+.body-left .stretch-block {
+    background-color:#eaeaea;
+}
+
+.body-left .stretch-block .horizontal .in .line , .body-left .stretch-block .vertical .in .line {
+    background-color:#a3a3a3;
+}
+
+.body-left .stretch-block:hover .horizontal .in .line, .body-left .stretch-block:hover .vertical .in .line {
+    background-color:#c4c4c4;
+}
+
+
+/*** 伸缩块 ***/
+.body-left .stretch-block:hover .horizontal .in .line , .body-left .stretch-block:hover .vertical .in .line {
+    background-color:#999999;
+}
+
+.body-left .stretch-block>*  {
+    height:28px;
+    position:relative;
+    cursor:pointer;
+}
+
+.body-left .stretch-block .horizontal {
+
+}
+
+.body-left .stretch-block .vertical {
+
+}
+
+.body-left .stretch-block .horizontal .in , .body-left .stretch-block .vertical .in {
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate3d(-50% , -50% , 0px);
+    -webkit-transform:translate3d(-50% , -50% , 0px);
+    -moz-transform:translate3d(-50% , -50% , 0px);
+    -ms-transform:translate3d(-50% , -50% , 0px);
+    -otransform:translate3d(-50% , -50% , 0px);
+}
+
+.body-left .stretch-block .horizontal .in:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-left .stretch-block .horizontal .in .line {
+    float:left;
+    width: 3px;
+    height: 12px;
+    margin-right:3px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+    background-color: #868686;
+}
+
+.body-left .stretch-block .horizontal .in .line:nth-last-of-type(1) {
+    margin-right:0px;
+}
+
+.body-left .stretch-block .vertical {
+    width:40px;
+    margin:0px;
+}
+
+.body-left .stretch-block .vertical .in {
+
+}
+
+.body-left .stretch-block .vertical .in .line {
+    background-color: #868686;
+    margin-bottom:3px;
+    width:12px;
+    height:2px;
+    transition:all 0.12s linear;
+    -webkit-transition:all 0.12s linear;
+    -moz-transition:all 0.12s linear;
+    -ms-transition:all 0.12s linear;
+    -o-transition:all 0.12s linear;
+}
+
+.body-left .stretch-block .vertical .in .line:nth-last-of-type(1) {
+    margin-bottom:0px;
+}
+
+
+/**
+ * ***************
+ * 我的房间
+ * ***************
+ */
+.body-left .rooms {
+
+}
+
+.body-left .rooms .header {
+    padding:0px 10px;
+    background-color:#ccc;
+}
+
+.body-left .rooms .header:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+.body-left .rooms .header > * {
+    height:40px;
+    line-height:40px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-left .rooms .header .title {
+    float:left;
+    font-size:13px;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-left .rooms .header .title:hover {
+
+}
+
+.body-left .rooms .header .search {
+    float:right;
+    line-height:40px;
+}
+
+
+.body-left .rooms .header .search .input {
+    margin-top:8px;
+    width: 105px;
+    height:24px;
+    position:relative;
+    background-color:white;
+}
+
+.body-left .rooms .header .search .input .image {
+    width:18px;
+    height:18px;
+    position:absolute;
+    right:5px;
+    top:50%;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.body-left .rooms .header .search .input .text {
+    width: 77px;
+    height:100%;
+    display:block;
+    font-size:12px;
+    border:none;
+    padding:0px;
+    background-color:transparent;
+}
+
+.body-left .rooms .header .search .input .text:focus {
+    box-shadow:none;
+    border-color:transparent;
+}
+
+.body-left .rooms .items {
+    min-height:300px;
+    position:relative;
+}
+
+.body-left .rooms .items .item {
+    height:50px;
+    position:relative;
+    background-color:#eee;
+    cursor:pointer;
+    border-bottom:1px solid #ddd;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-left .rooms .items .item:nth-last-of-type(1) {
+    border-bottom:none;
+}
+
+.body-left .rooms .items .item:hover {
+    background-color:#ddd;
+}
+
+.body-left .rooms .items .item > * {
+    height:50px;
+    line-height:50px;
+}
+
+.body-left .rooms .items .item .ico {
+    width:40px;
+    text-align:center;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+.body-left .rooms .items .item .ico .image {
+    width:28px;
+    height:28px;
+}
+
+.body-left .rooms .items .item .content {
+    margin-left:40px;
+    position:relative;
+}
+
+.body-left .rooms .items .item .content > * {
+
+}
+
+.body-left .rooms .items .item .content .name {
+    font-size:12px;
+    color:#555;
+    font-weight:bold;
+    margin-right:40px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.body-left .rooms .items .item .content .status {
+    position:absolute;
+    top:50%;
+    right:0px;
+    text-align: center;
+    width: 40px;
+    /* padding-right:5px; */
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.body-left .rooms .items .item .content .status .image {
+    width:20px;
+    height:20px;
+}
+
+/**
+ * *************
+ * 右边：顶部导航栏
+ * *************
+ */
+.body-right .top-nav {
+    height:40px;
+    font-size:14px;
+    background-color:#eee;
+}
+
+.body-right .top-nav:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .top-nav > * {
+    height:100%;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .top-nav > *:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .top-nav > * .function {
+    float:left;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .top-nav > * .function:hover {
+    background-color:#ddd;
+}
+
+.body-right .top-nav > * .function:hover::before {
+    /*background-color:transparent;*/
+}
+
+.body-right .top-nav > * .function:before {
+    display:block;
+    content:'';
+    width:1px;
+    height:12px;
+    background-color:#58b5dd;
+    position:absolute;
+    right:0px;
+    top:50%;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .top-nav > * .function:nth-last-of-type(1)::before {
+    display:none;
+}
+
+/*** 顶部导航栏：左边 ***/
+.body-right .top-nav .left-functions {
+    float:left;
+}
+
+.body-right .top-nav .left-functions .function {
+
+}
+
+.body-right .top-nav .left-functions .stretch-control {
+    width:40px;
+    text-align:center;
+    line-height:40px;
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .top-nav .left-functions .stretch-control:hover {
+    background-color:#dbdbdb;
+}
+
+.body-right .top-nav .left-functions .stretch-control.spread .image {
+    transform:rotateZ(180deg);
+    -webkit-transform:rotateZ(180deg);
+    -moz-transform:rotateZ(180deg);
+    -ms-transform:rotateZ(180deg);
+    -o-transform:rotateZ(180deg);
+}
+
+.body-right .top-nav .left-functions .stretch-control .image {
+    width:24px;
+    height:24px;
+}
+
+/*** 顶部导航栏：右边 ***/
+.body-right .top-nav .right-functions {
+    float:right;
+}
+
+.body-right .top-nav .right-functions .function {
+    font-size:12px;
+    color:#555;
+    line-height:40px;
+    padding:0px 10px;
+    cursor:pointer;
+    position:relative;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .top-nav .right-functions .function .image {
+    width:24px;
+    height:24px;
+    margin-right:8px;
+}
+
+.body-right .top-nav .right-functions .room-user-control .status {
+    width:16px;
+    height:auto;
+    margin-left:5px;
+}
+
+.body-right .top-nav .right-functions .user {
+    position:relative;
+}
+
+.body-right .top-nav .right-functions .user .info {
+    font-size:12px;
+    color:#555;
+    line-height:40px;
+    padding:0px 10px;
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .top-nav .right-functions .user .info:hover {
+    background-color:#ddd;
+}
+
+.body-right .top-nav .right-functions .user .info .image {
+    width:24px;
+    height:24px;
+    margin-right:8px;
+}
+
+.body-right .top-nav .right-functions .user .operation {
+    position:absolute;
+    bottom:-10px;
+    right:0px;
+    opacity:0;
+    padding:10px 0px;
+    transform:translate(0% , 100%);
+    background-color: #ddd;
+    z-index:1000;
+}
+
+.body-right .top-nav .right-functions .user .operation .item {
+    min-width:80px;
+    height:30px;
+    line-height:30px;
+    padding-left:10px;
+    font-size:12px;
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .top-nav .right-functions .user .operation .item:hover {
+    background-color:#eee;
+}
+
+/**
+ * ***************
+ * 右边：功能列表
+ * ***************
+ */
+.body-right .functions {
+    position:relative;
+}
+
+.body-right .functions > * {
+    height:100%;
+    overflow:hidden;
+    overflow-y:auto;
+    border-right:1px solid #c6c6c6;
+}
+
+.body-right .functions > *:nth-last-of-type(1) {
+    border-right:none;
+}
+
+/***我的会话***/
+.body-right .functions .sessions {
+    width:260px;
+    position:absolute;
+    left:0px;
+}
+
+.body-right .functions .sessions .header {
+    padding:0px 10px;
+    background-color:#ccc;
+}
+
+.body-right .functions .sessions .header:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+.body-right .functions .sessions .header > * {
+    height:40px;
+    line-height:40px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .sessions .header .title {
+    float:left;
+    font-size:13px;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .functions .sessions .header .search {
+    float:right;
+    line-height:40px;
+}
+
+.body-right .functions .sessions .header .search .input {
+    margin-top:8px;
+    width:160px;
+    height:24px;
+    position:relative;
+    background-color:white;
+}
+
+.body-right .functions .sessions .header .search .input .image {
+    width:18px;
+    height:18px;
+    position:absolute;
+    right:5px;
+    top:50%;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.body-right .functions .sessions .header .search .input .text {
+    width:132px;
+    height:100%;
+    display:block;
+    font-size:12px;
+    border:none;
+    padding:0px;
+    background-color:transparent;
+}
+
+.body-right .functions .sessions .header .search .input .text:focus {
+    box-shadow:none;
+    border-color:transparent;
+}
+
+.body-right .functions .sessions .items {
+    position:relative;
+    min-height:300px;
+}
+
+.body-right .functions .sessions .items .item {
+    height:50px;
+    padding:5px;
+    position:relative;
+    background-color:#eee;
+    cursor:pointer;
+    border-bottom:1px solid #ddd;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .functions .sessions .items .item:nth-last-of-type(1) {
+    border-bottom:none;
+}
+
+.body-right .functions .sessions .items .item:hover {
+    background-color:#ddd;
+}
+
+.body-right .functions .sessions .items .item.cur {
+    background-color:#ddd;
+}
+
+.body-right .functions .sessions .items .item .ico {
+    width:40px;
+    height:50px;
+    text-align:center;
+    position:absolute;
+    left:5px;
+    top:5px;
+}
+
+.body-right .functions .sessions .items .item .ico .thumb {
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50% , -50%);
+    width:28px;
+    height:28px;
+}
+
+.body-right .functions .sessions .items .item-for-new-msg .thumb:after {
+    display:block;
+    content:'';
+    width:10px;
+    height:10px;
+    position:absolute;
+    right:0px;
+    top:0px;
+    border-radius:20px;
+    background-color:red;
+}
+
+
+.body-right .functions .sessions .items .item .ico .thumb .image {
+    width:100%;
+    height:100%;
+}
+
+.body-right .functions .sessions .items .item .content {
+    margin-left:40px;
+    position:relative;
+}
+
+.body-right .functions .sessions .items .item .content > * {
+
+}
+
+.body-right .functions .sessions .items .item .content .info {
+    width:140px;
+    margin-left:0px;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+.body-right .functions .sessions .items .item .content .info > * {
+    width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.body-right .functions .sessions .items .item .content .info .name {
+    height:25px;
+    line-height:25px;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg , .body-right .functions .sessions .items .item .content .flag .status {
+    height:25px;
+    line-height:25px;
+}
+
+.body-right .functions .sessions .items .item .content .info .name {
+    font-size:14px;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg {
+    font-size:12px;
+    color:gray;
+    position:relative;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg > * {
+    display:inline-block;
+    zoom:1;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg .status {
+    width:25px;
+    height:100%;
+    text-align:center;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg .hide {
+    display:none;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg .status .image {
+    width:16px;
+    height:16px;
+}
+
+.body-right .functions .sessions .items .item .content .info .msg .object {
+
+}
+
+.body-right .functions .sessions .items .item .content .flag {
+    margin-left:140px;
+    padding-right:15px;
+}
+
+.body-right .functions .sessions .items .item .content .flag > * {
+    text-align:right;
+}
+
+.body-right .functions .sessions .items .item .content .flag .time {
+    height:25px;
+    line-height:25px;
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.body-right .functions .sessions .items .item .content .flag .status {
+    height:25px;
+    line-height:25px;
+}
+
+.body-right .functions .sessions .items .item .content .flag .status .image {
+    width:20px;
+    height:20px;
+}
+
+/**
+ * *************
+ * 聊天窗口
+ * *************
+ */
+.body-right .functions .chat-window {
+    position:absolute;
+    width:500px;
+    left:261px;
+    top:0px;
+    overflow: visible;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+
+.body-right .functions .chat-window .windows {
+
+}
+
+.body-right .functions .chat-window .windows .window {
+
+}
+
+.body-right .functions .chat-window .windows .window > * {
+    padding:0px 10px;
+}
+
+/*** 聊天窗口：聊天标题 ***/
+.body-right .functions .chat-window .windows .window .header {
+    height:40px;
+    line-height:40px;
+    border-bottom:1px solid #c6c6c6;
+}
+
+.body-right .functions .chat-window .windows .window .heade:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .functions .chat-window .windows .window .header > * {
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .chat-window .windows .window .header .subject {
+    font-size:14px;
+    float:left;
+}
+
+.body-right .functions .chat-window .windows .window .header .other {
+    float:right;
+}
+
+/*** 聊天窗口：历史记录 ***/
+.body-right .functions .chat-window .windows .window .history {
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #ccc;
+}
+
+.body-right .functions .chat-window .windows .window .history .view-more {
+    text-align:center;
+    margin-bottom:10px;
+    height:24px;
+    line-height:22px;
+}
+
+.body-right .functions .chat-window .windows .window .history .view-more .image {
+    width:16px;
+
+}
+
+.body-right .functions .chat-window .windows .window .history .view-more .view-more-btn {
+    font-size:12px;
+    color:#018bf1;
+    cursor:pointer;
+    padding:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list {
+    height:350px;
+    overflow-x:hidden;
+    overflow-y:auto;
+    position:relative;
+}
+
+/*** 新成员加入提示 ***/
+.body-right .functions .chat-window .windows .window .history .list .user-join-notice {
+    text-align:center;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .user-join-notice .in {
+    padding: 6px 8px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:12px;
+    background-color:#CFEACD;
+    display:inline-block;
+    zoom:1;
+    border-radius:3px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .user-join-notice .image {
+    width: 16px;
+    height: 16px;
+    margin-right:5px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .user-join-notice .username {
+    padding:0px 5px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .hide {
+    display:none;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line {
+    position:relative;
+    min-height:40px;
+    margin-bottom:15px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line:nth-last-of-type(1) {
+    margin-bottom:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line > * {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .thumb {
+    position:absolute;
+    width:40px;
+    height:40px;
+    border-radius:40px;
+    overflow:hidden;
+    text-align:center;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .thumb .image {
+    width:100%;
+    height:100%;
+    vertical-align:top;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info > * {
+    margin-bottom:10px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info > *:nth-last-of-type(1) {
+    margin-bottom:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .user {
+    font-size:12px;
+    color:#999;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .user > * {
+    margin-right:5px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .user > *:nth-last-of-type(1) {
+    margin-right:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object {
+    display:inline-block;
+    border-radius:2px;
+    padding:8px;
+    position:relative;
+    font-size:14px;
+    color:#555;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 5px;
+    width: 0px;
+    height: 0px;
+    transform: translate(-100%, 0%);
+    -webkit-transform: translate(-100%, 0%);
+    -moz-transform: translate(-100%, 0%);
+    -ms-transform: translate(-100%, 0%);
+    -o-transform: translate(-100%, 0%);
+}
+
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .image-for-status {
+    width:24px;
+    height:24px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .image-for-history {
+    max-width:300px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    z-index:1;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status > * {
+    width:100%;
+    height:100%;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .loading {
+    background-color:black;
+    opacity:0.5;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .error {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .error .background {
+    background-color:black;
+    opacity:0.5;
+    width:100%;
+    height:100%;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .error .image {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .loading .u-loading {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .status .image-for-file-status {
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:60px;
+    transform:translate(-50% , -50%);
+    -webkit-transform:translate(-50% , -50%);
+    -moz-transform:translate(-50% , -50%);
+    -ms-transform:translate(-50% , -50%);
+    -o-transform:translate(-50% , -50%);
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .flag {
+    min-width:250px;
+    text-align:center;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .flag .image-for-file {
+    width:80px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .filename {
+    padding:2px 0px;
+    text-align:center;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .tip {
+    font-size:12px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .line .info .tip .tip-text {
+    display:inline-block;
+    background-color:red;
+    padding:3px 12px;
+    color:white;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .other {
+
+}
+
+
+.body-right .functions .chat-window .windows .window .history .list .other .thumb {
+    left:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .other .info {
+    margin-left:55px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .other .info .msg .object {
+    background-color:#e1e1e1;
+    margin-right:50px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .other .info .msg .object::after {
+    left:0px;
+    border-right: 10px solid #e1e1e1;
+    border-top: 0px solid transparent;
+    border-bottom:10px solid transparent;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .thumb {
+    right:0px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info {
+    margin-right:55px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info > * {
+    text-align:right;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .user {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .msg {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .msg .object {
+    background-color: #58b5dd;
+    color: white;
+    text-align:left;
+    margin-left:50px;
+    word-break:break-all;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .msg .object .image-for-status {
+    position:absolute;
+    left:-12px;
+    top:50%;
+    transform:translate(-100% , -50%);
+    -webkit-transform:translate(-100% , -50%);
+    -moz-transform:translate(-100% , -50%);
+    -ms-transform:translate(-100% , -50%);
+    -o-transform:translate(-100% , -50%);
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .msg .object .hide {
+    display:none;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .self .info .msg .object::after {
+    right:1px;
+    border-left: 10px solid #58b5dd;
+    border-top: 0px solid transparent;
+    border-bottom:10px solid transparent;
+    transform:translate(100% , 0%);
+    -webkit-transform:translate(100% , 0%);
+    -moz-transform:translate(100% , 0%);
+    -ms-transform:translate(100% , 0%);
+    -o-transform:translate(100% , 0%);
+}
+
+/***图片无边框***/
+.body-right .functions .chat-window .windows .window .history .list .chat-image {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-image .info .msg .object {
+    padding:0px;
+    cursor:pointer;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-image .info .msg .object::after {
+    display:none;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-file .info .msg .object {
+    cursor:pointer;
+}
+
+/*** 聊天窗口：输入区域 ***/
+.body-right .functions .chat-window .chat {
+    padding:0px;
+}
+
+.body-right .functions .chat-window .chat .pannel {
+    height:40px;
+    border-bottom:1px solid #ccc;
+    padding:0px 20px;
+}
+
+.body-right .functions .chat-window .chat .pannel:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .functions .chat-window .chat .pannel > * {
+    float:left;
+    height:100%;
+    line-height:40px;
+    margin-right:12px;
+    cursor:pointer;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .chat-window .chat .pannel > *:nth-last-of-type(1) {
+    margin-right:0px;
+}
+
+.body-right .functions .chat-window .chat .pannel > * .ico .image {
+    width:24px;
+    height:24px;
+}
+
+.body-right .functions .chat-window .chat .pannel .face {
+    position:relative;
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list {
+    border:1px solid #58b5dd;
+    width:336px;
+    padding: 10px;
+    position:absolute;
+    top:0px;
+    left:0px;
+    margin-left:12px;
+    transform:translate(-50% , -100%);
+    -webkit-transform:translate(-50% , -100%);
+    -moz-transform:translate(0% , -100%);
+    -ms-transform:translate(0% , -100%);
+    -o-transform:translate(0% , -100%);
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list .c-item {
+    float:left;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list {
+    background-color:white;
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list .c-item {
+    width:28px;
+    height:28px;
+    line-height:28px;
+    text-align:center;
+}
+
+.body-right .functions .chat-window .chat .pannel .face .list .c-item .image {
+    width:24px;
+    height:24px;
+}
+
+.body-right .functions .chat-window .chat .input {
+    padding:12px;
+    width:100%;
+    height:160px;
+    border-bottom:1px solid #ccc;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    overflow-x:hidden;
+    overflow-y:visible;
+}
+
+.body-right .functions .chat-window .chat .input .image {
+    width:28px;
+}
+
+.body-right .functions .chat-window .chat .btns {
+    text-align:right;
+    padding:8px;
+}
+
+/**
+ * *************************
+ * 聊天室成员
+ * *************************
+ */
+.body-right .functions .room-user {
+    position:absolute;
+    top:0px;
+    left:761px;
+    overflow:hidden;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .room-user .in {
+    width:220px;
+    height:100%;
+    position:relative;
+}
+
+.body-right .functions .room-user .in .user-group {
+
+}
+
+.body-right .functions .room-user .in .user-group .group {
+    min-height:300px;
+    position:relative;
+}
+
+/*** 聊天室成员：标题 + 搜索 ***/
+.body-right .functions .room-user .in .user-group .group .header {
+    padding:0px 10px;
+    background-color:#ccc;
+}
+
+.body-right .functions .room-user .in .user-group .group .header:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+.body-right .functions .room-user .in .user-group .group .header > * {
+    height:40px;
+    line-height:40px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .room-user .in .user-group .group .header .title {
+    float:left;
+    font-size:13px;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .functions .room-user .in .user-group .group .header .search {
+    float:right;
+    line-height:40px;
+}
+
+.body-right .functions .room-user .in .user-group .group .header .search .input {
+    margin-top:8px;
+    width:120px;
+    height:24px;
+    position:relative;
+    background-color:white;
+}
+
+.body-right .functions .room-user .in .user-group .group .header .search .input .image {
+    width:18px;
+    height:18px;
+    position:absolute;
+    right:5px;
+    top:50%;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.body-right .functions .room-user .in .user-group .group .header .search .input .text {
+    width:92px;
+    height:100%;
+    display:block;
+    font-size:12px;
+    border:none;
+    padding:0px;
+    background-color:transparent;
+}
+
+.body-right .functions .room-user .in .user-group .group .header .search .input .text:focus {
+    box-shadow:none;
+    border-color:transparent;
+}
+
+/*** 聊天室成员：状态信息 ***/
+.body-right .functions .room-user .in .user-group .group > .title {
+    height:40px;
+    line-height:40px;
+    padding:0px 10px;
+    font-size:14px;
+    border-bottom:1px solid #ccc;
+}
+
+.body-right .functions .room-user .in .user-group .group .users {
+    position:relative;
+    min-height:300px;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user {
+    padding:5px;
+    height:40px;
+    line-height:40px;
+    font-size:12px;
+    cursor:pointer;
+    border-bottom:1px solid #ccc;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user:nth-last-of-type(1) {
+    border-bottom:none;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user:hover {
+    background-color:#fafafa;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user > * {
+    height:100%;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .info {
+    float:left;
+    position:relative;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .info .thumb {
+    position:absolute;
+    left:0px;
+    top:50%;
+    width:28px;
+    height:28px;
+    border-radius:30px;
+    overflow:hidden;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .info .thumb .image {
+    width:100%;
+    min-height:100%;
+    vertical-align:top;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .info .name {
+    margin-left:35px;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .status {
+    float:right;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .status.on {
+    color:green;
+}
+
+.body-right .functions .room-user .in .user-group .group .users .user .status.off {
+    color:red;
+}
+
+/**
+ * *****************
+ * 关联物品
+ * *****************
+ */
+.body-right .functions .things {
+    margin-left:761px;
+    min-width:300px;
+    min-height:400px;
+    position:relative;
+}
+
+/*** 表格个性化定义 ***/
+.body-right .functions .things .column-tb {
+    border-left:none;
+    border-right:none;
+}
+
+.body-right .functions .things {
+
+}
+
+.body-right .functions .things .list {
+
+}
+
+.body-right .functions .things .list > * {
+    margin-bottom:20px;
+    border-top:1px solid #ccc;
+}
+
+.body-right .functions .things .list > *:nth-of-type(1) {
+    border-top:none;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things {
+    padding:8px;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order {
+    position:relative;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order > * {
+    height:80px;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .left {
+    width:80px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    overflow:hidden;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .left .image {
+    width:100%;
+    min-height:100%;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right {
+    margin-left:80px;
+    padding-left:12px;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right > * {
+
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .top {
+    font-size:12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    height:30px;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .btm {
+    height:50px;
+    line-height:50px;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .btm:after {
+    display:block;
+    content:'';
+    clear:both;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .btm > * {
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .btm .price {
+    float:left;
+}
+
+.body-right .functions .things .list .room-for-things .part .c-items .advoise-things .order .right .btm .btns {
+    float:right;
+}
+
+/**
+ * ****************
+ * 尚无数据
+ * ****************
+ */
+.empty {
+    text-align:center;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    padding:10px 0px;
+    /*
+    position:absolute;
+    left:50%;
+    top:50%;
+    text-overflow:ellipsis;
+    transform:translate(-50% , -50%);
+    -webkit-transform:translate(-50% , -50%);
+    -moz-transform:translate(-50% , -50%);
+    -ms-transform:translate(-50% , -50%);
+    -o-transform:translate(-50% , -50%);
+    */
+}
+
+.empty-for-stretch {
+    width:40px;
+    margin:0px;
+    /*
+    left:0px;
+    transform:translate(0% , -50%);
+    -webkit-transform:translate(0% , -50%);
+    -moz-transform:translate(0% , -50%);
+    -ms-transform:translate(0% , -50%);
+    -o-transform:translate(0% , -50%);
+    */
+}
+
+.empty .image {
+    width:40px;
+    margin-right:8px;
+}
+
+/**
+ * ********************
+ * 聊天室右键会话弹层
+ * ********************
+ */
+.right-key-floor {
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1000;
+    padding:10px 0px;
+    background-color:#5e5e5e;
+}
+
+.right-key-floor .item {
+    height:30px;
+    line-height:30px;
+    padding:0px 10px;
+    font-size:13px;
+    color:white;
+    cursor:pointer;
+    transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -ms-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+}
+
+.right-key-floor .item:hover {
+    background-color:red;
+}
+
+/**
+ * *******************
+ * 加载函数个性化定义
+ * *******************
+ */
+.timer-loader {
+    vertical-align: top;
+    top: -12px;
+    transform: scale(0.5 , 0.5);
+    -webkit-transform: scale(0.5 , 0.5);
+    -moz-transform: scale(0.5 , 0.5);
+    -ms-transform: scale(0.5 , 0.5);
+    -o-transform: scale(0.5 , 0.5);
+}
+
+/**
+ * *************
+ * 默认展示界面
+ * *************
+ */
+.default {
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50% , -50%);
+    -webkit-transform:translate(-50% , -50%);
+    -moz-transform:translate(-50% , -50%);
+    -ms-transform:translate(-50% , -50%);
+    -o-transform:translate(-50% , -50%);
+}
+
+.default .in {
+    display:inline-block;
+    font-size:13px;
+}
+
+.default .in .image {
+    width:30px;
+    margin-right:15px;
+}
+
+/**
+ * ***********
+ * 订单弹层
+ * ***********
+ */
+.layer-floor {
+    padding:20px;
+}
+
+.layer-floor .hide {
+    display:none !important;
+}
+
+/**
+ * ************************
+ * column table做一定的修改
+ * ************************
+ */
+.column-tb {
+
+}
+
+.column-tb tbody tr td {
+    overflow:hidden;
+}
+
+.column-tb tbody tr td:nth-of-type(1) {
+    width:100px;
+    padding-left:20px;
+}
+
+/**
+ * ****************
+ * 标题个性化定义
+ * ****************
+ */
+.component-title {
+    border-left:none;
+    border-right:none;
+}

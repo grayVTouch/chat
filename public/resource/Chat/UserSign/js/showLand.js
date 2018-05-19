@@ -121,13 +121,7 @@
         var success = function(msg){
             setCompletedStatus();
 
-            layer.msg(msg , {
-                success: function(){
-                    window.setTimeout(function(){
-                        window.location.href = topContext['url'];
-                    } , 2000);
-                }
-            });
+            window.location.href = topContext['url'];
         };
 
         // 请求失败
@@ -135,7 +129,7 @@
             setCompletedStatus();
 
             layer.msg(msg , {
-                time: 1200
+                time: topContext['tipTime']
             });
         };
 
@@ -154,7 +148,7 @@
             success: function(json){
                 var data = G.jsonDecode(json);
 
-                if (data['status'] === 'failed') {
+                if (data['status'] === 'error') {
                     fail(data['msg']);
                 } else {
                     success(data['msg']);

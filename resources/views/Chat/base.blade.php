@@ -15,6 +15,7 @@
 
             <link rel='shortcut icon' href='{{ $data_url }}ico/logo.png' />
             <link rel='stylesheet' href='{{ $plugin_url }}CSS/base.css?version={{ app_config('app.version') }}' />
+            <link rel='stylesheet' href='{{ $plugin_url }}CSS/Component/loading.css?version={{ app_config('app.version') }}' />
             <link rel='stylesheet' href='{{ $plugin_url }}CSS/Component/module.css?version={{ app_config('app.version') }}' />
 
             @yield('linkAddPart')

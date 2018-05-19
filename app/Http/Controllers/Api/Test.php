@@ -11,9 +11,6 @@ namespace App\Http\Controllers\Api;
 class Test extends Controller
 {
     public function index(){
-        $res = config_('Api.business.room_type');
-        $res = config_('Api.business.user_type');
 
-        var_dump($res);
     }
 }

@@ -28,12 +28,13 @@ class Autoload
         $register = [
             'class' => [
                 // 个人类库
-                "Core\Lib\\" => "{$base_dir}public/core/Lib/"
+                "Core\Lib\\" => "{$base_dir}public/core/Lib/" ,
+                "Core\System\\" => "{$base_dir}public/core/System/" ,
             ] ,
             'file' => [
                 // 系统工具函数
                 "{$base_dir}app/Tool/tool.php" ,
-                "{$base_dir}app/Tool/view.php" ,
+                "{$base_dir}app/Tool/currency.php" ,
 
                 // 个人函数库
                 "{$base_dir}public/core/Function/array.php" ,

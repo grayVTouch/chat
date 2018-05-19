@@ -12,6 +12,36 @@ namespace App\Http\Controllers\Chat;
 class Index extends Controller
 {
     public function index(){
-        return view(CONTROLLER_VIEW_PREFIX . 'index');
+        $data = [];
+
+        // 要创建的聊天室类型
+        $data['room_type']  = isset($_GET['room_type'])      ? $_GET['room_type'] : '';
+        // 如果是订单咨询，请提供 order_id
+        $data['order_id']   = isset($_GET['order_id'])  ? $_GET['order_id'] : '';
+
+        $view_data = [];
+        $view_data['user'] = user();
+        $view_data = array_merge($view_data , $data);
+
+        // print_r($view_data);
+
+
+        return view(CONTROLLER_VIEW_PREFIX . 'index' , $view_data);
+    }
+
+    // 查看测试页面（用于填充模板）
+    public function test(){
+        $data = [];
+
+        // 要创建的聊天室类型
+        $data['room_type']  = isset($_GET['room_type'])      ? $_GET['room_type'] : '';
+        // 如果是订单咨询，请提供 order_id
+        $data['order_id']   = isset($_GET['order_id'])  ? $_GET['order_id'] : '';
+
+        $view_data = [];
+        $view_data['user'] = user();
+        $view_data = array_merge($view_data , $data);
+
+        return view(CONTROLLER_VIEW_PREFIX . 'test' , $view_data);
     }
 }

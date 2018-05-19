@@ -6,12 +6,21 @@
 
 var topContext = {};
 
+topContext['win']      = G(window);
 topContext['body']      = G(document.body);
+topContext['title']     = G('t.title' , document.head).first();
 topContext['url']       = topContext['body'].data('url');
 topContext['domain']    = topContext['body'].data('domain');
 topContext['module']    = topContext['body'].data('module');
 topContext['controller'] = topContext['body'].data('controller');
 topContext['action'] = topContext['body'].data('action');
+
+/**
+ * ************
+ * api 相关
+ * ************
+ */
+topContext['apiUrl'] = topContext['url'] + 'api/';
 
 /**
  * ************
@@ -28,13 +37,22 @@ topContext['dataUrl']   = topContext['url'] + 'data/';
  */
 topContext['prefix'] = topContext['url'] + topContext['controller'] + '/';
 
+/*
+ * ***********
+ * 时间相关参数
+ * ***********
+ */
+topContext['time'] = 200;
+topContext['tipTime'] = 1500;
+topContext['waitTime'] = 1200;
+
 /**
  * **********
  * 加载函数
  * **********
  */
 topContext['loading'] = new Loading(topContext['body'].get() , {
-    carTime: 200 ,
+    carTime: topContext['time'] ,
     // Loading.png 图片存放路径
     pluginUrl: topContext['pluginUrl'] + 'Loading/' ,
     className: 'Loading' ,
@@ -45,7 +63,7 @@ topContext['loading'] = new Loading(topContext['body'].get() , {
 
 /**
  * ************
- * csrf token
+ * meta
  * ************
  */
-topContext['token'] = G('n.csrf_token').first().getAttr('content');
+topContext['token']     = G('n.csrf_token').first().getAttr('content');

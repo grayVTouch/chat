@@ -1,1 +1,1 @@
-hello world!
+@extends(WEB_VIEW_PREFIX . 'Public/public')

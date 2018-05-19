@@ -23,4 +23,10 @@
     context['go'].loginEvent('click' , function(){
         window.location.href = location;
     } , true , false);
+
+    G(window).loginEvent('keyup' , function(event){
+        if (event.keyCode === 13) {
+            window.location.href = location;
+        }
+    } , true , false);
 })();

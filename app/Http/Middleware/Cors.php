@@ -17,7 +17,7 @@ class Cors
     {
         $response = $next($request);
 
-        $response->header('Access-Control-Allow-Origin', 'http://gt.com');
+        $response->header('Access-Control-Allow-Origin', 'http://st.com');
         // 允许自定义的头部
         $response->header('Access-Control-Allow-Headers', 'AJAX-REQUEST');
         $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS');

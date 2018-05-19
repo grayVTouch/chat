@@ -19,6 +19,9 @@ class Api
         // 获取模块、动作
         $this->parseRoute();
 
+        // 设置网络相关
+        $this->defineNetwork();
+
         // 定义系统常量
         $this->defineConstant();
 
@@ -43,6 +46,16 @@ class Api
 
         // 定义动作
         define('ACTION'     , $action);
+    }
+
+    // 定义网络
+    public function defineNetwork(){
+        define('URL' , config_(WEB_CONFIG_PREFIX . 'app.url'));
+
+        $domain = preg_replace('/(http|https)\:\/\//' , '' , URL);
+        $domain = rtrim($domain , '/');
+
+        define('DOMAIN' , $domain);
     }
 
     // 定义系统常量
