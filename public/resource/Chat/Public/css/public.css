@@ -1139,7 +1139,7 @@
     width:80px;
 }
 
-.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .filename {
+.body-right .functions .chat-window .windows .window .history .list .line .info .msg .object .name {
     padding:2px 0px;
     text-align:center;
 }
@@ -1239,7 +1239,7 @@
     -o-transform:translate(100% , 0%);
 }
 
-/***图片无边框***/
+/*** 图片 ***/
 .body-right .functions .chat-window .windows .window .history .list .chat-image {
 
 }
@@ -1253,8 +1253,64 @@
     display:none;
 }
 
+/*** 文件 ***/
 .body-right .functions .chat-window .windows .window .history .list .chat-file .info .msg .object {
     cursor:pointer;
+}
+
+/*** 订单 ***/
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object {
+
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text {
+    position:relative;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text > * {
+    height:80px;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .left {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:80px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .left .image {
+    width:100%;
+    height:100%;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .right {
+    margin-left:80px;
+    padding-left:12px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .right .top {
+    height:30px;
+    font-size:12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .right .btm {
+    height:50px;
+    line-height:50px;
+}
+
+.body-right .functions .chat-window .windows .window .history .list .chat-order .msg .object .text .link {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
 }
 
 /*** 聊天窗口：输入区域 ***/
@@ -1358,7 +1414,7 @@
 }
 
 .body-right .functions .chat-window .chat .input .image {
-    width:28px;
+
 }
 
 .body-right .functions .chat-window .chat .btns {

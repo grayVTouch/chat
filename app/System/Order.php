@@ -25,8 +25,10 @@ class Order extends Controller
         // 是否存在未解决的争议
         $stdClass->exists_unresolve_dispute_order = self::existsUnresolveDisputeOrder($stdClass->order_id);
 
-        $stdClass->send_user_type = 'user';
-        $stdClass->accept_user_type = 'user';
+        $stdClass->user_type_for_send = 'user';
+        $stdClass->user_type_for_accept = 'user';
+        $stdClass->user_id_for_send = $stdClass->send_userid;
+        $stdClass->user_id_for_accept = $stdClass->accept_userid;
 
         return $stdClass;
     }

@@ -15,6 +15,11 @@ var _misc = {
 
     // 注册铃声
     registerAudio: function(roomId){
+        // 已经注册过的，跳过
+        if (!G.isUndefined(this._audioSet[roomId])) {
+            return ;
+        }
+
         var audio = new Audio();
         audio.src = _ringtonSrc;
 
@@ -60,9 +65,9 @@ var _misc = {
     } ,
 
     // 铃声提醒
-    ringtonRemind: function(roomId , userType , userId){
+    ringtonRemind: function(roomId){
         // 如果已经存在对应实例
-        if (!G.isUndefined(this._audioSet[roomId])) {
+        if (G.isUndefined(this._audioSet[roomId])) {
             return ;
         }
 
@@ -71,8 +76,10 @@ var _misc = {
 
         var tip = session.data('tip');
 
-        console.log(tip , userType , userId);
-        if (tip != 1 && (userType != topContext['userType'] || userId != topContext['userId'])) {
+        // 如果当前会话是焦点会话，不提示
+        // 如果当前会话被设置为静音模式，不提示
+        // 如果当前接收到的消息是自己发送给自己的，不做提示
+        if (session.hasClass('cur') || tip != 1) {
             return ;
         }
 

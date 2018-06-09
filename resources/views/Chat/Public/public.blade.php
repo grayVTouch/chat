@@ -103,11 +103,11 @@
 
                 @if ($user->user_type === 'user')
                 <!-- 发起平台咨询 -->
-                <div class="function advoise"><img src="{{ $data_url }}ico/user_advoise.png" class="image" />平台咨询</div>
+                <div class="function advoise hide"><img src="{{ $data_url }}ico/user_advoise.png" class="image" />平台咨询</div>
                 @endif
 
                 <!-- 发起订单咨询 -->
-                <div class="function order"><img src="{{ $data_url }}ico/order_advoise.png" class="image" />订单咨询</div>
+                <div class="function order hide"><img src="{{ $data_url }}ico/order_advoise.png" class="image" />订单咨询</div>
 
                 <!-- 用户信息 -->
                 <div class="function user">
@@ -163,7 +163,7 @@
                         <div class="item face">
                             <div class="ico"><img src="{{ $data_url }}ico/face.png" class="image" /></div>
                             <div class="list hide">
-                                <div class="c-item" title="笑" data-id="language"><img src="{{ $data_url }}ico/face.png" class="image" /></div>
+                                <div class="c-item hide" title="笑" data-id="language"><img src="{{ $data_url }}ico/face.png" class="image" /></div>
                             </div>
                         </div>
 
@@ -269,10 +269,6 @@
     <div class="order-dispute-floor layer-floor hide">
         <table class="input-tb">
             <tbody>
-            <tr class="tr-for-order-id">
-                <td>订单ID：</td>
-                <td><input type="text" class="form-text order-id" /></td>
-            </tr>
             <tr>
                 <td>争议标题：</td>
                 <td><input type="text" class="form-text title" /></td>
@@ -283,7 +279,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button class="btn-2 submit-btn">申请争议解决</button>
+                    <button class="btn-2 submit-btn">申请客服介入</button>
                 </td>
             </tr>
             </tbody>
@@ -312,14 +308,18 @@
     <script src="{{ $public_view_url }}js/CommunicationComponents/findDom.js"></script>
     <script src="{{ $public_view_url }}js/CommunicationComponents/find.js"></script>
     <script src="{{ $public_view_url }}js/CommunicationComponents/domOperation.js"></script>
-    <script src="{{ $public_view_url }}js/CommunicationComponents/socket.js"></script>
     <script src="{{ $public_view_url }}js/CommunicationComponents/input.js"></script>
     <script src="{{ $public_view_url }}js/CommunicationComponents/ajax.js"></script>
     <script src="{{ $public_view_url }}js/CommunicationComponents/misc.js"></script>
+    <!-- 实例化 socket：必须放在组件的最末尾！ -->
+    <script src="{{ $public_view_url }}js/CommunicationComponents/socket.js"></script>
+    <!-- 对 socket 的操作，必须在 socket 被实例化之后 -->
+    <script src="{{ $public_view_url }}js/CommunicationComponents/socketOperation.js"></script>
 
     <!-- 聊天室功能实现 -->
     <script src="{{ $public_view_url }}js/System.js"></script>
-
+    <!-- 聊天室创建库 -->
+    <script src="{{ $public_view_url }}js/create.js"></script>
     <!-- 初始化开始 -->
     <script src="{{ $public_view_url }}js/public.js"></script>
 

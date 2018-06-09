@@ -235,7 +235,7 @@ var _findDom = {
     findUser: function(roomId , userType , userId){
         var group = this.findGroup(roomId);
             group = G(group);
-        var users = G('.users .user' , group.get());
+        var users = G('qa:.users .user' , group.get());
         var i   = 0;
         var cur = null;
         var _userType   = null;
@@ -322,6 +322,41 @@ var _findDom = {
 
             // 标识符
             if (cur.data('identifier') == identifier) {
+                return true;
+            }
+        }
+
+        return false;
+    } ,
+
+    // 获取 online
+    findOnline: function(id){
+        var group = this.findGroup(id);
+            group = G(group);
+        var online = G('q:.component-title .subject .online' , group.get());
+
+        return online.get();
+    } ,
+
+    // 获取 count
+    findCount: function(id){
+        var group = this.findGroup(id);
+            group = G(group);
+        var count = G('q:.component-title .subject .count' , group.get());
+
+        return count.get();
+    } ,
+
+    existsCurSession: function(){
+        var sessions = G('.item', _context['s_items'].get());
+        var i   = 0;
+        var cur = null;
+
+        for (; i < sessions.length; ++i)
+        {
+            cur = sessions.jump(i , true);
+
+            if (cur.hasClass('cur')) {
                 return true;
             }
         }

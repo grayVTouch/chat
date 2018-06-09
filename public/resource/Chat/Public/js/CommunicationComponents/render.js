@@ -62,75 +62,10 @@ var _render = {
         }
 
         // 最近一条记录
-        var last = his[his.length - 1];
+        var first = his[0];
 
-        _domOperation.setSessionRecentRecord(last);
-    } ,
-
-    // 更新临时会话
-    setTmpSessionOfImage: function(roomId){
-        var session = this.findSession(roomId);
-        session = G(session);
-        var msg     = G('.msg' , session.get()).first();
-        var status  = G('.status' , msg.get()).first();
-        var text    = G('.text' , msg.get()).first();
-        var time    = G('.time' , session.get()).first();
-
-        status.removeClass('hide');
-        text.html(topContext['username'] + ': [图片]');
-        time.text('...');
-    } ,
-
-    // 更新临时会话
-    setTmpSessionOfFile: function(roomId){
-        var session = this.findSession(roomId);
-        session = G(session);
-        var msg     = G('.msg' , session.get()).first();
-        var status  = G('.status' , msg.get()).first();
-        var text    = G('.text' , msg.get()).first();
-        var time    = G('.time' , session.get()).first();
-
-        status.removeClass('hide');
-        text.html(topContext['username'] + ': [文件]');
-        time.text('...');
-    } ,
-
-    // 添加会话 + 置顶 + 选中项
-    addSession: function(type , id , name , tip , count , sort){
-        var session = null;
-
-        if (this.existsSession(id)) {
-            session = this.findSession(id);
-            session = G(session);
-        } else {
-            // 移除空节点
-            this.removeEmpty(_context['s_items'].get());
-
-            // 在已有的会话列表中添加新的会话
-            session = this.getDomForSession(type , id , name , tip , count , sort , true);
-            session = G(session);
-
-            // 添加会话
-            var items = G('.item' , _context['s_items'].get());
-
-            if (items.length === 0) {
-                _context['s_items'].append(session.get());
-            } else {
-                var first = items.first();
-                _context['s_items'].get().insertBefore(session.get() , first.get());
-            }
-
-            // 定义会话事件
-            this.defineSessionEvent(session.get());
-
-            this.registerMusic(id);
-        }
-
-        // 消息置顶
-        this.top(session.get());
-
-        // 更新会话顺序
-        this.updateRoomSort(id);
+        _domOperation.addTmpSession(first['type'] , first['room_id'] , first['content']);
+        _domOperation.updateTmpSession(first['room_id'] , 'success' , first);
     } ,
 
     // 添加聊天室
@@ -138,6 +73,8 @@ var _render = {
         if (_findDom.existsRoom(data['room_id'])) {
             return ;
         }
+
+        _domOperation.removeEmpty(_context['r_items'].get());
 
         var dom = _dom.getRoom(data , true);
 
@@ -153,6 +90,8 @@ var _render = {
         if (_findDom.existsSession(data['room_id'])) {
             return ;
         }
+
+        _domOperation.removeEmpty(_context['s_items'].get());
 
         var dom = _dom.getSession(data , true);
 
@@ -225,17 +164,27 @@ var _render = {
         list.append(domForViewMore);
         _event.defineViewMoreEvent(domForViewMore);
 
-        var i   = 0;
+        // 没有历史记录跳过
+        // 查看更多必须存在，因为有可能 redis 缓存中数据
+        // 恰好满足持久化条件导致，redis 中记录被清空
+        // 这种情况下就会出现没有临时记录的情况
+        // 但不表示就没有记录！
+        if (his.length === 0) {
+            return ;
+        }
+
+        var i   = his.length - 1;
         var cur = null;
+
         // 添加聊天记录
-        for (i = 0; i < his.length; ++i)
+        for (; i >= 0; --i)
         {
             cur = his[i];
             this.renderHistory(cur);
         }
 
         // 设置聊天记录最早一条记录标识符
-        _domOperation.setIdentifierForWindow(roomId);
+        _domOperation.setIdentifierForFirstHistoryOfWindow(roomId);
     } ,
 
     // 渲染历史聊天记录
@@ -246,8 +195,11 @@ var _render = {
             this.appendHistoryForImage(data);
         } else if (data['type'] === 'json:file') {
             this.appendHistoryForFile(data);
+        } else if (data['type'] === 'json:order') {
+            this.appendHistoryForOrder(data);
         } else {
-            // 其他类型待补
+            // 其他类型的历史记录
+            // 请扩展
         }
     } ,
 
@@ -303,6 +255,27 @@ var _render = {
         list.append(dom);
 
         _event.defineHistoryForFileEvent(dom);
+
+        if (win.data('isBottom')) {
+            list.bottom(topContext['time']);
+        }
+
+        return dom;
+    } ,
+
+    // 添加临时订单记录
+    appendHistoryForOrder: function(data){
+        var win = _findDom.findWindow(data['room_id']);
+            win = G(win);
+        var list = G('q:.history .list' , win.get());
+
+        // 通过用户类型 和 用户 id 来确定
+        var type = _misc.getType(data['user_type'] , data['user_id']);
+        var dom  = _dom.getHistoryForOrder(type , data , true);
+
+        _event.defineHistoryForOrderEvent(dom);
+
+        list.append(dom);
 
         if (win.data('isBottom')) {
             list.bottom(topContext['time']);
@@ -380,6 +353,22 @@ var _render = {
 
         // 添加聊天室相关内容
         this.renderRoomForThings(data);
+
+        if (data['room_type'] === 'order') {
+            var order = data['order'];
+
+            // 如果有正在咨询的订单，那么进行渲染
+            if (G.isValidVal(order)) {
+                order['room_id'] = data['room_id'];
+
+                // 渲染正在咨询的订单
+                this.renderOrderConsultation(order);
+            }
+        }
+
+        // 在添加完相关的 part & 切换内容后（必须！）
+        // 根据聊天室类型对 dom 展示内容进行控制
+        _domOperation.updatePartForThings(data['room_id']);
     } ,
 
     // 渲染聊天室相关信息：单个
@@ -393,12 +382,52 @@ var _render = {
         roomInfo.append(dom);
     } ,
 
+    // 新增欢迎提示
+    renderWelcom: function(data){
+        var win = _findDom.findWindow(data['room_id']);
+            win = G(win);
+        var list = G('q:.history .list' , win.get());
+
+        var dom = _dom.getWelcom(data , true);
+
+        list.append(dom);
+
+        if (win.data('isBottom') == 'y') {
+            list.bottom(topContext['time']);
+        }
+    } ,
+
+    // 渲染聊天室正在咨询的订单
+    renderOrderConsultation: function(data){
+        this.appendOrderConsultation(data);
+    } ,
+
+    // 添加聊天室正在咨询的订单
+    appendOrderConsultation: function(data){
+        var part = _findDom.findPartForThings(data['room_id']);
+            part = G(part);
+        var advoiseThings = G('q:.c-items .advoise-things' , part.get());
+
+        // 清空之前的数据
+        advoiseThings.html('');
+
+        var dom = _dom.getOrderConsultation(data , true);
+
+        _event.defineOrderConsultationEvent(dom);
+
+        advoiseThings.append(dom);
+
+        return dom;
+    } ,
+
     // 添加用户
     appendGroup: function(data){
         if (_findDom.existsGroup(data['room_id'])) {
 
         }
         var group = _dom.getGroup(data , true);
+
+        _event.defineGroupEvent(group);
 
         // 添加节点
         _context['u_userGroup'].append(group);
@@ -435,9 +464,6 @@ var _render = {
         _context['t_roomForThings'].append(dom);
 
         _event.definePartForThingsEvent(dom);
-
-        // 根据聊天室类型对 dom 展示内容进行控制
-        _domOperation.updatePartForThings(data['room_id']);
     } ,
 
     // 查看更多时添加的历史聊天记录
@@ -452,10 +478,15 @@ var _render = {
             dom  = _dom.getHistoryForText(type , data , true);
         } else if (data['type'] === 'json:image') {
             dom  = _dom.getHistoryForImage(type , data , true);
+            _event.defineHistoryForImageEvent(dom);
         } else if (data['type'] === 'json:file') {
             dom  = _dom.getHistoryForFile(type , data , true);
+            _event.defineHistoryForFileEvent(dom);
+        } else if (data['type'] === 'json:order') {
+            dom = _dom.getHistoryForOrder(type , data , true);
+            _event.defineHistoryForOrderEvent(dom);
         } else {
-            // 待补充的模板内容
+            // 其他类型事件，请扩展
         }
 
         var first = _findDom.getHistoryForFirst(data['room_id']);
@@ -471,43 +502,6 @@ var _render = {
 
     // --------------------- 以上都是修改过的代码！！！
     // --------------------- 一下都是未修改过的代码！！！
-
-    // 填充聊天室信息
-    fillRoomForRelatedThings: function(type , name , from , to , isRelated){
-        var html = this.getDomForRoomOfRelatedThings(type , name , from , to , isRelated)
-
-        _context['contentForInfoRoom'].html(html);
-    } ,
-
-    // 填充订单信息
-    fillOrderForRelatedThings: function(orderId , name , send , get , tag){
-        var html = this.getDomForOrderOfRelatedThings(orderId , name , send , get , tag)
-
-        _context['contentForInfoOrder'].html(html);
-        _context['contentForInfoOrder'].removeClass('hide');
-
-        this.defineInfoOrderEvent();
-    } ,
-
-
-    // 设置聊天室信息
-    setInfoRoom: function(data){
-        if (data.length === 0) {
-            return ;
-        }
-
-        var i = 0;
-        var cur = null;
-
-        for (; i < data.length; ++i)
-        {
-            cur = data[i];
-
-            var roomInfo = this.getDomForRoomOfRelatedThings(cur['type'] , cur['id'] , cur['_name'] , cur['from'] , cur['to'] , cur['is_related']);
-            // 获取数据
-            _context['contentForInfoRoom'].append(roomInfo);
-        }
-    } ,
 
     // 添加临时记录（还未确定消息是否已经发送成功了）
     // 仅针对自身用户
@@ -549,6 +543,8 @@ var _render = {
             content: content
         });
 
+        _event.defineHistoryForImageEvent(dom);
+
         list.append(dom);
 
         if (win.data('isBottom')) {
@@ -571,6 +567,8 @@ var _render = {
             thumb: topContext['thumb']
         } , true);
 
+        _event.defineHistoryForFileEvent(dom);
+
         list.append(dom);
 
         if (win.data('isBottom')) {
@@ -580,48 +578,27 @@ var _render = {
         return dom;
     } ,
 
-    // 添加正在咨询的订单节点
-    addOrderConsultation: function(roomId , orderId , type , name , send , accept){
-        var item = this.findOrderConsultation(roomId);
-        item = G(item);
+    // 添加临时订单记录
+    appendTmpHistoryForOrder: function(data){
+        var win = _findDom.findWindow(data['room_id']);
+            win = G(win);
+        var list = G('q:.history .list' , win.get());
 
-        if (item.isDom()) {
-            // 已经存在该节点，移除
-            item.get().parentNode.removeChild(item.get());
+        // 通过用户类型 和 用户 id 来确定
+        var type = _misc.getType(topContext['userType'] , topContext['userId']);
+        var dom  = _dom.getTmpHistoryForOrder(type , {
+            username: topContext['username'] ,
+            thumb: topContext['thumb']
+        } , true);
+
+        _event.defineHistoryForOrderEvent(dom);
+
+        list.append(dom);
+
+        if (win.data('isBottom')) {
+            list.bottom(topContext['time']);
         }
 
-        var dom = this.getDomForOrderConsultation(roomId , orderId , type , name , send , accept , true);
-        dom = G(dom);
-
-        // 添加节点
-        _context['contentForInfoOrder'].append(dom.get());
-
-        var items = G('.item' , _context['contentForInfoOrder'].get());
-
-        // 高亮显示当前节点
-        dom.highlight('hide' , items.get() , true);
-
-        // 定义节点事件
-        this.defineOrderConsultationEvent(dom.get());
-
-        // 显示正在咨询的订单
-        _context['infoForOrder'].removeClass('hide');
-    } ,
-
-    // 添加聊天室节点（也许会被废弃）
-    addRoom: function(roomType , roomId , name , tip){
-        if (this.existsRoom(roomId)) {
-            return ;
-        }
-
-        // 移除空节点
-        this.removeEmpty(_context['r_roomItems'].get());
-
-        var dom = this.getDomForRoom(roomType , roomId , name , tip);
-
-        // 新增房间
-        _context['r_roomItems'].append(dom);
-
-        this.defineRoomEvent(dom);
+        return dom;
     } ,
 };

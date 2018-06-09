@@ -56,7 +56,7 @@ var _domOperation = {
         var p = G(session.get().parentNode);
 
         // 当前已经是置顶元素了
-        if (p.children() === 1) {
+        if (p.children({} , false , true) === 1) {
             return ;
         }
 
@@ -74,7 +74,7 @@ var _domOperation = {
         G.insertBefore(p.remove(session.get()) , first.get());
 
         // 更新服务器端排序权重
-        _system.socket.updateRoomSort(id , 'n' , function(data){
+        _socket.updateRoomSort(id , 'n' , function(data){
             console.log('聊天室置顶操作结果：' , data);
         });
     } ,
@@ -115,7 +115,7 @@ var _domOperation = {
             session = G(session);
 
         var sessions = G('.item' , _context['s_items'].get());
-        session.highlight('cur' , sessions.get());
+            session.highlight('cur' , sessions.get());
 
         // 隐藏默认界面
         this.hideDefaultForWindows();
@@ -123,7 +123,6 @@ var _domOperation = {
         this.hideDefaultForThings();
 
         // 切换显示默认界面
-        this.topSession(id);
         this.switchWindow(id);
         this.showChat();
         this.switchGroup(id);
@@ -133,7 +132,7 @@ var _domOperation = {
         this.toBottomForHistory(id);
 
         // 更新该聊天室未读消息数量
-        _system.socket.emptyMsgCount(id , function(data){
+        _socket.emptyMsgCount(id , function(data){
             // 设置所有消息已读成功后，设置会话的消息标识
             self.setMsgFlag(id , 'old');
         });
@@ -144,15 +143,21 @@ var _domOperation = {
         var part = _findDom.findPartForThings(id);
             part = G(part);
         var type    = part.data('type');
-        var id      = part.data('id');
+        var identifier = null;
 
         if (type === 'order') {
             var orderConsoltation = G('q:.nav-container .menu-switch .order-consoltation' , part.get());
                 orderConsoltation.removeClass('hide');
-            var identifier = orderConsoltation.data('identifier');
 
-            _misc.menuSwitchSet[id].switch(identifier);
+            identifier = orderConsoltation.data('identifier');
+        } else if (type === 'advoise') {
+            var roomInfo = G('q:.nav-container .menu-switch .room-info' , part.get());
+            identifier = roomInfo.data('identifier');
+        } else {
+            // 其他类型的咨询，待扩展 ....
         }
+
+        _misc.menuSwitchSet[id].switch(identifier);
     } ,
 
     // 去除 or 添加新消息标识
@@ -360,8 +365,9 @@ var _domOperation = {
             return ;
         }
 
-        var time = G('q:.info .user .time' , dom.get());
-        var _time = formatTime(data['create_time']);
+        var object  = G('q:.info .msg .object' , dom.get());
+        var name    = G('.name' , object.get()).first();
+        var time    = G('q:.info .user .time' , dom.get());
 
         // 移除状态
         _status.addClass('hide');
@@ -370,26 +376,53 @@ var _domOperation = {
         dom.setAttr('isTmp' , 'n');
         dom.data('identifier' , data['identifier']);
 
-        time.text(_time);
+        var _data = G.jsonDecode(data['content']);
+
+        object.data('url' , _data['url']);
+        name.text(_data['name']);
+
+        time.text(data['create_time']);
     } ,
 
-    // 设置会话最近一套记录
-    setSessionRecentRecord: function(data){
+    // 订单：更新临时记录
+    updateTmpHistoryForOrder: function(dom , status , data){
+        dom = G(dom);
 
-        if (data['type'] === 'text') {
-            this.updateSessionForText(data);
-        } else if (data['type'] === 'json:image') {
-            this.updateSessionForImage(data);
-        } else if (data['type'] === 'json:file') {
-            this.updateSessionForFile(data);
-        } else {
-            // 其他类型待扩展...
-            console.log('其他带扩展类型');
+        var image = G('q:.info .msg .object .image' , dom.get());
+
+        if (status === 'error') {
+            image.setAttr('src' , _errorImageForIco);
+
+            // 更新数据
+            var tip     = G('q:.info .tip' , dom.get());
+            var tipText = G('.tip-text' , tip.get()).first();
+
+            tipText.text('发送失败：' + data['msg']);
+            tip.removeClass('hide');
+
+            this.toBottomForHistory(data['room_id']);
+            return ;
         }
+
+        var object  = G('q:.info .msg .object' , dom.get());
+        var time    = G('q:.info .user .time' , dom.get());
+
+        // 移除状态
+        image.addClass('hide');
+
+        // 表示已经发送成功的消息
+        dom.setAttr('isTmp' , 'n');
+        dom.data('identifier' , data['identifier']);
+
+        var _data = G.jsonDecode(data['content']);
+
+        object.data('url' , _data['url']);
+
+        time.text(data['create_time']);
     } ,
 
     // 设置聊天室最早一条消息的标识符
-    setIdentifierForWindow: function(roomId){
+    setIdentifierForFirstHistoryOfWindow: function(roomId){
         var win = _findDom.findWindow(roomId);
             win = G(win);
 
@@ -443,6 +476,8 @@ var _domOperation = {
             content = '[图片]';
         } else if (type === 'json:file') {
             content = '[文件]';
+        } else if (type === 'json:order') {
+            content = '[订单]';
         } else {
             content = '[其他模板消息，请添加！！]';
         }
@@ -475,21 +510,76 @@ var _domOperation = {
 
     // 更新会话状态
     updateMsgCount: function(id){
-        var self    = this;
-        var session = _findDom.findSession(id);
-            session = G(session);
 
-        // 检查会话该会话是否是当前选中项
-        // 如果是当前选中项，设置未读消息数量 = 0
-        // 否则不设置
-        if (session.hasClass('cur')) {
-            _system.socket.emptyMsgCount(id , function(){
-                console.log('设置聊天室消息全部已读成功');
-                self.setMsgFlag(id , 'old');
-            });
-        } else {
-            // 设置未读消息提醒
-            self.setMsgFlag(id , 'new');
-        }
     } ,
+
+    // 显示表情包
+    showFace: function(){
+        _context['w_face'].data('status' , 'show');
+        _context['w_listForFace'].removeClass('hide');
+    } ,
+
+    // 隐藏表情包
+    hideFace: function(){
+        _context['w_face'].data('status' , 'hide');
+        _context['w_listForFace'].addClass('hide');
+    } ,
+
+    // 更新在线在线人数 & 总人数
+    setGroup: function(id , online , count){
+        if (!_findDom.existsGroup(id)) {
+            return ;
+        }
+
+        var _online = G(_findDom.findOnline(id));
+        var _count  = G(_findDom.findCount(id));
+
+        _online.text(online);
+        _count.text(count);
+    } ,
+
+    updateGroup: function(data){
+        this.setGroup(data['room_id'] , data['online'] , data['count']);
+    } ,
+
+    // 更新用户状态
+    updateUser: function(data){
+        if (!_findDom.existsGroup(data['room_id']) || !_findDom.existsUser(data['room_id'] , data['user_type'] , data['user_id'])) {
+            return ;
+        }
+
+        var user = _findDom.findUser(data['room_id'] , data['user_type'] , data['user_id']);
+            user = G(user);
+        var status = G('.status' , user.get()).first();
+
+        // status.removeClass(['on' , 'off']);
+        status.removeClass('on');
+        status.removeClass('off');
+        status.addClass(data['real_status']);
+        status.text(data['real_status_explain']);
+    } ,
+
+    // 用户上下线通知
+    notification: function(data){
+        this.updateGroup(data);
+        this.updateUser(data);
+    } ,
+
+    // 清除正在咨询的订单
+    clearOrderConsultation: function(data){
+        /*
+        var dataStruct = {
+            room_id: '' ,
+            order_id: ''
+        };
+        */
+
+        var part = _findDom.findPartForThings(data['room_id']);
+            part = G(part);
+        var advoiseThings = G('q:.c-items .advoise-things' , part.get());
+
+        // 清空正在咨询的订单
+        advoiseThings.html('');
+    } ,
+
 };

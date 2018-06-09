@@ -170,7 +170,7 @@ var _dom = {
         html.push('         <div class="subject">' + data['_name'] + '</div>    ');
         html.push('         <div class="other">    ');
 
-        if (data['type'] === 'order') {
+        if (data['type'] === 'order' && topContext['userType'] !== 'admin') {
             html.push('<button class="btn-8 add-dispute" data-type="' + data['room_type'] + '" data-id="' + data['room_id'] + '">发起争议</button>');
         }
 
@@ -346,7 +346,7 @@ var _dom = {
         html.push('             <span class="time">' + data['create_time'] + '</span>   ');
         html.push('         </div>   ');
         html.push('         <div class="msg">   ');
-        html.push('             <div class="text object">   ');
+        html.push('             <div class="object" data-url="' + file['url'] + '">   ');
         html.push('                 <div class="status hide">   ');
         html.push('                     <div class="loading">');
         html.push('                         <div class="u-loading line-scale">   ');
@@ -363,7 +363,7 @@ var _dom = {
         html.push('                     </div>   ');
         html.push('                 </div>   ');
         html.push('                 <div class="flag"><img src="' + _downloadImageForIco + '" class="image image-for-file" /></div>  ');
-        html.push('                 <div class="name">' + data['name'] + '</div>    ');
+        html.push('                 <div class="name">' + file['name'] + '</div>    ');
         html.push('             </div>   ');
         html.push('         </div>   ');
         html.push('     </div>   ');
@@ -371,7 +371,7 @@ var _dom = {
         if (isReturnDom) {
             var div = document.createElement('div');
             div = G(div);
-            div.addClass(['line' , type]);
+            div.addClass(['line' , 'chat-file' , type]);
             div.setAttr('isTmp' , 'n');
             div.data('identifier' , data['identifier']);
             div.html(html.join(''));
@@ -379,7 +379,7 @@ var _dom = {
             return div.get();
         }
 
-        var first = ' <div class="line ' + type + '" isTmp="n" data-identifier="' + data['identifier'] + '">   ';
+        var first = ' <div class="line chat-file ' + type + '" isTmp="n" data-identifier="' + data['identifier'] + '">   ';
         var last = ' </div>   ';
 
         return first + html.join() + last;
@@ -502,6 +502,8 @@ var _dom = {
         var typeRange = ['other' , 'self'];
         var html = [];
 
+        console.log(data);
+
         html.push('     <div class="thumb"><img src="' + data['thumb'] + '" class="image" /></div>   ');
         html.push('     <div class="info">   ');
         html.push('         <div class="user">   ');
@@ -509,7 +511,7 @@ var _dom = {
         html.push('             <span class="time">...</span>   ');
         html.push('         </div>   ');
         html.push('         <div class="msg">   ');
-        html.push('             <div class="text object">   ');
+        html.push('             <div class="object">   ');
         html.push('                 <div class="status">   ');
         html.push('                     <div class="loading">');
         html.push('                         <div class="u-loading line-scale">   ');
@@ -534,14 +536,14 @@ var _dom = {
         if (isReturnDom) {
             var div = document.createElement('div');
             div = G(div);
-            div.addClass(['line' , type]);
+            div.addClass(['line' , 'chat-file' , type]);
             div.setAttr('isTmp' , 'y');
             div.html(html.join(''));
 
             return div.get();
         }
 
-        var first = ' <div class="line ' + type + '" isTmp="y">   ';
+        var first = ' <div class="line chat-file ' + type + '" isTmp="y">   ';
         var last = ' </div>   ';
 
         return first + html.join() + last;
@@ -653,10 +655,8 @@ var _dom = {
         var dataStruct = {
             user_room_type: '' ,
             user_room_id: '' ,
-            details: {
-                username: '' ,
-                thumb: ''
-            } ,
+            username: '' ,
+            thumb: '' ,
             status: ''
         };
         */
@@ -664,8 +664,8 @@ var _dom = {
 
         var html = [];
         html.push('     <div class="info">  ');
-        html.push('         <div class="thumb"><img src="' + data['details']['thumb'] + '" class="image" /></div>  ');
-        html.push('         <div class="name">' + data['details']['username'] + '</div>  ');
+        html.push('         <div class="thumb"><img src="' + data['thumb'] + '" class="image" /></div>  ');
+        html.push('         <div class="name">' + data['username'] + '</div>  ');
         html.push('     </div>  ');
         html.push('     <div class="status ' + data['status'] + '">' + data['status_explain'] + '</div>  ');
 
@@ -696,7 +696,7 @@ var _dom = {
         html.push('         <div class="nav-container">   ');
         html.push('             <div class="menu-switch menu-switch-for-4">   ');
         html.push('                 <div class="item hide order-consoltation" data-identifier="advoise">正在咨询</div>   ');
-        html.push('                 <div class="item cur" data-identifier="room">聊天室信息</div>   ');
+        html.push('                 <div class="item room-info cur" data-identifier="room">聊天室信息</div>   ');
         html.push('             </div>   ');
         html.push('         </div>   ');
         html.push('         <div class="c-items">   ');
@@ -774,58 +774,148 @@ var _dom = {
         return first + html.join('') + last;
     } ,
 
-    // 获取聊天室对应订单信息
-    // 获取聊天室信息 dom
-    getOrderConsultation: function(roomId , orderId , name , send , get , tag , isReturnDom){
+    // 获取欢迎提示
+    getWelcom: function(data , isReturnDom){
+        isReturnDom = G.isBoolean(isReturnDom) ? isReturnDom : true;
+
+        var html = [];
+            html.push(' <div class="in"><img src="' + _icoPrefix + 'welcome.png" class="image">欢迎客服<span class="username weight">' + data['username'] + '</span>加入聊天室</div>    ');
+
+        if (isReturnDom) {
+            var div = document.createElement('div');
+                div = G(div);
+                div.addClass('user-join-notice');
+                div.html(html.join(''));
+            return div.get();
+        }
+
+        var first = '<div class="user-join-notice">';
+        var last = '</div>';
+
+        return first + html.join('') + last;
+    } ,
+
+    // 获取聊天室正在咨询的订单
+    getOrderConsultation: function(data , isReturnDom){
+        isReturnDom = G.isBoolean(isReturnDom) ? isReturnDom : true;
+
+        var json = G.jsonEncode(data);
+
+        var html = [];
+
+        html.push('     <div class="left"><img src="' + topContext['dataUrl'] + 'images/test.jpg" class="image" /></div>  ');
+        html.push('     <div class="right">  ');
+        html.push('         <div class="top"><a href="javascript:void(0);">小米(MI)Air 13.3英寸金属超轻薄笔记本电脑(i5-7200U 8G 256G PCleSSD MX150 2G独显 FHD 指纹识别 Win10)银</a></div>  ');
+        html.push('         <div class="btm">  ');
+        html.push('             <div class="price weight red">￥999.00</div>  ');
+        html.push('             <div class="btns">  ');
+        html.push('                 <button class="btn-7 send-btn" data-json=\'' + json + '\'>发送</button>  ');
+        html.push('             </div>  ');
+        html.push('         </div>  ');
+        html.push('     </div>  ');
+
+        if (isReturnDom) {
+            var div = document.createElement('div');
+                div = G(div);
+                div.addClass('order');
+                div.html(html.join(''));
+            return div.get();
+        }
+
+        var first = '<div class="order">';
+        var last = '</div>';
+
+        return first + html.join('') + last;
+    } ,
+
+    // 聊天室发送正在咨询的订单
+    getHistoryForOrder: function(type , data , isReturnDom){
         isReturnDom = G.isBoolean(isReturnDom) ? isReturnDom : true;
 
         var html = [];
 
-        tag = G.isValidVal(tag) ? '关联订单-' + tag : '非关联订单';
-        get = G.isValidVal(get) ? get : '尚未接单';
+        html.push('     <div class="thumb"><img src="' + _icoPrefix + 'thumb.png" class="image" /></div> ');
+        html.push('     <div class="info"> ');
+        html.push('         <div class="user"> ');
+        html.push('             <span class="time">2018-04-19 14:00:00</span> ');
+        html.push('             <span class="name">admin</span> ');
+        html.push('         </div> ');
 
-        html.push('     <table class="column-tb">   ');
-        html.push('     <tbody>   ');
-        html.push('     <tr>   ');
-        html.push('     <td>订单名称：</td>   ');
-        html.push('     <td>' + name + '</td>   ');
-        html.push('     </tr>   ');
-
-        html.push('     <tr>   ');
-        html.push('     <td>发单人：</td>   ');
-        html.push('     <td>' + send + '</td>   ');
-        html.push('     </tr>   ');
-
-        html.push('     <tr>   ');
-        html.push('     <td>订单类型：</td>   ');
-        html.push('     <td>' + tag + '</td>   ');
-        html.push('     </tr>   ');
-
-        html.push('     <tr>   ');
-        html.push('     <td>接单人：</td>   ');
-        html.push('     <td>' + get + '</td>   ');
-        html.push('     </tr>   ');
-
-        html.push('     <tr>   ');
-        html.push('     <td>操作：</td>   ');
-        html.push('     <td>   ');
-        html.push('     <button class="btn-8" data-id="' + orderId + '">发送订单</button>   ');
-        html.push('     <button class="btn-8" data-id="' + orderId + '">查看订单</button>   ');
-        html.push('     </td>   ');
-        html.push('     </tr>   ');
-        html.push('     </tbody>   ');
-        html.push('     </table>   ');
+        html.push('         <div class="msg"> ');
+        html.push('             <div class="object"> ');
+        html.push('                 <img src="' + _icoPrefix + 'loading.gif" class="image image-for-status hide" /> ');
+        html.push('                 <div class="text"> ');
+        html.push('                     <div class="left"><img src="' + topContext['dataUrl'] + 'images/test.jpg" class="image image-for-order"></div> ');
+        html.push('                     <div class="right"> ');
+        html.push('                         <div class="top">小米(MI)Air 13.3英寸金属超轻薄笔记本电脑(i5-7200U 8G 256G PCleSSD MX150 2G独显 FHD 指纹识别 Win10)银</div> ');
+        html.push('                         <div class="btm weight red">￥999.00</div> ');
+        html.push('                     </div> ');
+        html.push('                     <a href="javascript:void(0);" class="link"></a> ');
+        html.push('                 </div> ');
+        html.push('             </div> ');
+        html.push('         </div> ');
+        html.push('         <div class="tip hide"> ');
+        html.push('             <span class="tip-text">发送失败：...</span> ');
+        html.push('         </div> ');
+        html.push('     </div> ');
 
         if (isReturnDom) {
             var div = document.createElement('div');
-            div = G(div);
-            div.addClass('item');
-            div.data('id' , roomId);
-            div.html(html.join(''));
+                div = G(div);
+                div.addClass(['line' , 'chat-order' , type]);
+                div.data('identifier' , data['identifier']);
+                div.setAttr('isTmp' , 'n');
+                div.html(html.join(''));
             return div.get();
         }
 
-        var first = '<div class="item" data-id="' + roomId + '">';
+        var first = '<div class="line chat-order "' + type + ' data-identifier="' + data['identifier'] + '" isTmp="n">';
+        var last = '</div>';
+
+        return first + html.join('') + last;
+    } ,
+
+    // 临时聊天室订单
+    getTmpHistoryForOrder: function(type , data , isReturnDom){
+        isReturnDom = G.isBoolean(isReturnDom) ? isReturnDom : true;
+
+        var html = [];
+
+        html.push('     <div class="thumb"><img src="' + _icoPrefix + 'thumb.png" class="image" /></div> ');
+        html.push('     <div class="info"> ');
+        html.push('         <div class="user"> ');
+        html.push('             <span class="time">2018-04-19 14:00:00</span> ');
+        html.push('             <span class="name">admin</span> ');
+        html.push('         </div> ');
+
+        html.push('         <div class="msg"> ');
+        html.push('             <div class="object"> ');
+        html.push('                 <img src="' + _icoPrefix + 'loading.gif" class="image image-for-status hide" /> ');
+        html.push('                 <div class="text"> ');
+        html.push('                     <div class="left"><img src="' + topContext['dataUrl'] + 'images/test.jpg" class="image image-for-order"></div> ');
+        html.push('                     <div class="right"> ');
+        html.push('                         <div class="top">小米(MI)Air 13.3英寸金属超轻薄笔记本电脑(i5-7200U 8G 256G PCleSSD MX150 2G独显 FHD 指纹识别 Win10)银</div> ');
+        html.push('                         <div class="btm weight red">￥999.00</div> ');
+        html.push('                     </div> ');
+        html.push('                     <a href="javascript:void(0);" class="link"></a> ');
+        html.push('                 </div> ');
+        html.push('             </div> ');
+        html.push('         </div> ');
+        html.push('         <div class="tip hide"> ');
+        html.push('             <span class="tip-text">发送失败：...</span> ');
+        html.push('         </div> ');
+        html.push('     </div> ');
+
+        if (isReturnDom) {
+            var div = document.createElement('div');
+                div = G(div);
+                div.addClass(['line' , 'chat-order' , type]);
+                div.setAttr('isTmp' , 'y');
+                div.html(html.join(''));
+            return div.get();
+        }
+
+        var first = '<div class="line chat-order "' + type + '" isTmp="n">';
         var last = '</div>';
 
         return first + html.join('') + last;

@@ -9,64 +9,30 @@
     (function(){
         var qs = G.queryString();
 
-        if (qs === false) {
-            topContext['type']      =  G.isUndefined(qs['type']) ? '' : qs['type'];
-            topContext['orderId']   = G.isUndefined(qs['order_id']) ? '' : qs['order_id'];
-        } else {
-            topContext['type']      =  '';
-            topContext['orderId']   = '';
+        if (qs !== false) {
+            var type    = qs['type'];
+            var id      = qs['id'];
+
+            switch (type)
+            {
+                case 'advoise':
+                    createAdvoise();
+                    break;
+                case 'order':
+                    createOrder(id);
+                    break;
+                default:
+                    // 待扩展的其他类型咨询！
+            }
         }
     })();
-
-    /**
-     * *********
-     * 局部全局变量
-     * *********
-     */
-    var context = {};
-
-    context['bodyLeft'] = G('.body-left').first();
-    context['bodyRight'] = G('.body-right').first();
-
-    // 顶部导航栏功能
-    context['topNav'] = G('.top-nav').first();
-    context['advoise'] = G('.advoise' , context['topNav'].get()).first();
-    context['order'] = G('.order' , context['topNav'].get()).first();
-    context['user'] = G('.user' , context['topNav'].get()).first();
-    context['operation'] = G('.operation' , context['user'].get()).first();
-    context['loginOut'] = G('.login-out' , context['operation'].get()).first();
-
-    // 收缩快
-    context['stretchBlock'] = G('.stretch-block' , context['bodyLeft'].get()).first();
-    context['horizontal'] = G('.horizontal' , context['stretchBlock'].get()).first();
-    context['vertical'] = G('.vertical' , context['stretchBlock'].get()).first();
-
-    // 我的聊天室
-    context['rooms']    = G('.rooms' , context['bodyLeft'].get()).first();
-    context['r_header'] = G('.header' , context['rooms'].get()).first();
-
-    // 功能区域
-    context['functions'] = G('.functions' , context['bodyRight'].get()).first();
-
-
-    context['sessions'] = G('.sessions' , context['functions'].get()).first();
-    context['chatWindow'] = G('.chat-window' , context['functions'].get()).first();
-    context['roomUser'] = G('.room-user' , context['functions'].get()).first();
-    context['things'] = G('.things' , context['functions'].get()).first();
-
-    // 聊天室成员伸缩功能
-    context['roomUserControl']   = G('.room-user-control' , context['topNav'].get()).first();
-    context['statusForRoomUserControl'] = G('.status' , context['roomUserControl'].get()).first();
-
-    // user-info
-    context['userInfo'] = G('.user-info' , context['bodyLeft'].get()).first();
 
     /**
      * *************
      * 屏蔽系统右键
      * *************
      */
-    // G.contextmenu();
+    // G._contextmenu();
 
     /**
      * ********************************
@@ -74,75 +40,7 @@
      * 定义到全局变量是方便通信组件使用
      * ********************************
      */
-    window['_system'] = new System({
-        wsLink: 'ws://192.168.150.135:8282'
-    });
-
-    /**
-     * *****************************************
-     * 如果是通过外链进入，则检查是否有初始化动作
-     * *****************************************
-     */
-    // 平台咨询处理
-    var advoiseHandle = function(){
-        // 创建聊天室（如果不存在的话，不会重复创建，无需担心）
-        system.createRoom(document.documentElement , 'advoise' , null , function(room){
-            var users = [
-                {
-                    user_id: topContext['userId'] ,
-                    user_type: topContext['userType']
-                }
-            ];
-
-            // 加入聊天室
-            system.socket.joinRoom(room['type'] , room['id'] , users , function(msg){
-                console.log(msg);
-
-                // 获取聊天室详情
-                system.socket.getRoomInfo(room['type'] , room['id'] , function(data){
-                    if (data['status'] === 'error') {
-                        console.log(data['msg']);
-                        return ;
-                    }
-
-                    room = data['msg'];
-
-                    // 自动分配客服
-                    system.socket.autoAllocate(room['type'] , room['id'] , function(data){
-                        console.log(data['msg']);
-                    });
-
-                    // 更新聊天室
-                    system.setRooms();
-                    // 添加会话
-                    system.addSession(room['type'] , room['id'] , room['_name'] , room['tip'] , room['count'] , room['sort']);
-                    // 添加聊天窗口
-                    system.addWindow(room['type'] , room['id'] , room['_name']);
-                    // 手动同步聊天室数据
-                    system.socket.user(room['id'] , function(data){
-                        if (data['status'] === 'error') {
-                            console.log(data['msg']);
-                            return ;
-                        }
-
-                        data = data['msg'];
-
-                        // 添加聊天室用户
-                        system.addUser(room['type'] , room['id'] , data['online'] , data['count']);
-                        var i       = 0;
-                        var users   = data['user'];
-                        var cur     = null;
-
-                        for (; i < users.length; ++i)
-                        {
-                            cur = users[i];
-                            system.addRoomUser(cur['room_id'] , cur['user_type'] , cur['user_id'] , cur['details']['username'] , cur['details']['thumb'] , cur['status']);
-                        }
-                    });
-                });
-            });
-        });
-    };
+    window['_system'] = new System({});
 
     // 订单咨询处理
     var orderHandle = function(type , order){
@@ -200,7 +98,7 @@
                 advoiseHandle();
             } else if (topContext['type'] === 'order') {
                 // 订单咨询
-                system.getOrderInfo(context['order'].get() , topContext['orderId'] , function(data){
+                system.getOrderInfo(_context['order'].get() , topContext['orderId'] , function(data){
                     orderHandle('order' , data);
                 });
             } else {
@@ -223,7 +121,7 @@
 
         if (topContext['userType'] === topContext['_user']) {
             // 测试：平台咨询
-            context['advoise'].loginEvent('click' , advoiseHandle , true , false);
+            _context['advoise'].loginEvent('click' , advoiseHandle , true , false);
         }
 
         // 显示 layer 弹层
@@ -237,17 +135,17 @@
                 success: function (dom, index) {
                     var orderFloor = G('.order-floor' , dom[0]).first();
 
-                    var context = {};
-                        context['orderId']          = G('.order-id' , orderFloor.get()).first();
-                        context['existsAcceptUser'] = G('.exists-accept-user' , orderFloor.get()).first();
-                        context['isTag'] = G('.is-tag' , orderFloor.get()).first();
-                        context['myselfAccept'] = G('.myself-accept' , orderFloor.get()).first();
-                        context['getOrderInfo'] = G('.get-order-info' , orderFloor.get()).first();
-                        context['order']            = G('.order' , orderFloor.get()).first();
-                        context['orderRelated']     = G('.order-related' , orderFloor.get()).first();
+                    var _context = {};
+                        _context['orderId']          = G('.order-id' , orderFloor.get()).first();
+                        _context['existsAcceptUser'] = G('.exists-accept-user' , orderFloor.get()).first();
+                        _context['isTag'] = G('.is-tag' , orderFloor.get()).first();
+                        _context['myselfAccept'] = G('.myself-accept' , orderFloor.get()).first();
+                        _context['getOrderInfo'] = G('.get-order-info' , orderFloor.get()).first();
+                        _context['order']            = G('.order' , orderFloor.get()).first();
+                        _context['orderRelated']     = G('.order-related' , orderFloor.get()).first();
                     // 获取订单的信息
-                    context['getOrderInfo'].loginEvent('click' , function(){
-                        var orderId = context['orderId'].val();
+                    _context['getOrderInfo'].loginEvent('click' , function(){
+                        var orderId = _context['orderId'].val();
 
                         if (!G.isValidVal(orderId)) {
                             layer.msg('订单无效' , {
@@ -258,35 +156,35 @@
                         }
 
                         // 不允许更新订单
-                        context['orderId'].setAttr('readonly' , 'readonly');
+                        _context['orderId'].setAttr('readonly' , 'readonly');
 
                         // 获取订单信息
-                        system.getOrderInfo(context['getOrderInfo'].get() , orderId , function(data){
+                        system.getOrderInfo(_context['getOrderInfo'].get() , orderId , function(data){
                             // 移除自身
-                            context['getOrderInfo'].get().parentNode.removeChild(context['getOrderInfo'].get());
+                            _context['getOrderInfo'].get().parentNode.removeChild(_context['getOrderInfo'].get());
 
                             var existsText = G.isValidVal(data['accept_userid']) ? '是' : '否';
                             var isTagText = G.isValidVal(data['tag']) ? '关联订单，tag=' + data['tag'] : '非关联订单';
                             var myselfAcceptText = topContext['userType'] == 'user' && topContext['userId'] == data['accept_userid'] ? '是' : '否';
 
-                            context['existsAcceptUser'].text(existsText);
-                            context['isTag'].text(isTagText);
-                            context['myselfAccept'].text(myselfAcceptText);
+                            _context['existsAcceptUser'].text(existsText);
+                            _context['isTag'].text(isTagText);
+                            _context['myselfAccept'].text(myselfAcceptText);
 
                             // 控制功能的显示和隐藏
                             if (!G.isValidVal(data['accept_userid'])) {
-                                context['order'].removeClass('hide');
+                                _context['order'].removeClass('hide');
                             } else {
-                                // context['orderRelated'].removeClass('hide');
+                                // _context['orderRelated'].removeClass('hide');
                                 if (!G.isValidVal(data['tag'])) {
                                     // 关联订单
-                                    context['order'].removeClass('hide');
+                                    _context['order'].removeClass('hide');
                                 } else {
                                     if (topContext['userType'] != 'user' || data['accept_userid'] != topContext['userId']) {
-                                        context['order'].removeClass('hide');
+                                        _context['order'].removeClass('hide');
                                     } else {
-                                        context['order'].removeClass('hide');
-                                        context['orderRelated'].removeClass('hide');
+                                        _context['order'].removeClass('hide');
+                                        _context['orderRelated'].removeClass('hide');
                                     }
                                 }
                             }
@@ -298,18 +196,18 @@
                     } , true , false);
 
                     // 单纯的发起同发单人的私聊
-                    context['order'].loginEvent('click' , function(){
-                        var orderId = context['orderId'].val();
+                    _context['order'].loginEvent('click' , function(){
+                        var orderId = _context['orderId'].val();
 
-                        system.getOrderInfo(context['order'].get() , orderId , function(data){
+                        system.getOrderInfo(_context['order'].get() , orderId , function(data){
                             orderHandle('order' , data);
                         });
                     } , true , false);
 
-                    context['orderRelated'].loginEvent('click' , function(){
-                        var orderId = context['orderId'].val();
+                    _context['orderRelated'].loginEvent('click' , function(){
+                        var orderId = _context['orderId'].val();
 
-                        system.getOrderInfo(context['order'].get() , orderId , function(data){
+                        system.getOrderInfo(_context['order'].get() , orderId , function(data){
                             orderHandle('disputeOrder' , data);
                         });
                     });
@@ -320,7 +218,7 @@
         };
 
         // 测试：订单咨询
-        context['order'].loginEvent('click' , function(event){
+        _context['order'].loginEvent('click' , function(event){
             var tar = G(event.currentTarget);
 
             showOrderFloor();
@@ -335,14 +233,14 @@
 
     // 显示用户操作面板
     var showOperation = function(){
-        context['operation'].removeClass('hide');
+        _context['operation'].removeClass('hide');
 
-        var curBtmVal = context['operation'].getCoordVal('bottom');
+        var curBtmVal = _context['operation'].getCoordVal('bottom');
         var endBtmVal = 0;
-        var curOpacity = parseFloat(context['operation'].getStyleVal('opacity'));
+        var curOpacity = parseFloat(_context['operation'].getStyleVal('opacity'));
         var endOpacity = 1;
 
-        context['operation'].animate({
+        _context['operation'].animate({
             time: topContext['time'] ,
             json: [
                 {
@@ -361,14 +259,14 @@
 
     // 隐藏用户操作面板
     var hideOperation = function(){
-        context['operation'].removeClass('hide');
+        _context['operation'].removeClass('hide');
 
-        var curBtmVal = context['operation'].getCoordVal('bottom');
+        var curBtmVal = _context['operation'].getCoordVal('bottom');
         var endBtmVal = -10;
-        var curOpacity = parseFloat(context['operation'].getStyleVal('opacity'));
+        var curOpacity = parseFloat(_context['operation'].getStyleVal('opacity'));
         var endOpacity = 0;
 
-        context['operation'].animate({
+        _context['operation'].animate({
             time: topContext['time'] ,
             json: [
                 {
@@ -383,13 +281,13 @@
                 }
             ] ,
             fn: function(){
-                context['operation'].addClass('hide');
+                _context['operation'].addClass('hide');
             }
         });
     };
 
-    context['user'].loginEvent('mouseover' , showOperation , true , false);
-    context['user'].loginEvent('mouseout' , hideOperation , true , false);
+    _context['user'].loginEvent('mouseover' , showOperation , true , false);
+    _context['user'].loginEvent('mouseout' , hideOperation , true , false);
 
     /**
      * ******************
@@ -403,39 +301,39 @@
             url: loginOutLink ,
             method: 'post' ,
             tip: false ,
+            dom: _context['loginOut'].get() ,
             headers: {
                 'X-CSRF-TOKEN': topContext['token']
             } ,
-            btn: context['loginOut'].get() ,
             success: function(msg){
                 window.history.go(0);
             }
         });
     };
 
-    context['loginOut'].loginEvent('click' , loginOut , true , false);
+    _context['loginOut'].loginEvent('click' , loginOut , true , false);
 
     /**
      * *************
      * 伸缩块
      * *************
      */
-    var originWForBodyLeft     = context['bodyLeft'].getEleW('border-box');
+    var originWForBodyLeft     = _context['bodyLeft'].getEleW('border-box');
     var stretchWForBodyLeft    = 40;
 
-    var originWForUserInfo = context['userInfo'].getEleW('border-box');
-    var originHForUserInfo = context['userInfo'].getEleH('border-box');
+    var originWForUserInfo = _context['userInfo'].getEleW('border-box');
+    var originHForUserInfo = _context['userInfo'].getEleH('border-box');
 
     // 显示用户信息
     var showUserInfo = function(){
-        context['userInfo'].removeClass('hide');
+        _context['userInfo'].removeClass('hide');
 
-        var curW = context['userInfo'].getEleW('border-box');
+        var curW = _context['userInfo'].getEleW('border-box');
         var endW = originWForUserInfo;
-        var curH = context['userInfo'].getEleW('border-box');
+        var curH = _context['userInfo'].getEleW('border-box');
         var endH = originHForUserInfo;
 
-        context['userInfo'].animate({
+        _context['userInfo'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -454,12 +352,12 @@
 
     // 隐藏用户信息
     var hideUserInfo = function(){
-        var curW = context['userInfo'].getEleW('border-box');
+        var curW = _context['userInfo'].getEleW('border-box');
         var endW = 0;
-        var curH = context['userInfo'].getEleW('border-box');
+        var curH = _context['userInfo'].getEleW('border-box');
         var endH = 0;
 
-        context['userInfo'].animate({
+        _context['userInfo'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -474,21 +372,21 @@
                 }
             ] ,
             fn: function(){
-                context['userInfo'].addClass('hide');
+                _context['userInfo'].addClass('hide');
             }
         });
     };
 
     // 显示收缩块
     var showStretchBlock = function(){
-        context['horizontal'].removeClass('hide');
-        context['vertical'].addClass('hide');
+        _context['horizontal'].removeClass('hide');
+        _context['vertical'].addClass('hide');
     };
 
     // 显示伸展块
     var showSpreadBlock = function(){
-        context['horizontal'].addClass('hide');
-        context['vertical'].removeClass('hide');
+        _context['horizontal'].addClass('hide');
+        _context['vertical'].removeClass('hide');
     };
 
     // 设置空数据类名（如果有的话）
@@ -499,24 +397,24 @@
         // 保存状态
         window.localStorage.setItem('room-stretch-status' , 'stretch');
         // 更改状态
-        context['stretchBlock'].data('status' , 'stretch');
+        _context['stretchBlock'].data('status' , 'stretch');
         // 更改样式
-        context['stretchBlock'].addClass('spread');
+        _context['stretchBlock'].addClass('spread');
 
         // 隐藏 userInfo
         hideUserInfo();
         // 展示伸展快
         showSpreadBlock();
 
-        var curW = context['bodyLeft'].getEleW('border-box');
+        var curW = _context['bodyLeft'].getEleW('border-box');
         var endW = stretchWForBodyLeft;
-        var curML = context['bodyRight'].getCoordVal('marginLeft');
+        var curML = _context['bodyRight'].getCoordVal('marginLeft');
         var endML = stretchWForBodyLeft;
 
         // 多余的头部隐藏
-        context['r_header'].addClass('hide');
+        _context['r_header'].addClass('hide');
 
-        context['bodyLeft'].animate({
+        _context['bodyLeft'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -532,7 +430,7 @@
             }
         });
 
-        context['bodyRight'].animate({
+        _context['bodyRight'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -548,21 +446,21 @@
         // 保存状态
         window.localStorage.setItem('room-stretch-status' , 'spread');
         // 更改状态
-        context['stretchBlock'].data('status' , 'spread');
+        _context['stretchBlock'].data('status' , 'spread');
         // 更改样式
-        context['stretchBlock'].removeClass('spread');
+        _context['stretchBlock'].removeClass('spread');
 
         // 隐藏用户信息
         showUserInfo();
         // 展示伸展快
         showStretchBlock();
 
-        var curW = context['bodyLeft'].getEleW('border-box');
+        var curW = _context['bodyLeft'].getEleW('border-box');
         var endW = originWForBodyLeft;
-        var curML = context['bodyRight'].getCoordVal('marginLeft');
+        var curML = _context['bodyRight'].getCoordVal('marginLeft');
         var endML = originWForBodyLeft;
 
-        context['bodyLeft'].animate({
+        _context['bodyLeft'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -573,11 +471,11 @@
             ] ,
             fn: function(){
                 // 多余的头部隐藏
-                context['r_header'].removeClass('hide');
+                _context['r_header'].removeClass('hide');
             }
         });
 
-        context['bodyRight'].animate({
+        _context['bodyRight'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -589,7 +487,7 @@
         });
     };
 
-    context['stretchBlock'].loginEvent('click' , function(){
+    _context['stretchBlock'].loginEvent('click' , function(){
         var tar = G(this);
         var status = tar.data('status');
 
@@ -616,15 +514,15 @@
      */
     var originWForRoomUser          = 221;
     var originThingsMarginLeft      = 982;
-    var focusStatusSrc   = context['statusForRoomUserControl'].data('focus');
-    var unfocusStatusSrc = context['statusForRoomUserControl'].data('unfocus');
+    var focusStatusSrc   = _context['statusForRoomUserControl'].data('focus');
+    var unfocusStatusSrc = _context['statusForRoomUserControl'].data('unfocus');
 
     // 伸展 things
     var spreadThings = function(){
-        var curML = context['things'].getCoordVal('marginLeft');
+        var curML = _context['things'].getCoordVal('marginLeft');
         var endML = originThingsMarginLeft - originWForRoomUser;
 
-        context['things'].animate({
+        _context['things'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -638,10 +536,10 @@
 
     // 收缩 things
     var stretchThings = function(){
-        var curML = context['things'].getCoordVal('marginLeft');
+        var curML = _context['things'].getCoordVal('marginLeft');
         var endML = originThingsMarginLeft;
 
-        context['things'].animate({
+        _context['things'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -657,20 +555,20 @@
     var showRoomUser = function(){
         window.localStorage.setItem('room-user-stretch-status' , 'show');
 
-        context['roomUserControl'].data('status' , 'show');
-        context['roomUser'].css({
+        _context['roomUserControl'].data('status' , 'show');
+        _context['roomUser'].css({
             width: '0px'
         });
-        context['roomUser'].removeClass('hide');
-        context['statusForRoomUserControl'].setAttr('src' , focusStatusSrc);
+        _context['roomUser'].removeClass('hide');
+        _context['statusForRoomUserControl'].setAttr('src' , focusStatusSrc);
 
         // 收缩相关信息
         stretchThings();
 
-        var curW = context['roomUser'].getEleW('border-box');
+        var curW = _context['roomUser'].getEleW('border-box');
         var endW = originWForRoomUser;
 
-        context['roomUser'].animate({
+        _context['roomUser'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -686,19 +584,17 @@
     var hideRoomUser = function(){
         window.localStorage.setItem('room-user-stretch-status' , 'hide');
 
-        context['roomUserControl'].data('status' , 'hide');
-        context['roomUserControl'].addClass('spread');
-        context['statusForRoomUserControl'].setAttr('src' , unfocusStatusSrc);
-
-        console.log(unfocusStatusSrc , 'hide');
+        _context['roomUserControl'].data('status' , 'hide');
+        _context['roomUserControl'].addClass('spread');
+        _context['statusForRoomUserControl'].setAttr('src' , unfocusStatusSrc);
 
         // 扩展相关信息
         spreadThings();
 
-        var curW = context['roomUser'].getEleW('border-box');
+        var curW = _context['roomUser'].getEleW('border-box');
         var endW = 0;
 
-        context['roomUser'].animate({
+        _context['roomUser'].animate({
             carTime: topContext['time'] ,
             json: [
                 {
@@ -708,12 +604,12 @@
                 }
             ] ,
             fn: function(){
-                context['roomUser'].addClass('hide');
+                _context['roomUser'].addClass('hide');
             }
         });
     };
 
-    context['roomUserControl'].loginEvent('click' , function(){
+    _context['roomUserControl'].loginEvent('click' , function(){
         var tar = G(this);
         var status = tar.data('status');
 
@@ -729,7 +625,6 @@
     (function(){
         var status = window.localStorage.getItem('room-user-stretch-status');
 
-        console.log('聊天室成员信息' , status);
         if (status === 'hide') {
             hideRoomUser();
         } else {
@@ -742,7 +637,7 @@
      * 高度 & 宽度自适应
      * **************
      */
-    var topNavH = context['topNav'].getEleH('border-box');
+    var topNavH = _context['topNav'].getEleH('border-box');
     // 最小高度
     var minH    = 400;
 
@@ -751,7 +646,7 @@
         var clientH = document.documentElement.clientHeight;
         var setH    = clientH < minH ? minH : clientH;
 
-        context['bodyLeft'].css({
+        _context['bodyLeft'].css({
             height: setH + 'px'
         });
     };
@@ -762,7 +657,7 @@
         var setH = clientH - topNavH;
             setH = setH < minH ? minH : setH;
 
-        context['functions'].css({
+        _context['functions'].css({
             height: setH + 'px'
         });
     };
@@ -770,17 +665,17 @@
     // 设置 top-nav 的最小宽度
     var setTopNavW = function(){
         return ;
-        var sessionsW       = context['sessions'].getEleW('border-box');
-        var chatWindowW     = context['chatWindow'].getEleW('border-box');
-        var roomUserW       = context['roomUser'].getEleW('border-box');
-        var thingsW  = context['things'].getEleW('border-box');
+        var sessionsW       = _context['sessions'].getEleW('border-box');
+        var chatWindowW     = _context['chatWindow'].getEleW('border-box');
+        var roomUserW       = _context['roomUser'].getEleW('border-box');
+        var thingsW  = _context['things'].getEleW('border-box');
         var bodyRightW      = sessionsW + chatWindowW + roomUserW + thingsW;
 
-        context['topNav'].css({
+        _context['topNav'].css({
             minWidth: bodyRightW + 'px'
         });
 
-        context['bodyRight'].css({
+        _context['bodyRight'].css({
             minWidth: bodyRightW + 'px'
         });
     };

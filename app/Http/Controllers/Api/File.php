@@ -62,7 +62,7 @@ class File extends Controller
                         'room_id'   => $data['room_id'] ,
                         'user_type' => $data['user_type'] ,
                         'user_id'   => $data['user_id'] ,
-                        'filename'  => $v['name'] ,
+                        'name'      => $v['name'] ,
                         'mime'      => $v['mime'] ,
                         'size'      => $v['size'] ,
                         'url'       => $uri ,
@@ -115,7 +115,7 @@ class File extends Controller
 
         // 保存到数据库
         try {
-            \DB::transaction(function() use($files , $data , $file_url , $public_dir){
+            \DB::transaction(function() use(&$files , $data , $file_url , $public_dir){
                 foreach ($files['success'] as &$v)
                 {
                     $uri = generate_url($v['path'] , $public_dir , $file_url);
@@ -124,7 +124,7 @@ class File extends Controller
                         'room_id'   => $data['room_id'] ,
                         'user_type' => $data['user_type'] ,
                         'user_id'   => $data['user_id'] ,
-                        'filename'  => $v['name'] ,
+                        'name'  => $v['name'] ,
                         'mime'      => $v['mime'] ,
                         'size'      => $v['size'] ,
                         'url'       => $uri ,

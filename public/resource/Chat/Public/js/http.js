@@ -5,16 +5,14 @@ function request(opt){
         method: 'get' ,
         headers: {} ,
         // FormData 对象
-        formData: null ,
+        send: null ,
         tip: true ,
         // 按钮
-        btn: null ,
+        dom: null ,
         // 是否显示加载画面
         isLoading: true ,
+        before: null ,
         success: null ,
-        // 是否更新 dom 节点的值
-        // 这仅在 btn = btn 时！如果是其他类型的就不是很好
-        isUpdate: true ,
         error: null
     };
 
@@ -27,42 +25,27 @@ function request(opt){
     opt['isUpdate'] = G.isBoolean(opt['isUpdate']) ? opt['isUpdate'] : defaultOpt['isUpdate'];
     opt['isLoading'] = G.isBoolean(opt['isLoading']) ? opt['isLoading'] : defaultOpt['isLoading'];
 
-    var btn = G(opt['btn']);
-    var isRunning = btn.data('isRunning');
+    var dom = G(opt['dom']);
+    var isRunning = dom.data('isRunning');
 
     if (isRunning === 'y') {
         layer.alert('请求中，请耐心等待...');
         return ;
     }
 
-    if (opt['isUpdate']) {
-        var attr        = btn.get().tagName === 'INPUT' ? 'value' : 'textContent';
-        var originText  = btn.get()[attr];
-    }
-
     // 请求状态
     var pending = function(){
-        btn.data('isRunning' , 'y');
-
         if (opt['isLoading']) {
             topContext['loading'].show();
-        }
-
-        if (opt['isUpdate']) {
-            btn.get()[attr] = '请求中...';
         }
     };
 
     // 完成状态
     var completed = function(){
-        btn.data('isRunning' , 'n');
+        dom.data('isRunning' , 'n');
 
         if (opt['isLoading']) {
             topContext['loading'].hide();
-        }
-
-        if (opt['isUpdate']) {
-            btn.get()[attr] = originText;
         }
     };
 
@@ -102,7 +85,7 @@ function request(opt){
         url: opt['url'] ,
         method: opt['method'] ,
         headers: opt['headers'] ,
-        sendData: opt['formData'] ,
+        sendData: opt['send'] ,
         success: function(json){
             var data = G.jsonDecode(json);
 
@@ -112,7 +95,7 @@ function request(opt){
                 success(data['msg']);
             }
         } ,
-        error: G.ajaxErro
+        error: G.ajaxError
     });
 }
 

@@ -172,16 +172,21 @@ var _ajax = {
     history: function(id){
         var win         = _findDom.findWindow(id);
             win         = G(win);
-        var isRunning   = win.data('isRunning');
         var disabled    = win.data('disabled');
-        var type        = win.data('type');
 
-        if (disabled === 'y' || isRunning === 'y') {
-            console.log('最后一页 或 请求中，请勿重复操作');
+        if (disabled === 'y') {
+            console.log('无更多数据！');
             return ;
         }
 
-        var self        = this;
+        var isRunning   = win.data('isRunning');
+
+        if (isRunning === 'y') {
+            console.log('请求中，请耐心等待');
+            return ;
+        }
+
+        var type        = win.data('type');
         var identifier  = win.data('identifier');
         var page        = win.data('page');
 
@@ -210,9 +215,6 @@ var _ajax = {
         ajax({
             url: _links['history'] ,
             method: 'post' ,
-            headers: {
-                'X-CSRF-TOKEN': topContext['token']
-            } ,
             send: formData ,
             success: function(data){
                 // 取消加载状态
@@ -230,6 +232,10 @@ var _ajax = {
                 // 移除之前的加载更多
                 list.remove(_viewMore.get());
 
+                if (data['max_page'] == data['page']) {
+                    win.data('disabled' , 'y');
+                }
+
                 // 没有历史记录，跳过
                 if (his.length === 0) {
                     return ;
@@ -246,7 +252,11 @@ var _ajax = {
                     _render.insertHistory(his[i]);
                 }
 
+                // 如果不是最后一页
+                // 增加查看更多按钮
                 if (data['max_page'] != data['page']) {
+                    win.data('disabled' , 'n');
+
                     // 不是最后一页
                     var domForViewMore = _dom.getViewMore({
                         room_type: type ,
@@ -262,11 +272,9 @@ var _ajax = {
 
                     // 定义查看更多事件
                     _event.defineViewMoreEvent(domForViewMore);
-                } else {
-                    // 最后一页了，禁止继续加载浏览记录
-                    win.data('disabled' , 'y');
                 }
 
+                // 数据渲染完成后
                 // 滚动到原先浏览的位置
                 if (_oFirst.isDom()) {
                     var distanceH   = _oFirst.getDocOffsetVal('top' , list.get());

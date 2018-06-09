@@ -62,6 +62,10 @@ var Socket = (function(){
                 autoAllocate: null ,
                 // 新增会话时回调
                 session: null ,
+                // 聊天室正在咨询的订单
+                orderConsultation: null ,
+                // 清除正在咨询的订单
+                unlockOrder: null ,
                 // 服务端逻辑判断失败时回调
                 error: null ,
                 // 测试用！！
@@ -82,7 +86,7 @@ var Socket = (function(){
         this._messageEvents = {};
 
         // 平台标识
-        this._platform = config['platform'];
+        this.platform = config['platform'];
 
         // 用户信息
         this._user['userType']  = config['user']['userType'];
@@ -107,6 +111,8 @@ var Socket = (function(){
         this._messageEvents['autoAllocate'] = G.isFunction(config['messageEvents']['autoAllocate']) ? config['messageEvents']['autoAllocate'] : this._default['autoAllocate'];
         this._messageEvents['session']   = G.isFunction(config['messageEvents']['session']) ? config['messageEvents']['session'] : this._default['session'];
         this._messageEvents['error']      = G.isFunction(config['messageEvents']['error']) ? config['messageEvents']['error'] : this._default['error'];
+        this._messageEvents['orderConsultation']      = G.isFunction(config['messageEvents']['orderConsultation']) ? config['messageEvents']['orderConsultation'] : this._default['orderConsultation'];
+        this._messageEvents['unlockOrder']      = G.isFunction(config['messageEvents']['unlockOrder']) ? config['messageEvents']['unlockOrder'] : this._default['unlockOrder'];
         this._messageEvents['test']      = G.isFunction(config['messageEvents']['test']) ? config['messageEvents']['test'] : this._default['test'];
 
         this._run();
@@ -208,7 +214,7 @@ var Socket = (function(){
                 data = data['msg'];
 
                 // 注册连接信息成功后
-                self._identifier = data['identifier'];
+                self.clientId = data['client_id'];
 
                 // 之后都使用解密数据
                 self._user['userType']  = data['user_type'];
@@ -444,6 +450,13 @@ var Socket = (function(){
             delete this._addOrderDisputeFns[data['callback']];
         } ,
 
+        // 清除正在咨询的订单（咨询人下线了！！）
+        _unlockOrderEvent: function(data){
+            if (G.isFunction(this._messageEvents['unlockOrder'])) {
+                this._messageEvents['unlockOrder'].call(this , data['data']);
+            }
+        } ,
+
         // 测试用接口
         _testEvent: function(data){
             if (G.isFunction(this._messageEvents['test'])) {
@@ -591,6 +604,9 @@ var Socket = (function(){
                 // 申请争议解决
                 case 'add_order_dispute':
                     this._addOrderDisputeEvent(data['content']);
+                    break;
+                case 'unlock_order':
+                    this._unlockOrderEvent(data['content']);
                     break;
                 case 'test':
                     this._testEvent(data['content']);
@@ -944,8 +960,8 @@ var Socket = (function(){
             // 连接id
             data['user_type']   = this._user['userType'];
             data['user_id']     = this._user['userId'];
-            data['link_id']     = this._identifier;
-            data['platform']    = this._platform;
+            data['client_id']     = this.clientId;
+            data['platform']    = this.platform;
 
             return data;
         } ,

@@ -8,6 +8,13 @@
 // 采用下划线命名仅是为了避免名称冲突
 
 /**
+ * **************************
+ * socket 连接初始化相关参数
+ * **************************
+ */
+var _wsLink = 'ws://192.168.150.138:8282';
+
+/**
  * ******************
  * dom 环境变量
  * ******************
@@ -17,18 +24,37 @@ var _context = {};
 // 容器元素
 _context['bodyLeft'] = G('.body-left').first();
 _context['bodyRight'] = G('.body-right').first();
+_context['topNav'] = G('.top-nav' , _context['bodyRight'].get()).first();
 _context['functions'] = G('.functions' , _context['bodyRight'].get()).first();
+
+// 顶部导航栏
+_context['advoise'] = G('.advoise' , _context['topNav'].get()).first();
+_context['order'] = G('.order' , _context['topNav'].get()).first();
+_context['user'] = G('.user' , _context['topNav'].get()).first();
+_context['operation'] = G('.operation' , _context['user'].get()).first();
+_context['loginOut'] = G('.login-out' , _context['operation'].get()).first();
+
+// 左侧收缩快
+_context['stretchBlock'] = G('.stretch-block' , _context['bodyLeft'].get()).first();
+_context['horizontal'] = G('.horizontal' , _context['stretchBlock'].get()).first();
+_context['vertical'] = G('.vertical' , _context['stretchBlock'].get()).first();
+
+// 聊天室成员伸缩功能
+_context['roomUserControl']   = G('.room-user-control' , _context['topNav'].get()).first();
+_context['statusForRoomUserControl'] = G('.status' , _context['roomUserControl'].get()).first();
+
+// user-info
+_context['userInfo'] = G('.user-info' , _context['bodyLeft'].get()).first();
 
 // 聊天室
 _context['rooms']    = G('.rooms' , _context['bodyLeft'].get()).first();
-_context['r_header'] = G('.header' , _context['rooms'].get()).first();
-_context['r_text']   = G('.text' , _context['r_header'].get()).first();
+_context['r_header']    = G('.header' , _context['rooms'].get()).first();
+_context['r_text']   = G('q:.search .input .text' , _context['r_header'].get());
 _context['r_items'] = G('.items' , _context['rooms'].get()).first();
 
 // 会话
 _context['sessions']    = G('.sessions' , _context['functions'].get()).first();
-_context['s_header'] = G('.header' , _context['sessions'].get()).first();
-_context['s_text']   = G('.text' , _context['s_header'].get()).first();
+_context['s_text']   = G('q:.header .search .input .text' , _context['sessions'].get());
 _context['s_items'] = G('.items' , _context['sessions'].get()).first();
 
 // 会话窗口
@@ -77,7 +103,9 @@ _context['orderDisputeFloor'] = G('.order-dispute-floor').first();
 // 保存争议订单 html
 _context['orderDisputeFloorHTML'] = _context['orderDisputeFloor'].html(null , 'outer');
 
-console.log(_context);
+_context['orderDisputeFloor'].get().parentNode.removeChild(_context['orderDisputeFloor'].get());
+
+// console.log(_context);
 
 
 /**
@@ -115,12 +143,14 @@ var _editor = new Editor();
 var _links = {
     // 创建聊天室
     createRoom: topContext['apiUrl'] + 'Room/createRoom' ,
-    // 获取聊天室记录
+    // 查看聊天室记录
     history: topContext['apiUrl'] + 'Room/history' ,
-    // 为争议订单创建房间
-    createRoomForDisputeOrder: topContext['apiUrl'] + 'Room/createRoomForDisputeOrder' ,
     // 上传图片
     uploadImages: topContext['apiUrl'] + 'File/uploadImages' ,
     // 上传文件
     uploadFiles: topContext['apiUrl'] + 'File/uploadFiles' ,
+    // 获取订单信息
+    getOrder: topContext['apiUrl'] + 'Order/getOrder' ,
+    // 为争议订单创建房间
+    createRoomForDisputeOrder: topContext['apiUrl'] + 'Room/createRoomForDisputeOrder' ,
 };

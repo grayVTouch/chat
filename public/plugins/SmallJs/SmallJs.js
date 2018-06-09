@@ -281,7 +281,9 @@
                 throw new TypeError('操作要求是单元素而非元素集合');
             }
 
-            return this._curEle.scrollTop === 0;
+            var curT = this._curEle.scrollTop;
+                curT = Math.floor(curT);
+            return curT === 0;
         } ,
 
         // 检查元素滚动条是否在底部
@@ -292,10 +294,10 @@
 
             var clientH = this._curEle.clientHeight;
             var maxH    = this._curEle.scrollHeight;
-            var maxT = maxH - clientH;
+            var maxT    = Math.floor(maxH - clientH);
             var curT    = this._curEle.scrollTop;
+                curT    = Math.ceil(curT);
 
-            // console.log(curT , maxT , curT >= maxT);
             return curT >= maxT;
         } ,
 
@@ -1965,9 +1967,9 @@
         // 移除类名
         removeClass: function(className){
             var originalClassName = this._curEle.className;
-            var cn = '';
+            var cn = className;
 
-            if (SmallJs.getValType(cn) === 'array') {
+            if (SmallJs.isArray(cn)) {
                 cn = className.shift();
             } else {
                 cn = className;
@@ -1981,7 +1983,7 @@
 
             for (var i = 0; i < result.length; ++i)
             {
-                if (result[i]=== cn){
+                if (result[i]== cn){
                     result.splice(i , 1);
                     i--;
                 }
@@ -1990,7 +1992,7 @@
             result = result.join(' ');
             this._curEle.className = result;
 
-            if (SmallJs.getValType(cn) === 'array' && className.length !== 0) {
+            if (SmallJs.isArray(className) && className.length > 0) {
                 this.removeClass(className);
             }
         } ,
@@ -3563,6 +3565,7 @@
 
     /*
      * 判断一个值是否是有效值
+     * '' undefined null false
      */
     SmallJs.isValidVal = function(val){
         if (val === '') {
@@ -3574,6 +3577,10 @@
         }
 
         if (val === null) {
+            return false;
+        }
+
+        if (val === false) {
             return false;
         }
 

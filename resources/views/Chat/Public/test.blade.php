@@ -253,6 +253,63 @@
                                     <button class="view-more-btn">查看更多</button>
                                 </div>
 
+                                <!-- 正在咨询的订单模板 -->
+                                <div class="line chat-order self">
+                                    <div class="thumb"><img src="{{ $data_url }}ico/thumb.png" class="image" /></div>
+                                    <div class="info">
+                                        <div class="user">
+                                            <span class="time">2018-04-19 14:00:00</span>
+                                            <span class="name">admin</span>
+                                        </div>
+
+                                        <div class="msg">
+                                            <div class="object">
+                                                <img src="{{ $data_url }}ico/loading.gif" class="image image-for-status" />
+                                                <div class="text">
+                                                    <div class="left"><img src="{{ $data_url }}images/test.jpg" class="image image-for-order"></div>
+                                                    <div class="right">
+                                                        <div class="top">小米(MI)Air 13.3英寸金属超轻薄笔记本电脑(i5-7200U 8G 256G PCleSSD MX150 2G独显 FHD 指纹识别 Win10)银</div>
+                                                        <div class="btm weight red">￥999.00</div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="link"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tip hide">
+                                            <span class="tip-text">发送失败：错误信息</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="line chat-order other">
+                                    <div class="thumb"><img src="{{ $data_url }}ico/thumb.png" class="image" /></div>
+                                    <div class="info">
+                                        <div class="user">
+                                            <span class="time">2018-04-19 14:00:00</span>
+                                            <span class="name">admin</span>
+                                        </div>
+
+                                        <div class="msg">
+                                            <div class="object">
+                                                <img src="{{ $data_url }}ico/loading.gif" class="image hide image-for-status" />
+                                                <div class="text">
+                                                    <div class="left"><img src="{{ $data_url }}images/test.jpg" class="image image-for-order"></div>
+                                                    <div class="right">
+                                                        <div class="top">小米(MI)Air 13.3英寸金属超轻薄笔记本电脑(i5-7200U 8G 256G PCleSSD MX150 2G独显 FHD 指纹识别 Win10)银</div>
+                                                        <div class="btm weight red">￥999.00</div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="link"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tip hide">
+                                            <span class="tip-text">发送失败：错误信息</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- 欢迎提示 -->
                                 <div class="user-join-notice">
                                     <div class="in"><img src="{{ $data_url }}ico/welcome.png" class="image">欢迎<span class="username weight">grayVTouch</span>加入聊天室</div>

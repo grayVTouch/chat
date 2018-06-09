@@ -16,7 +16,7 @@ Route::get('Test/index' , API_ROUTE_PREFIX . 'Test@index');
 // 生成聊天室 id
 Route::post('Room/genRoomID' , API_ROUTE_PREFIX . 'Room@genRoomID');
 // 获取订单发单人 id
-Route::post('Room/getOrderInfo' , API_ROUTE_PREFIX . 'Room@getOrderInfo');
+Route::post('Order/getOrder' , API_ROUTE_PREFIX . 'Order@getOrder');
 // 创建聊天室 id
 Route::post('Room/createRoom' , API_ROUTE_PREFIX . 'Room@createRoom');
 // 创建争议聊天室

@@ -1,7 +1,7 @@
 /**
  * *****************************
  * author 陈学龙 2018-05-15
- * js 动态生成各种类型的 dom 结构
+ * js 定义各种动态生成的 dom 相关事件
  * *****************************
  */
 
@@ -65,9 +65,9 @@ var _event = {
     defineWindowEvent: function(dom){
         dom = G(dom);
 
-        var self    = this;
         var type    = dom.data('type');
         var id      = dom.data('id');
+
         var addDispute  = G('q:.header .add-dispute' , dom.get());
         var list        = G('q:.history .list' , dom.get());
 
@@ -96,75 +96,67 @@ var _event = {
 
     // 订单发起争议事件
     _addDisputeEvent: function(event){
-        var self = this;
-        var tar = G(event.currentTarget);
-        var roomType = tar.data('type');
-        var roomId  = tar.data('id');
+        var self    = this;
+        var tar     = G(event.currentTarget);
+        var type    = tar.data('type');
+        var id      = tar.data('id');
 
-        // 检查是否存在正在咨询的订单
-        // 如果不存在，则添加
-        // 否不用添加
+        console.log('发起争议');
 
-        layer.open({
-            type: 1,
-            title: '添加争议',
-            skin: 'layui-layer-rim', //加上边框
-            area: ['600px', '400px'], //宽高，正式部署的时候，height = 600px。
-            content: _context['orderDisputeFloorHTML'],
-            success: function (dom, index) {
-                var orderDisputeFloor = G('.order-dispute-floor' , dom[0]).first();
+        if (G.isNull(tar.data('text'))) {
+            tar.data('text' , tar.text());
+        }
 
-                var context = {};
-                context['trForOrderId']      = G('.tr-for-order-id' , orderDisputeFloor.get()).first();
-                context['orderId']      = G('.order-id' , orderDisputeFloor.get()).first();
-                context['title']        = G('.title' , orderDisputeFloor.get()).first();
-                context['description']  = G('.description' , orderDisputeFloor.get()).first();
-                context['submitBtn']  = G('.submit-btn' , orderDisputeFloor.get()).first();
+        tar.text('正在处理...');
 
-                // 检查是否已经存在正在咨询的订单
-                var orderInfo = self.findOrderConsultation(roomId);
-                orderInfo = G(orderInfo);
+        // 检查聊天室是否锁定了会话
+        _socket.getLockOrder(id , function(data){
+            tar.text(tar.data('text'));
 
-                var hasOrder = orderInfo.isDom();
+            if (data['status'] === 'error') {
+                layer.alert(data['msg']);
+                return ;
+            }
 
-                if (hasOrder) {
-                    context['trForOrderId'].addClass('hide');
-                }
+            var order = data['msg'];
 
-                context['submitBtn'].loginEvent('click' , function(event){
-                    var tar = G(this);
+            layer.open({
+                type: 1,
+                title: '申请客服介入' ,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['600px', '320px'], //宽高，正式部署的时候，height = 600px。
+                content: _context['orderDisputeFloorHTML'] ,
+                success: function(dom , index){
+                    var addOrderDisputeFloor = G('.order-dispute-floor' , dom[0]).first();
+                    var context = {};
+                        context['title'] = G('.title' , addOrderDisputeFloor.get()).first();
+                        context['description'] = G('.description' , addOrderDisputeFloor.get()).first();
+                        context['submitBtn'] = G('.submit-btn' , addOrderDisputeFloor.get()).first();
 
-                    var isRunning = tar.data('isRunning');
-
-                    if (isRunning === 'y') {
-                        layer.alert('请求中，请耐心等待...');
-                        return ;
-                    }
+                    console.log(addOrderDisputeFloor.get() , context);
 
                     // 获取数据
                     var getData = function(){
                         var data = {};
-
-                        data['orderId']     = hasOrder ? orderInfo.data('orderId') : context['orderId'].val();
-                        data['title']       = context['title'].val();
-                        data['description'] = context['description'].val();
+                            data['title'] = context['title'].val();
+                            data['description'] = context['description'].val();
 
                         return data;
                     };
 
-                    // 过滤数据
+                    // 数据过滤
                     var filterData = function(data){
-                        if (!hasOrder && data['orderId'] === '') {
-                            return {
-                                status: false ,
-                                msg: '订单id尚未填写'
-                            };
-                        }
-
                         if (data['title'] === '') {
                             return {
                                 status: false ,
                                 msg: '争议标题尚未填写'
+                            };
+                        }
+
+                        if (data['description'] === '') {
+                            return {
+                                status: false ,
+                                msg: '争议描述尚未填写'
                             };
                         }
 
@@ -174,72 +166,57 @@ var _event = {
                         };
                     };
 
-                    // 请求状态
-                    var pending = function () {
-                        tar.data('isRunning' , 'y');
+                    // 请求模式
+                    var pending = function(){
                         topContext['loading'].show();
+                        context['submitBtn'].data('isRunning' , 'y');
                     };
 
-                    // 完成状态
-                    var complete = function(){
-                        tar.data('isRunning' , 'n');
+                    // 完成模式
+                    var completed = function(){
                         topContext['loading'].hide();
+                        context['submitBtn'].data('isRunning' , 'n');
                     };
 
-                    // 申请成功
-                    var success = function(msg){
-                        complete();
+                    context['submitBtn'].loginEvent('click' , function(){
+                        var tar = G(this);
+                        var isRunning = tar.data('isRunning');
 
-                        layer.msg(msg , {
-                            time: topContext['tipTime']
-                        });
-
-                        layer.close(index);
-                    };
-
-                    // 申请失败
-                    var fail = function(msg){
-                        complete();
-
-                        layer.alert(msg);
-                    };
-
-                    // 发送数据
-                    var send = function(){
-                        var data = getData();
-                        var filter = filterData(data);
-
-                        if (!filter['status']) {
-                            layer.msg(filter['msg'] , {
-                                time: topContext['tipTime']
-                            });
-
+                        if (isRunning === 'y') {
                             return ;
                         }
 
-                        // 设置请求状态
+                        var data    = getData();
+                        var filter  = filterData(data);
+
+                        if (!filter['status']) {
+                            layer.alert(filter['msg']);
+                            return ;
+                        }
+
                         pending();
 
-                        // 发起申请
-                        self.socket.addOrderDispute(roomType , roomId , data['orderId'] , data['title'] , data['description'] , function(data){
-                            console.log(data);
+                        _socket.addOrderDispute(type , id , order['order_id'] , data['title'] , data['description'] , function(data){
+                            completed();
 
                             if (data['status'] === 'error') {
-                                fail(data['msg']);
-                            } else {
-                                success(data['msg']);
+                                layer.alert(data['msg']);
+                                return ;
                             }
+
+                            layer.alert(data['msg'] , {
+                                btn: ['确定'] ,
+                                btn1: function(){
+                                    layer.closeAll();
+                                }
+                            });
                         });
-                    };
+                    } , true , false);
 
-                    send();
-                } , true , false);
-
-                orderDisputeFloor.removeClass('hide');
-            }
+                    addOrderDisputeFloor.removeClass('hide');
+                }
+            });
         });
-
-        console.log('发生争议');
     } ,
 
     // 定义查看更多历史记录事件
@@ -258,10 +235,51 @@ var _event = {
         // ...待完成
     } ,
 
+    // 定义聊天室成员项事件
+    defineGroupEvent: function(dom){
+        dom = G(dom);
+
+        var type = dom.data('type');
+        var id   = dom.data('id');
+
+        var text = G('q:.header .search .input .text' , dom.get());
+
+        // 搜索用户事件
+        text.loginEvent('keyup' , function(event){
+            var tar = G(event.currentTarget);
+            var key = tar.val();
+
+            var group = _findDom.findGroup(id);
+                group = G(group);
+            var users = G('qa:.users .user' , group.get());
+
+            var i   = 0;
+            var cur = null;
+
+            for (; i < users.length; ++i)
+            {
+                cur = users.jump(i , true);
+
+                if (!G.isValidVal(key)) {
+                    cur.removeClass('hide');
+                    continue ;
+                }
+
+                var name = G('q:.info .name' , cur.get());
+                var _name = name.text();
+
+                if (_name.search(key) < 0) {
+                    cur.addClass('hide');
+                } else {
+                    cur.removeClass('hide');
+                }
+            }
+        } , true , false);
+    } ,
 
     // 定义房间节点事件
     defineUserEvent: function(dom){
-        console.log('定义聊天室成员相关事件');
+        console.log('可选扩展功能：定义聊天室成员相关事件');
     } ,
 
     // 定义订单咨询正在咨询订单的相关事件
@@ -269,19 +287,14 @@ var _event = {
         dom = G(dom);
 
         var self = this;
-        var roomId = dom.data('roomId');
-        var orderId = dom.data('orderId');
         var send = G('.send-btn' , dom.get()).first();
-        var view = G('.view-btn' , dom.get()).first();
 
         send.loginEvent('click' , function(){
             var tar = G(this);
-            var name = tar.data('name');
+            var json = tar.data('json');
+            var data = G.jsonDecode(json);
 
-            // 获取封装好的字符串进行发送
-            var text = '【正在咨询的订单：' + name + '】';
-
-            self.sendOrder(text);
+            _socketOperation.sendOrder(data);
         } , true , false);
     } ,
 
@@ -317,23 +330,8 @@ var _event = {
         var id = item.data('id');
 
         item.loginEvent('click' , function(){
-            _system.socket.getRoom(id , function(data){
-                if (data['status'] === 'error') {
-                    layer.alert('获取聊天室信息失败，请稍后再试');
-                    return ;
-                }
-
-                data = data['msg'];
-
-                // 移除空节点
-                _domOperation.removeEmpty(_context['s_items'].get());
-
-                _render.renderSession(data);
-                _render.renderWindow(data);
-                _render.renderGroup(data);
-                _render.renderPartForThings(data);
-
-                _domOperation.switch(data['room_id']);
+            _socketOperation.renderRoom(id , function(){
+                _domOperation.topSession(id);
             });
         } , true , false);
     } ,
@@ -342,13 +340,12 @@ var _event = {
     defineHistoryForImageEvent: function(dom){
         dom = G(dom);
 
-        var image = G('q:.info .msg .object .image-for-history' , dom.get());
+        var object  = G('q:.info .msg .object' , dom.get());
+        var image   = G('.image-for-history' , object.get()).first();
+        var src     = image.getAttr('src');
 
         // 查看原图
-        image.loginEvent('click' , function(event){
-            var tar = G(event.currentTarget);
-            var src = tar.getAttr('src');
-
+        object.loginEvent('click' , function(event){
             window.open(src , '_blank');
         } , true , true);
     } ,
@@ -357,6 +354,26 @@ var _event = {
     defineHistoryForFileEvent: function(dom){
         dom = G(dom);
 
+        var object = G('q:.info .msg .object' , dom.get());
 
+        object.loginEvent('click' , function(){
+            var tar = G(this);
+            var url = tar.data('url');
+
+            window.open(url , '_blank');
+        } , true , false);
+    } ,
+
+    // 定义订单事件
+    defineHistoryForOrderEvent: function(dom){
+        dom = G(dom);
+
+        var object = G('q:.info .msg .object' , dom.get());
+
+        object.loginEvent('click' , function(event){
+            var tar = G(event.currentTarget);
+
+            layer.alert('你点击了订单！请添加订单事件');
+        } , true , false);
     } ,
 };

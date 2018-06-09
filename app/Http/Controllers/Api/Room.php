@@ -103,8 +103,8 @@ class Room extends Controller
 
         // 必填参数 room_type: advoise order
         $data['room_type']  = isset($_POST['room_type'])    ? $_POST['room_type']   : '';
-        $data['user_type']  = isset($_POST['user_type'])    ? Encryption::decrypt($_POST['user_type'])   : '';
-        $data['user_id']    = isset($_POST['user_id'])      ? Encryption::decrypt($_POST['user_id'])     : '';
+        $data['user_type']  = isset($_POST['user_type'])    ? $_POST['user_type']   : '';
+        $data['user_id']    = isset($_POST['user_id'])      ? $_POST['user_id']     : '';
 
         // 可选参数（如果 room_type = order，则是必填）
         $data['order_id']   = isset($_POST['order_id'])  ? $_POST['order_id'] : null;
@@ -284,27 +284,6 @@ class Room extends Controller
         ] , true);
     }
 
-    // 获取订单信息
-    public function getOrderInfo(){
-        $data = [];
-
-        $data['order_id'] = isset($_POST['order_id']) ? $_POST['order_id'] : '';
-
-        if ($data['order_id'] === '') {
-            return Message::error(lang(CONTROLLER_LANG_PREFIX . '007') , true);
-        }
-
-        $order = \DB::table('order_info')->where('order_id' , $data['order_id'])->first();
-
-        if (empty($order)) {
-            return Message::error(lang(CONTROLLER_LANG_PREFIX . '008') , true);
-        }
-
-        $order = Order::singleOrderHandle($order);
-
-        return Message::success($order , true);
-    }
-
     // 添加用户到聊天室
     // 返回添加到聊天室的用户数量
     public function joinRoom(){
@@ -379,12 +358,6 @@ class Room extends Controller
         // 最早一条记录的 identifier
         $data['identifier'] = isset($_POST['identifier'])   ? $_POST['identifier']              : '';
 
-        // 总记录数
-        $total = \DB::table('chat')->where('room_id' , $data['room_id'])->count();
-        $max_page = ceil($total / $limit);
-        $max_page = $max_page < 1 ? 1 : $max_page;
-        $data['page'] = $data['page'] > $max_page ? $max_page : $data['page'];
-
         // 获取聊天记录列表的最早一条记录，获取其 storage + id
         // 如果 storage = redis，这边也会出现一个问题！！！！
         // 我应该为每个记录生成一个统一的唯一ID！
@@ -403,6 +376,12 @@ class Room extends Controller
             $id = \DB::table('chat')->where('identifier' , $data['identifier'])->value('id');
             $where[] = ['id' , '<' , $id];
         }
+
+        // 总记录数
+        $total = \DB::table('chat')->where($where)->count();
+        $max_page = ceil($total / $limit);
+        $max_page = $max_page < 1 ? 1 : $max_page;
+        $data['page'] = $data['page'] > $max_page ? $max_page : $data['page'];
 
         // 历史记录
         // 按 id 升序排序
